@@ -1,8 +1,5 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
-import 'package:raag/view/widget.dart';
-import 'package:raag/main.dart';
 
 class SongWidget extends StatelessWidget {
   final List<SongInfo> songList;
