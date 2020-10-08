@@ -2,6 +2,7 @@
     package="com.amfoss.raag">
    <application
         android:label="raag"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
