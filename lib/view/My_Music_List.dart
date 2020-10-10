@@ -12,7 +12,37 @@ class MyMusicList extends StatelessWidget {
       future: FlutterAudioQuery().getSongs(sortType: SongSortType.RECENT_YEAR),
       builder: (context, snapshot) {
         List<SongInfo> songInfo = snapshot.data;
+
         if (snapshot.hasData) {
+          for (var i = 0; i < songInfo.length; i++) {
+            print(songInfo[i].displayName);
+
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(height: 8),
+                Row(children: [
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(Icons.music_note, size: 50)),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(songInfo[i].displayName,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .headline),
+                      Text('Artist: ' + songInfo[i].artist),
+                    ],
+                  ),
+                ],
+                ),
+              ],
+            );
+          }
           return SongWidget(songList: songInfo);
         }
         return Container(
@@ -24,7 +54,7 @@ class MyMusicList extends StatelessWidget {
               CircularProgressIndicator(
                 backgroundColor: Colors.black38,
                 valueColor:
-                    new AlwaysStoppedAnimation<Color>(Colors.purpleAccent),
+                new AlwaysStoppedAnimation<Color>(Colors.purpleAccent),
               ),
               SizedBox(
                 width: 20,
