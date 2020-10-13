@@ -8,19 +8,15 @@ class HomeScaffold extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Icon(Icons.music_note),
+        title: Text(
+          myMusic,
+          style: Theme.of(context).textTheme.headline1,
+        ),
       ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
-              child: Text(
-                myMusic,
-                style: Theme.of(context).textTheme.headline1,
-              ),
-            ),
             MyMusicList()
           ],
         ),
