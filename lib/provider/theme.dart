@@ -65,7 +65,7 @@ class AppTheme {
       color: Colors.black38,
     ),
     iconTheme: IconThemeData(
-      color: Colors.white54,
+      color: Colors.white70,
     ),
     textTheme: TextTheme(
       headline1: TextStyle(

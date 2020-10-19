@@ -13,13 +13,17 @@ class HomeScaffold extends StatelessWidget {
           style: Theme.of(context).textTheme.headline1,
         ),
       ),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            MyMusicList()
-          ],
-        ),
+      body: Stack(
+        children: [
+          SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MyMusicList()
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -23,6 +23,8 @@ environment:
 dependencies:
   flutter_audio_query: ^0.3.5+6
   audio_manager: ^0.5.5+3
+  marquee: ^1.6.1
+  fluttertoast: ^7.1.1
   flutter:
     sdk: flutter
 
@@ -41,6 +43,8 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/
   fonts:
     - family: Passion One
       fonts:
