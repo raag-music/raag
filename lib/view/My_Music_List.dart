@@ -8,7 +8,7 @@ class MyMusicList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: FlutterAudioQuery().getSongs(sortType: SongSortType.RECENT_YEAR),
+      future: FlutterAudioQuery().getSongs(sortType: SongSortType.DISPLAY_NAME),
       builder: (context, snapshot) {
         List<SongInfo> songInfo = snapshot.data;
         if (snapshot.hasData) {
