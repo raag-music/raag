@@ -18,6 +18,7 @@ class MyMusicList extends StatelessWidget {
           padding: EdgeInsets.all(20),
           height: MediaQuery.of(context).size.height*0.8,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Row(

@@ -59,8 +59,8 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                         children: <Widget>[
                           getAlbumArt(song),
                           Container(
-                            padding: const EdgeInsets.all(8.0),
-                            width: MediaQuery.of(context).size.width * 0.75,
+                            padding: const EdgeInsets.all(6.0),
+                            width: MediaQuery.of(context).size.width * 0.65,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,9 +83,23 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                               ],
                             ),
                           ),
-                          Icon(
-                            Icons.play_arrow,
-                          ),
+
+                          FloatingActionButton(
+                              child: AnimatedIcon(
+                                icon: AnimatedIcons.play_pause,
+                                size: 20.0,
+                                progress: playFABController,
+                              ),
+                              elevation: 2,
+                              mini: true,
+                              backgroundColor: Colors.white70,
+                              splashColor: Colors.purple,
+                              onPressed: () {
+                                audioManagerInstance.isPlaying
+                                    ? playFABController.reverse()
+                                    : playFABController.forward();
+                                audioManagerInstance.playOrPause();
+                              }),
                         ],
                       ),
                     ),
@@ -143,6 +157,9 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
     else
       return CircleAvatar(
         backgroundImage: FileImage(File(song.albumArtwork)),
+        radius: 50,
+        minRadius: 30,
+        maxRadius: 70,
       );
   }
 }
