@@ -15,6 +15,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.5+3"
+  audioplayer:
+    dependency: "direct main"
+    description:
+      name: audioplayer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.1"
+  audioplayer_web:
+    dependency: "direct main"
+    description:
+      name: audioplayer_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.1"
   boolean_selector:
     dependency: transitive
     description:

@@ -16,50 +16,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-    setupAudio();
-  }
-
-  void setupAudio() {
-  //   audioManagerInstance.onEvents((events, args) {
-  //     switch (events) {
-  //       case AudioManagerEvents.start:
-  //         _slider = 0;
-  //         break;
-  //       case AudioManagerEvents.seekComplete:
-  //         _slider = audioManagerInstance.position.inMilliseconds /
-  //             audioManagerInstance.duration.inMilliseconds;
-  //         setState(() {
-  //
-  //         });
-  //         break;
-  //       case AudioManagerEvents.playstatus:
-  //         isPlaying = audioManagerInstance.isPlaying;
-  //         setState(() {
-  //
-  //         });
-  //         break;
-  //       case AudioManagerEvents.timeupdate:
-  //         _slider = audioManagerInstance.position.inMilliseconds /
-  //             audioManagerInstance.duration.inMilliseconds;
-  //         audioManagerInstance.updateLrc(args["position"].toString());
-  //         setState(() {
-  //
-  //         });
-  //         break;
-  //       case AudioManagerEvents.ended:
-  //         audioManagerInstance.next();
-  //         setState(() {
-  //
-  //         });
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //   });
-  }
 
   @override
   Widget build(BuildContext context) {
