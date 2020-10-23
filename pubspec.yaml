@@ -53,3 +53,6 @@ flutter:
         - asset: assets/fonts/PassionOne-Regular.ttf
         - asset: assets/fonts/PassionOne-Bold.ttf
           weight: 700
+    - family: Alata
+      fonts:
+        - asset: assets/fonts/Alata-Regular.ttf

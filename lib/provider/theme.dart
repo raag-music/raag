@@ -1,5 +1,15 @@
 import 'package:flutter/material.dart';
 
+Color hex(String hexColor) {
+  hexColor = hexColor.replaceAll("#", "");
+  if (hexColor.length == 6) {
+    hexColor = "FF" + hexColor;
+  }
+  if (hexColor.length == 8) {
+    return Color(int.parse("0x$hexColor"));
+  }
+}
+
 class AppTheme {
   AppTheme._();
 
@@ -48,11 +58,11 @@ class AppTheme {
   );
 
   static final ThemeData darkTheme = ThemeData(
-    scaffoldBackgroundColor: Colors.black,
+    scaffoldBackgroundColor: hex('262626'),
     appBarTheme: AppBarTheme(
-      color: Colors.black,
+      color: hex('262626'),
       iconTheme: IconThemeData(
-        color: Colors.white,
+        color: hex('809DF5'),
       ),
     ),
     colorScheme: ColorScheme.light(
@@ -65,22 +75,22 @@ class AppTheme {
       color: Colors.black38,
     ),
     iconTheme: IconThemeData(
-      color: Colors.white70,
+      color: hex('#888888'),
     ),
     textTheme: TextTheme(
       headline1: TextStyle(
-        color: Colors.white,
+        color: hex('809DF5'),
         fontSize: 40.0,
         fontWeight: FontWeight.bold,
-        fontFamily: 'Passion One'
+        fontFamily: 'Alata'
       ),
       headline3: TextStyle(
-          color: Colors.white,
+          color: hex('809DF5'),
           fontSize: 24.0,
-          fontFamily: 'Passion One'
+          fontFamily: 'Alata'
       ),
       subtitle2: TextStyle(
-        color: Colors.white70,
+        color: hex('D4D4D4'),
         fontSize: 16.0,
       ),
     ),

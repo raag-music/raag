@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:raag/main.dart';
+import 'package:raag/provider/theme.dart';
 
 import 'audio_helper.dart';
 
@@ -60,7 +61,7 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                           getAlbumArt(song),
                           Container(
                             padding: const EdgeInsets.all(6.0),
-                            width: MediaQuery.of(context).size.width * 0.65,
+                            width: MediaQuery.of(context).size.width * 0.7,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,23 +84,6 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                               ],
                             ),
                           ),
-
-                          FloatingActionButton(
-                              child: AnimatedIcon(
-                                icon: AnimatedIcons.play_pause,
-                                size: 20.0,
-                                progress: playFABController,
-                              ),
-                              elevation: 2,
-                              mini: true,
-                              backgroundColor: Colors.white70,
-                              splashColor: Colors.purple,
-                              onPressed: () {
-                                audioManagerInstance.isPlaying
-                                    ? playFABController.reverse()
-                                    : playFABController.forward();
-                                audioManagerInstance.playOrPause();
-                              }),
                         ],
                       ),
                     ),
@@ -112,34 +96,49 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FloatingActionButton(
-                    child: AnimatedIcon(
-                      icon: AnimatedIcons.play_pause,
-                      progress: playFABController,
+            Container(
+              decoration: BoxDecoration(
+                color: hex('262626'),
+                border: Border.all(color: Colors.white30),
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+              height: MediaQuery.of(context).size.height*0.15,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RawMaterialButton(
+                        shape: CircleBorder(),
+                        child: AnimatedIcon(
+                          icon: AnimatedIcons.play_pause,
+                          size: 50,
+                          progress: playFABController,
+                        ),
+                        elevation: 0,
+                        splashColor: Colors.purple,
+                        onPressed: () {
+                          audioManagerInstance.isPlaying
+                              ? playFABController.reverse()
+                              : playFABController.forward();
+                          audioManagerInstance.playOrPause();
+                        }),
+                    SizedBox(
+                      width: 30,
                     ),
-                    elevation: 4,
-                    backgroundColor: Colors.white70,
-                    splashColor: Colors.purple,
-                    onPressed: () {
-                      audioManagerInstance.isPlaying
-                          ? playFABController.reverse()
-                          : playFABController.forward();
-                      audioManagerInstance.playOrPause();
-                    }),
-                FloatingActionButton(
-                  onPressed: () {
-                    audioManagerInstance.stop();
-                    playFABController.reverse();
-                  },
-                  child: Icon(Icons.stop),
-                  elevation: 4,
-                  backgroundColor: Colors.white70,
-                  splashColor: Colors.purple,
-                )
-              ],
+                    RawMaterialButton(
+                      shape: CircleBorder(),
+                      onPressed: () {
+                        audioManagerInstance.stop();
+                        playFABController.reverse();
+                      },
+                      child: Icon(Icons.stop),
+                      elevation: 4,
+                      splashColor: Colors.purple,
+                    )
+                  ],
+                ),
+              ),
             ),
           ],
         )
@@ -149,11 +148,10 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
 
   Widget getAlbumArt(SongInfo song) {
     if (song.albumArtwork == null)
-      return CircleAvatar(
-        backgroundImage: AssetImage(
-          'assets/images/album.png',
-        ),
-      );
+      return Container(
+          width: 50,
+          height: 50,
+          child: Icon(Icons.music_note_sharp));
     else
       return CircleAvatar(
         backgroundImage: FileImage(File(song.albumArtwork)),
