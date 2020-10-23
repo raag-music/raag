@@ -83,23 +83,6 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                               ],
                             ),
                           ),
-
-                          FloatingActionButton(
-                              child: AnimatedIcon(
-                                icon: AnimatedIcons.play_pause,
-                                size: 20.0,
-                                progress: playFABController,
-                              ),
-                              elevation: 2,
-                              mini: true,
-                              backgroundColor: Colors.white70,
-                              splashColor: Colors.purple,
-                              onPressed: () {
-                                audioManagerInstance.isPlaying
-                                    ? playFABController.reverse()
-                                    : playFABController.forward();
-                                audioManagerInstance.playOrPause();
-                              }),
                         ],
                       ),
                     ),
