@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:raag/provider/SongWidget.dart';
-import 'package:raag/provider/theme.dart';
 
 class MyMusicList extends StatelessWidget {
   @override
@@ -28,8 +27,8 @@ class MyMusicList extends StatelessWidget {
                   children: [
                     CircularProgressIndicator(
                       backgroundColor: Colors.black38,
-                      valueColor:
-                          new AlwaysStoppedAnimation<Color>(hex('809DF5')),
+                      valueColor: new AlwaysStoppedAnimation<Color>(
+                          Theme.of(context).accentColor),
                     ),
                     SizedBox(
                       width: 20,
