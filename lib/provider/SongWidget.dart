@@ -121,10 +121,26 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                   .size
                   .height * 0.15,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(3.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    RawMaterialButton(
+                        shape: CircleBorder(),
+                        child: Icon(
+                          Icons.skip_previous_outlined,
+                          color: Theme
+                              .of(context)
+                              .accentColor,
+                          size: 50,
+                        ),
+                        elevation: 0,
+                        onPressed: () {
+                          audioManagerInstance.previous();
+                        }),
+                    SizedBox(
+                      width: 0.5,
+                    ),
                     RawMaterialButton(
                         shape: CircleBorder(),
                         child: AnimatedIcon(
@@ -143,8 +159,21 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                           audioManagerInstance.playOrPause();
                         }),
                     SizedBox(
-                      width: 30,
+                      width: 0.5,
                     ),
+                    RawMaterialButton(
+                        shape: CircleBorder(),
+                        child: Icon(
+                          Icons.skip_next_outlined,
+                          color: Theme
+                              .of(context)
+                              .accentColor,
+                          size: 50,
+                        ),
+                        elevation: 0,
+                        onPressed: () {
+                          audioManagerInstance.next();
+                        }),
                     RawMaterialButton(
                       shape: CircleBorder(),
                       onPressed: () {
