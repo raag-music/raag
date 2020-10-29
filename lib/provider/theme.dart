@@ -10,6 +10,12 @@ Color hex(String hexColor) {
   }
 }
 
+class Styles {
+  static ThemeData themeData(bool isDarkTheme, BuildContext context) {
+    return isDarkTheme ? AppTheme.lightTheme : AppTheme.darkTheme;
+  }
+}
+
 class AppTheme {
   AppTheme._();
 

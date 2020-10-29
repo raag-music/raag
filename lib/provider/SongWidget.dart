@@ -48,9 +48,37 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                   child: Card(
                     elevation: 0,
                     color: Colors.transparent,
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: InkWell(
+                    child: ListTile(
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(
+                              Icons.more_vert,
+                              size: 20.0,
+                              color: Theme.of(context).accentColor,
+                            ),
+                            onPressed: () {
+                              showMenu(
+                                  context: context,
+                                  position: RelativeRect.fromLTRB(100, 100, 0,
+                                      100), //TODO Should not be constant
+                                  items: [
+                                    PopupMenuItem<String>(
+                                        child: const Text('Like'),
+                                        value: 'Doge'),
+                                    PopupMenuItem<String>(
+                                        child: const Text('Add to Playlist'),
+                                        value: 'Lion'),
+                                    PopupMenuItem<String>(
+                                        child: const Text('Song info'),
+                                        value: 'Lion'),
+                                  ]);
+                            },
+                          )
+                        ],
+                      ),
+                      title: InkWell(
                         onTap: () {
                           audioManagerInstance
                               .start("file://${song.filePath}", song.title,
@@ -66,17 +94,20 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                           children: <Widget>[
                             getAlbumArt(song),
                             Container(
-                              padding: const EdgeInsets.all(6.0),
-                              width: MediaQuery.of(context).size.width * 0.7,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width * 0.6,
                               child: Column(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Text(song.title,
                                       overflow: TextOverflow.ellipsis,
-                                      style: Theme.of(context)
+                                      style: Theme
+                                          .of(context)
                                           .textTheme
                                           .headline3),
                                   Text(song.artist,
@@ -125,69 +156,134 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    RawMaterialButton(
-                        shape: CircleBorder(),
-                        child: Icon(
-                          Icons.skip_previous_outlined,
-                          color: Theme
-                              .of(context)
-                              .accentColor,
-                          size: 50,
-                        ),
-                        elevation: 0,
-                        onPressed: () {
-                          audioManagerInstance.previous();
-                        }),
                     SizedBox(
-                      width: 0.5,
+                      width: 70,
                     ),
-                    RawMaterialButton(
-                        shape: CircleBorder(),
-                        child: AnimatedIcon(
+                    new Container(
+                      height: 40,
+                      width: 40,
+                      decoration: new BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: new Border.all(
                           color: Theme
                               .of(context)
-                              .accentColor,
-                          icon: AnimatedIcons.play_pause,
-                          size: 50,
-                          progress: playFABController,
+                              .dividerColor,
+                          width: 2.5,
                         ),
-                        elevation: 0,
-                        onPressed: () {
-                          audioManagerInstance.isPlaying
-                              ? playFABController.reverse()
-                              : playFABController.forward();
-                          audioManagerInstance.playOrPause();
-                        }),
-                    SizedBox(
-                      width: 0.5,
-                    ),
-                    RawMaterialButton(
-                        shape: CircleBorder(),
-                        child: Icon(
-                          Icons.skip_next_outlined,
-                          color: Theme
-                              .of(context)
-                              .accentColor,
-                          size: 50,
-                        ),
-                        elevation: 0,
-                        onPressed: () {
-                          audioManagerInstance.next();
-                        }),
-                    RawMaterialButton(
-                      shape: CircleBorder(),
-                      onPressed: () {
-                        audioManagerInstance.stop();
-                        playFABController.reverse();
-                      },
-                      child: Icon(
-                        Icons.stop,
-                        color: Theme
-                            .of(context)
-                            .accentColor,
                       ),
-                      elevation: 4,
-                    )
+                      child: new Center(
+                        child: RawMaterialButton(
+                            shape: CircleBorder(),
+                            child: Icon(
+                              Icons.skip_previous_outlined,
+                              color: Theme
+                                  .of(context)
+                                  .accentColor,
+                              size: 30,
+                            ),
+                            elevation: 0,
+                            onPressed: () {
+                              audioManagerInstance.previous();
+                            }),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    new Container(
+                      height: 60,
+                      width: 60,
+                      decoration: new BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: new Border.all(
+                          color: Theme
+                              .of(context)
+                              .dividerColor,
+                          width: 2.5,
+                        ),
+                      ),
+                      child: new Center(
+                        child: RawMaterialButton(
+                            shape: CircleBorder(),
+                            child: AnimatedIcon(
+                              color: Theme
+                                  .of(context)
+                                  .accentColor,
+                              icon: AnimatedIcons.play_pause,
+                              size: 50,
+                              progress: playFABController,
+                            ),
+                            elevation: 0,
+                            onPressed: () {
+                              audioManagerInstance.isPlaying
+                                  ? playFABController.reverse()
+                                  : playFABController.forward();
+                              audioManagerInstance.playOrPause();
+                            }),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    new Container(
+                      height: 40,
+                      width: 40,
+                      decoration: new BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: new Border.all(
+                          color: Theme
+                              .of(context)
+                              .dividerColor,
+                          width: 2.5,
+                        ),
+                      ),
+                      child: new Center(
+                        child: RawMaterialButton(
+                            shape: CircleBorder(),
+                            child: Icon(
+                              Icons.skip_next_outlined,
+                              color: Theme
+                                  .of(context)
+                                  .accentColor,
+                              size: 30,
+                            ),
+                            elevation: 0,
+                            onPressed: () {
+                              audioManagerInstance.next();
+                            }),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 35,
+                    ),
+                    new Container(
+                      height: 40,
+                      width: 40,
+                      decoration: new BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: new Border.all(
+                          color: Theme
+                              .of(context)
+                              .dividerColor,
+                          width: 2.5,
+                        ),
+                      ),
+                      child: new Center(
+                          child: RawMaterialButton(
+                            shape: CircleBorder(),
+                            onPressed: () {
+                              audioManagerInstance.stop();
+                              playFABController.reverse();
+                            },
+                            child: Icon(
+                              Icons.stop,
+                              color: Theme
+                                  .of(context)
+                                  .accentColor,
+                            ),
+                            elevation: 4,
+                          )),
+                    ),
                   ],
                 ),
               ),
