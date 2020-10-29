@@ -23,7 +23,7 @@ String parseToMinutesSeconds(int ms) {
 Widget getAlbumArt(SongInfo song) {
   if (song.albumArtwork == null)
     return Container(
-        width: 50, height: 50, child: Icon(Icons.music_note_sharp));
+        width: 60, height: 60, child: Icon(Icons.music_note_sharp));
   else
     return CircleAvatar(
       backgroundImage: FileImage(File(song.albumArtwork)),

@@ -49,18 +49,18 @@ class AppTheme {
     textTheme: TextTheme(
       headline1: TextStyle(
           color: hex('#415EB4'),
-          fontSize: 10.0,
+          fontSize: 40.0,
           fontWeight: FontWeight.bold,
           fontFamily: 'Alata'
       ),
       headline3: TextStyle(
           color: hex('#415EB4'),
-          fontSize: 10.0,
+          fontSize: 20.0,
           fontFamily: 'Alata'
       ),
       subtitle2: TextStyle(
         color: Colors.black38,
-        fontSize: 10.0,
+        fontSize: 14.0,
       ),
 
     ),
@@ -93,23 +93,18 @@ class AppTheme {
     textTheme: TextTheme(
       headline1: TextStyle(
           color: hex('809DF5'),
-          fontSize: 30.0,
+          fontSize: 40.0,
           fontWeight: FontWeight.bold,
           fontFamily: 'Alata'
       ),
       headline3: TextStyle(
           color: hex('809DF5'),
-          fontSize: 10.0,
-          fontFamily: 'Alata'
-      ),
-      headline5: TextStyle(
-          color: hex('809DF5'),
-          fontSize: 10.0,
+          fontSize: 20.0,
           fontFamily: 'Alata'
       ),
       subtitle2: TextStyle(
         color: hex('D4D4D4'),
-        fontSize: 10.0,
+        fontSize: 16.0,
       ),
     ),
   );

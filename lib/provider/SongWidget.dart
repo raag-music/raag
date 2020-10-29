@@ -49,6 +49,7 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                     elevation: 0,
                     color: Colors.transparent,
                     child: ListTile(
+                      contentPadding: EdgeInsets.zero,
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
@@ -82,9 +83,9 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                         onTap: () {
                           audioManagerInstance
                               .start("file://${song.filePath}", song.title,
-                                  desc: song.displayName,
-                                  auto: true,
-                                  cover: song.albumArtwork)
+                              desc: song.displayName,
+                              auto: true,
+                              cover: song.albumArtwork)
                               .then((err) {
                             print(err);
                           });
