@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:raag/provider/theme.dart';
 import 'package:raag/model/strings.dart';
 import 'package:raag/view/home_scaffold.dart';
-
+import 'package:raag/provider/audio_helper.dart';
 import 'DarkThemeProvider.dart';
 
 var audioManagerInstance = AudioManager.instance;
@@ -25,11 +25,44 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     getCurrentAppTheme();
+    setUpAudio();
   }
 
   void getCurrentAppTheme() async {
     themeChangeProvider.darkTheme =
         await themeChangeProvider.darkThemePreference.getTheme();
+  }
+
+  bool isPlaying = audioManagerInstance.isPlaying;
+
+  void setUpAudio() {
+    audioManagerInstance.onEvents((events, args) {
+      switch (events) {
+        case AudioManagerEvents.start:
+          slider = 0;
+          break;
+        case AudioManagerEvents.seekComplete:
+          slider = audioManagerInstance.position.inMilliseconds /
+              audioManagerInstance.duration.inMilliseconds;
+          setState(() {});
+          break;
+        case AudioManagerEvents.playstatus:
+          setState(() {});
+          break;
+        case AudioManagerEvents.timeupdate:
+          slider = audioManagerInstance.position.inMilliseconds /
+              audioManagerInstance.duration.inMilliseconds;
+          audioManagerInstance.updateLrc(args["position"].toString());
+          setState(() {});
+          break;
+        case AudioManagerEvents.ended:
+          audioManagerInstance.next();
+          setState(() {});
+          break;
+        default:
+          break;
+      }
+    });
   }
 
   @override
