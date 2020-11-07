@@ -5,6 +5,7 @@ import 'package:raag/provider/theme.dart';
 import 'package:raag/model/strings.dart';
 import 'package:raag/view/home_scaffold.dart';
 import 'package:raag/provider/audio_helper.dart';
+import 'dart:async';
 import 'DarkThemeProvider.dart';
 
 var audioManagerInstance = AudioManager.instance;
@@ -16,6 +17,33 @@ void main() {
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() {
+    super.initState();
+    Timer(Duration(seconds: 3),
+          ()=>Navigator.pushReplacement(context,
+                                        MaterialPageRoute(builder:
+                                                          (context) => 
+                                                          HomeScaffold()
+                                                         )
+                                       )
+         );
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      child:FlutterLogo(size:MediaQuery.of(context).size.height)
+    );
+  }
 }
 
 class _MyAppState extends State<MyApp> {
@@ -77,7 +105,8 @@ class _MyAppState extends State<MyApp> {
               debugShowCheckedModeBanner: false,
               theme: Styles.themeData(themeChangeProvider.darkTheme, context),
               title: title,
-              home: HomeScaffold());
+              home: MyHomePage(),
+              );
         },
       ),
     );
