@@ -27,6 +27,8 @@ dependencies:
   fluttertoast: ^7.1.1
   audioplayer: 0.8.1
   audioplayer_web: 0.7.1
+  shared_preferences: ^0.5.10
+  provider: ^4.3.2+2
   flutter:
     sdk: flutter
 
@@ -53,3 +55,6 @@ flutter:
         - asset: assets/fonts/PassionOne-Regular.ttf
         - asset: assets/fonts/PassionOne-Bold.ttf
           weight: 700
+    - family: Alata
+      fonts:
+        - asset: assets/fonts/Alata-Regular.ttf
