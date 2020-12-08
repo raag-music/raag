@@ -30,15 +30,17 @@ class HomeScaffold extends StatelessWidget {
               ),
             ),
           ],
-          title: Center(
-              child: Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: Image.asset(
-              'assets/images/musical.png',
-              width: 40,
-              height: 40,
-            ),
-          ))),
+          title: Hero(
+              tag: "hello",
+              child: Center(
+                  child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Image.asset(
+                  'assets/images/musical.png',
+                  width: 40,
+                  height: 40,
+                ),
+              )))),
       body: Stack(
         children: [
           SafeArea(
