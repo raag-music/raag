@@ -15,35 +15,15 @@ class MyMusicList extends StatelessWidget {
           if (snapshot.hasData) {
             return SongWidget(songList: songInfo);
           }
-          return Container(
-            padding: EdgeInsets.all(20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    CircularProgressIndicator(
-                      backgroundColor: Colors.black38,
-                      valueColor: new AlwaysStoppedAnimation<Color>(
-                          Theme.of(context).accentColor),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Text(
-                      "Loading",
-                      style: Theme.of(context).textTheme.headline3,
-                    )
-                  ],
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
+          return Center(
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  CircularProgressIndicator(),
+                      
+                  Text(
+                    "  Loading",
+                    style: TextStyle(
+                        fontSize: 20, color: Theme.of(context).accentColor),
+                  )
+                ]),
+              );
