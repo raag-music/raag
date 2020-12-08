@@ -39,14 +39,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Image.asset(
-        'assets/images/musical.png',
-        width: 40,
-        height: 40,
-      )
-    );
+    return return Hero(
+        tag: "hello",
+        child: Center(
+            child: Container(
+          child:
+              Image.asset('assets/images/musical.png', height: 40, width: 40),
+          
+        )));
   }
 }
 
