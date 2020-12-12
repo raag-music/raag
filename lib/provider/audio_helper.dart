@@ -39,7 +39,8 @@ Widget getAlbumArt(SongInfo song) {
     return CircleAvatar(
       backgroundImage: FileImage(File(song.albumArtwork)),
       radius: 50,
-      minRadius: 30,
-      maxRadius: 70,
+      // making the following helps with resolving the rendering issues
+      // minRadius: 30,
+      // maxRadius: 70,
     );
 }

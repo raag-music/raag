@@ -84,9 +84,9 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                         onTap: () {
                           audioManagerInstance
                               .start("file://${song.filePath}", song.title,
-                              desc: song.displayName,
-                              auto: true,
-                              cover: song.albumArtwork)
+                                  desc: song.displayName,
+                                  auto: true,
+                                  cover: song.albumArtwork)
                               .then((err) {
                             print(err);
                           });
@@ -96,20 +96,16 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                           children: <Widget>[
                             getAlbumArt(song),
                             Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.6,
+                              width: MediaQuery.of(context).size.width * 0.6,
                               child: Column(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Text(song.title,
                                       overflow: TextOverflow.ellipsis,
-                                      style: Theme
-                                          .of(context)
+                                      style: Theme.of(context)
                                           .textTheme
                                           .headline3),
                                   Text(song.artist,
