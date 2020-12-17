@@ -3,32 +3,17 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/DarkThemeProvider.dart';
 import 'package:raag/view/My_Music_List.dart';
+import 'package:raag/widgets/ThemeButton.dart';
 
 class HomeScaffold extends StatelessWidget {
-  final IconData themeButton = Icons
-      .wb_sunny_outlined; //TODO Must be changed to night icon when theme is light
-
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
           elevation: 0,
           actions: <Widget>[
-            FlatButton(
-              onPressed: () {
-                if (themeChange.darkTheme == true) {
-                  themeChange.darkTheme = false;
-                } else {
-                  themeChange.darkTheme = true;
-                }
-              },
-              child: Icon(
-                themeButton,
-                color: Theme.of(context).accentColor,
-              ),
-            ),
+            ThemeButton(),
           ],
           title: Center(
               child: Padding(
