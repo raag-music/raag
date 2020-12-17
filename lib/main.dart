@@ -3,10 +3,14 @@ import 'package:audio_manager/audio_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/provider/theme.dart';
 import 'package:raag/model/strings.dart';
+import 'package:raag/view/My_Music_List.dart';
 import 'package:raag/view/home_scaffold.dart';
 import 'package:raag/provider/audio_helper.dart';
+import 'package:raag/view/mus.dart';
+import 'package:raag/provider/SongWidget.dart';
 import 'dart:async';
 import 'DarkThemeProvider.dart';
+import 'package:flutter_audio_query/flutter_audio_query.dart';
 
 var audioManagerInstance = AudioManager.instance;
 
@@ -28,26 +32,15 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 3),
-          ()=>Navigator.pushReplacement(context,
-                                        MaterialPageRoute(builder:
-                                                          (context) => 
-                                                          HomeScaffold()
-                                                         )
-                                       )
-         );
+
+    Timer(
+        Duration(microseconds: 0),
+        () => Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomeScaffold())));
   }
+
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Image.asset(
-        'assets/images/musical.png',
-        width: 40,
-        height: 40,
-      )
-    );
-  }
+  Widget build(BuildContext context) {}
 }
 
 class _MyAppState extends State<MyApp> {
@@ -106,11 +99,11 @@ class _MyAppState extends State<MyApp> {
       child: Consumer<DarkThemeProvider>(
         builder: (BuildContext context, value, Widget child) {
           return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              theme: Styles.themeData(themeChangeProvider.darkTheme, context),
-              title: title,
-              home: MyHomePage(),
-              );
+            debugShowCheckedModeBanner: false,
+            theme: Styles.themeData(themeChangeProvider.darkTheme, context),
+            title: title,
+            home: MyHomePage(),
+          );
         },
       ),
     );
