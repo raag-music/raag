@@ -33,6 +33,7 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
     return Stack(
       children: [
         ListView.builder(
+            physics: BouncingScrollPhysics(),
             itemCount: widget.songList.length,
             itemBuilder: (context, songIndex) {
               SongInfo song = widget.songList[songIndex];

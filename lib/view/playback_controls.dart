@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/view/SeekBar.dart';
 
@@ -36,7 +37,36 @@ class _PlayBackControlsState extends State<PlayBackControls> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: 70,
+                      width: 10,
+                    ),
+                    new Container(
+                      height: 50,
+                      width: 50,
+                      decoration: new BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: new Border.all(
+                          color: Theme.of(context).dividerColor,
+                          width: 2.5,
+                        ),
+                      ),
+                      child: new Center(
+                        child: RawMaterialButton(
+                            shape: CircleBorder(),
+                            child: Icon(
+                              Icons.shuffle,
+                              color: Theme.of(context).accentColor,
+                              size: 30,
+                            ),
+                            elevation: 0,
+                            onPressed: () {
+                              Fluttertoast.showToast(
+                                  msg: "Shuffle Song",
+                                  toastLength: Toast.LENGTH_SHORT);
+                            }),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 50,
                     ),
                     new Container(
                       height: 50,
@@ -135,17 +165,17 @@ class _PlayBackControlsState extends State<PlayBackControls> {
                       ),
                       child: new Center(
                           child: RawMaterialButton(
-                        shape: CircleBorder(),
-                        onPressed: () {
-                          audioManagerInstance.stop();
-                          playFABController.reverse();
-                        },
-                        child: Icon(
-                          Icons.stop,
-                          color: Theme.of(context).accentColor,
-                        ),
-                        elevation: 4,
-                      )),
+                            shape: CircleBorder(),
+                            onPressed: () {
+                              audioManagerInstance.stop();
+                              playFABController.reverse();
+                            },
+                            child: Icon(
+                              Icons.stop,
+                              color: Theme.of(context).accentColor,
+                            ),
+                            elevation: 4,
+                          )),
                     ),
                   ],
                 ),
