@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:raag/main.dart';
 import 'package:raag/view/playback_controls.dart';
 
@@ -61,6 +62,7 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                               color: Theme.of(context).accentColor,
                             ),
                             onPressed: () {
+                              Fluttertoast.showToast(msg:'Feature yet to be released');
                               showMenu(
                                   context: context,
                                   position: RelativeRect.fromLTRB(100, 100, 0,

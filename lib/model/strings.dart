@@ -1,2 +1,12 @@
-var title = 'Raag';
+var appName = 'Raag';
 var myMusic = 'My Music';
+var notConnected = 'Not Connected';
+var checkConn = 'Please check your connection';
+var fetchingStream = 'Fetching Stream';
+var downloading = 'Downloading';
+var downloadComplete = 'Download Complete!';
+var resolvingURL = 'Resolving URL';
+var downloadDir = 'Getting Downloads directory';
+var pasteYoutube = 'Paste YouTube URL';
+var fileLocation = 'File Location';
+var fileName = 'File Name';
