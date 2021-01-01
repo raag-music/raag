@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:provider/provider.dart';
-import 'package:raag/DarkThemeProvider.dart';
 import 'package:raag/view/My_Music_List.dart';
 import 'package:raag/widgets/ThemeButton.dart';
 

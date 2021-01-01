@@ -19,34 +19,30 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class MyHomePage extends StatefulWidget {
+class SplashScreen extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 3),
-          ()=>Navigator.pushReplacement(context,
-                                        MaterialPageRoute(builder:
-                                                          (context) => 
-                                                          HomeScaffold()
-                                                         )
-                                       )
-         );
+    Timer(
+        Duration(seconds: 1),
+        () => Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomeScaffold())));
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
-      child: Image.asset(
-        'assets/images/musical.png',
-        width: 40,
-        height: 40,
-      )
-    );
+        color: Theme.of(context).backgroundColor,
+        child: Image.asset(
+          'assets/images/musical.png',
+          width: 40,
+          height: 40,
+        ));
   }
 }
 
@@ -106,11 +102,11 @@ class _MyAppState extends State<MyApp> {
       child: Consumer<DarkThemeProvider>(
         builder: (BuildContext context, value, Widget child) {
           return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              theme: Styles.themeData(themeChangeProvider.darkTheme, context),
-              title: title,
-              home: MyHomePage(),
-              );
+            debugShowCheckedModeBanner: false,
+            theme: Styles.themeData(themeChangeProvider.darkTheme, context),
+            title: title,
+            home: SplashScreen(),
+          );
         },
       ),
     );
