@@ -16,13 +16,11 @@ class HomeScaffold extends StatelessWidget {
                 Icons.download_rounded,
                 color: Theme.of(context).accentColor,
               ),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DownloadMusic(),
-                    ));
-              }),
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DownloadMusic(),
+                  ))),
           actions: <Widget>[
             ThemeButton(),
           ],
