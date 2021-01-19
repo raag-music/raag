@@ -10,3 +10,4 @@ var downloadDir = 'Getting Downloads directory';
 var pasteYoutube = 'Paste YouTube URL';
 var fileLocation = 'File Location';
 var fileName = 'File Name';
+var clipBoardYT = 'Clipboard doesn\'t contain a valid YouTube video URL';

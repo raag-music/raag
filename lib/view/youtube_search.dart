@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:raag/provider/audio_helper.dart';
+import 'package:raag/view/download_music.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class YoutubeSearch extends StatefulWidget {
@@ -47,6 +49,12 @@ class _YoutubeSearchState extends State<YoutubeSearch> {
           },
           onPageStarted: (String url) {
             print('Page started loading: $url');
+            if (isValidYouTubeURL(url)) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DownloadMusic(url: '')));
+            }
           },
           onPageFinished: (String url) {
             print('Page finished loading: $url');
@@ -86,43 +94,46 @@ class NavigationControls extends StatelessWidget {
         return Row(
           children: <Widget>[
             IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
+              icon: const Icon(Icons.download_rounded),
+              onPressed: () => {},
+            ),
+            IconButton(
+              icon: const Icon(Icons.arrow_back_rounded),
               onPressed: !webViewReady
                   ? null
                   : () async {
-                if (await controller.canGoBack()) {
-                  await controller.goBack();
-                } else {
-                  Scaffold.of(context).showSnackBar(
-                    const SnackBar(content: Text("No page in history")),
-                  );
-                  return;
-                }
-              },
+                      if (await controller.canGoBack()) {
+                        await controller.goBack();
+                      } else {
+                        Scaffold.of(context).showSnackBar(
+                          const SnackBar(content: Text("No page in history")),
+                        );
+                        return;
+                      }
+                    },
             ),
             IconButton(
-              icon: const Icon(Icons.arrow_forward_ios),
+              icon: const Icon(Icons.arrow_forward_rounded),
               onPressed: !webViewReady
                   ? null
                   : () async {
-                if (await controller.canGoForward()) {
-                  await controller.goForward();
-                } else {
-                  Scaffold.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text("No page to forward")),
-                  );
-                  return;
-                }
-              },
+                      if (await controller.canGoForward()) {
+                        await controller.goForward();
+                      } else {
+                        Scaffold.of(context).showSnackBar(
+                          const SnackBar(content: Text("No page to forward")),
+                        );
+                        return;
+                      }
+                    },
             ),
             IconButton(
-              icon: const Icon(Icons.replay),
+              icon: const Icon(Icons.refresh_rounded),
               onPressed: !webViewReady
                   ? null
                   : () {
-                controller.reload();
-              },
+                      controller.reload();
+                    },
             ),
           ],
         );

@@ -2,14 +2,19 @@ import 'dart:io';
 import 'package:clipboard/clipboard.dart';
 import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:raag/model/connectivity.dart';
 import 'package:raag/model/strings.dart';
+import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/provider/theme.dart';
 import 'package:raag/view/youtube_search.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class DownloadMusic extends StatefulWidget {
+  final String url;
+
+  DownloadMusic({@required this.url});
   @override
   _DownloadMusicState createState() => _DownloadMusicState();
 }
@@ -22,6 +27,12 @@ class _DownloadMusicState extends State<DownloadMusic> {
       "https://user-images.githubusercontent.com/20596763/104451609-cceeff80-55c7-11eb-92f9-828dc8940daf.png";
   final urlFieldController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    urlFieldController.clear();
+    urlFieldController.text = widget.url;
+  }
 
   void setTitle(String title) {
     setState(() {
@@ -48,10 +59,11 @@ class _DownloadMusicState extends State<DownloadMusic> {
   }
 
   @override
-  void dispose(){
+  void dispose() {
     urlFieldController.dispose();
     super.dispose();
   }
+
   Future<int> downloadMusic(String url, BuildContext context) async {
     if (await isConnected() == false) {
       Alert(
@@ -140,7 +152,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: MediaQuery.of(context).size.width/1.5,
+                width: MediaQuery.of(context).size.width / 1.5,
                 padding: EdgeInsets.all(16),
                 color: Theme.of(context).backgroundColor,
                 child: TextField(
@@ -168,18 +180,29 @@ class _DownloadMusicState extends State<DownloadMusic> {
               IconButton(
                 onPressed: () {
                   urlFieldController.clear();
-                  FlutterClipboard.paste().then((value) {
-                    urlFieldController.text=value;
-                    urlFieldController.selection = TextSelection.fromPosition(TextPosition(offset: urlFieldController.text.length));
+                  FlutterClipboard.paste().then((url) {
+                    if (isValidYouTubeURL(url)) {
+                      urlFieldController.text = url;
+                      urlFieldController.selection = TextSelection.fromPosition(
+                          TextPosition(offset: urlFieldController.text.length));
+                    }
+                    else{
+                      Fluttertoast.showToast(msg: clipBoardYT);
+                    }
                   });
                 },
-                icon: Icon(Icons.paste_rounded,
-                  color: Theme.of(context).accentColor,),
+                icon: Icon(
+                  Icons.paste_rounded,
+                  color: Theme.of(context).accentColor,
+                ),
               ),
               IconButton(
-                onPressed: () => downloadMusic(urlFieldController.text, context),
-                icon: Icon(Icons.download_rounded,
-                color: Theme.of(context).accentColor,),
+                onPressed: () =>
+                    downloadMusic(urlFieldController.text, context),
+                icon: Icon(
+                  Icons.download_rounded,
+                  color: Theme.of(context).accentColor,
+                ),
               )
             ],
           ),

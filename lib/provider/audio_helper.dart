@@ -43,3 +43,10 @@ Widget getAlbumArt(SongInfo song) {
       maxRadius: 70,
     );
 }
+
+bool isValidYouTubeURL(String url){
+  RegExp regExp = new RegExp(r'http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([(\w)\-\_]*)(&(amp;)?[(\w)\?=]*)?');
+  var matches = regExp.allMatches(url);
+  if(matches.length==0) return false;
+  else return true;
+} 

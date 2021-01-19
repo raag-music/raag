@@ -19,7 +19,7 @@ class HomeScaffold extends StatelessWidget {
               onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DownloadMusic(),
+                    builder: (context) => DownloadMusic(url: ''),
                   ))),
           actions: <Widget>[
             ThemeButton(),
