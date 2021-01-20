@@ -95,7 +95,21 @@ class NavigationControls extends StatelessWidget {
           children: <Widget>[
             IconButton(
               icon: const Icon(Icons.download_rounded),
-              onPressed: () => {},
+              onPressed: () async {
+                String currentURL;
+                await _webViewControllerFuture
+                    .then((value) async => {
+                      currentURL = (await value.currentUrl())
+                    });
+                print(currentURL);
+                Navigator.pop(context); //To close the search page
+                Navigator.pop(context); //To close the previous instance of Download page
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DownloadMusic(url: currentURL),
+                    ));
+              },
             ),
             IconButton(
               icon: const Icon(Icons.arrow_back_rounded),

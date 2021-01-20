@@ -11,6 +11,8 @@ import 'package:raag/view/youtube_search.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
+import '../main.dart';
+
 class DownloadMusic extends StatefulWidget {
   final String url;
 
@@ -20,9 +22,11 @@ class DownloadMusic extends StatefulWidget {
 }
 
 class _DownloadMusicState extends State<DownloadMusic> {
-  String alertBody = "";
-  String alertTitle = "";
+  String alertBody = '';
+  String alertTitle = '';
   double progressOpacity = 0;
+  String downloadedFilePath = '';
+  String downloadedFileTitle ='';
   var thumbnailURL =
       "https://user-images.githubusercontent.com/20596763/104451609-cceeff80-55c7-11eb-92f9-828dc8940daf.png";
   final urlFieldController = TextEditingController();
@@ -32,6 +36,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
     super.initState();
     urlFieldController.clear();
     urlFieldController.text = widget.url;
+    if(isValidYouTubeURL(widget.url)) downloadMusic(widget.url, context);
   }
 
   void setTitle(String title) {
@@ -94,10 +99,12 @@ class _DownloadMusicState extends State<DownloadMusic> {
     setTitle(downloadDir);
     Directory downloadsDirectory =
         await DownloadsPathProvider.downloadsDirectory;
+
+    var tempTitle = title.replaceAll('|', '-'); //TODO Do something efficient to choose only alpha-numeric characters from $title
     var filePath = downloadsDirectory.path +
         '/' +
-        title.replaceAll('|', '-') +
-        '.mp3'; //TODO Do something efficient to choose only alpha-numeric characters from $title
+        tempTitle +
+        '.mp3';
 
     print('FilePath: ' + filePath);
 
@@ -112,8 +119,11 @@ class _DownloadMusicState extends State<DownloadMusic> {
       setTitle(downloadComplete);
       setBody(filePath);
 
-      await fileStream.flush();
-      await fileStream.close();
+      downloadedFilePath='file://$filePath';
+      downloadedFileTitle=tempTitle;
+
+      fileStream.flush();
+      fileStream.close();
     }
     yt.close();
     setProgressOpacity(0);
@@ -215,8 +225,34 @@ class _DownloadMusicState extends State<DownloadMusic> {
                   style: Theme.of(context).textTheme.headline3,
                 ),
                 SizedBox(height: 32),
-                Opacity(
-                    opacity: progressOpacity, child: LinearProgressIndicator()),
+                Stack(
+                  children: [
+                    //TODO Implement play button
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //   children: [
+                    //     MaterialButton(
+                    //         child: Text('PLAY', style: TextStyle(fontFamily: 'Alata')),
+                    //         shape: RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.circular(18)
+                    //         ),
+                    //         textColor: Theme.of(context).backgroundColor,
+                    //         color: Theme.of(context).accentColor,
+                    //         onPressed: (){
+                    //           audioManagerInstance
+                    //               .start(downloadedFilePath, downloadedFileTitle,
+                    //               desc: downloadedFileTitle,
+                    //               auto: true,
+                    //               cover: thumbnailURL)
+                    //               .then((err) {
+                    //             print(err);
+                    //           });
+                    //     })
+                    //   ],
+                    // ),
+                    Opacity(
+                      opacity: progressOpacity, child: LinearProgressIndicator()),]
+                ),
                 SizedBox(height: 32),
                 Text(
                   alertBody,
