@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:clipboard/clipboard.dart';
 import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +8,11 @@ import 'package:raag/model/connectivity.dart';
 import 'package:raag/model/strings.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/provider/theme.dart';
+import 'package:raag/provider/youtube_icon.dart';
 import 'package:raag/view/youtube_search.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
-import '../main.dart';
 
 class DownloadMusic extends StatefulWidget {
   final String url;
@@ -144,7 +145,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
         actions: [
           IconButton(
             icon: Icon(
-              Icons.search_rounded,
+              YouTubeIcon.youtube,
               color: Theme.of(context).accentColor,
             ),
             onPressed: () => Navigator.push(

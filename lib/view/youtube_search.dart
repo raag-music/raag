@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:raag/model/strings.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/view/download_music.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -69,9 +72,7 @@ class _YoutubeSearchState extends State<YoutubeSearch> {
     return JavascriptChannel(
         name: 'Toaster',
         onMessageReceived: (JavascriptMessage message) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(content: Text(message.message)),
-          );
+          Fluttertoast.showToast(msg: message.message);
         });
   }
 }
@@ -97,49 +98,46 @@ class NavigationControls extends StatelessWidget {
               icon: const Icon(Icons.download_rounded),
               onPressed: () async {
                 String currentURL;
-                await _webViewControllerFuture
-                    .then((value) async => {
-                      currentURL = (await value.currentUrl())
-                    });
+                await _webViewControllerFuture.then(
+                    (value) async => {currentURL = (await value.currentUrl())});
                 print(currentURL);
-                Navigator.pop(context); //To close the search page
-                Navigator.pop(context); //To close the previous instance of Download page
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DownloadMusic(url: currentURL),
-                    ));
+                if (isValidYouTubeURL(currentURL)) {
+                  Navigator.pop(context); //To close the search page
+                  Navigator.pop(
+                      context); //To close the previous instance of Download page
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DownloadMusic(url: currentURL),
+                      ));
+                } else {
+                  Fluttertoast.showToast(msg: openValidVideo);
+                }
               },
             ),
             IconButton(
-              icon: const Icon(Icons.arrow_back_rounded),
+              icon: const Icon(Icons.arrow_back_ios_rounded),
               onPressed: !webViewReady
                   ? null
                   : () async {
-                      if (await controller.canGoBack()) {
-                        await controller.goBack();
-                      } else {
-                        Scaffold.of(context).showSnackBar(
-                          const SnackBar(content: Text("No page in history")),
-                        );
-                        return;
-                      }
-                    },
+                if (await controller.canGoBack()) {
+                  await controller.goBack();
+                } else {
+                  Fluttertoast.showToast(msg: 'No page in history');
+                }
+              },
             ),
             IconButton(
-              icon: const Icon(Icons.arrow_forward_rounded),
+              icon: const Icon(Icons.arrow_forward_ios_rounded),
               onPressed: !webViewReady
                   ? null
                   : () async {
-                      if (await controller.canGoForward()) {
-                        await controller.goForward();
-                      } else {
-                        Scaffold.of(context).showSnackBar(
-                          const SnackBar(content: Text("No page to forward")),
-                        );
-                        return;
-                      }
-                    },
+                if (await controller.canGoForward()) {
+                  await controller.goForward();
+                } else {
+                  Fluttertoast.showToast(msg: 'No page to go forward');
+                }
+              },
             ),
             IconButton(
               icon: const Icon(Icons.refresh_rounded),

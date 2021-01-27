@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,9 +45,15 @@ Widget getAlbumArt(SongInfo song) {
     );
 }
 
-bool isValidYouTubeURL(String url){
-  RegExp regExp = new RegExp(r'http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([(\w)\-\_]*)(&(amp;)?[(\w)\?=]*)?');
+bool isValidYouTubeURL(String url) {
+  url =
+      url.replaceAll('://m.y', '://www.y'); //For changing mobile URL to web URL
+  print('Web URL: ' + url);
+  RegExp regExp = new RegExp(
+      r'http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([(\w)\-\_]*)(&(amp;)?[(\w)\?=]*)?');
   var matches = regExp.allMatches(url);
-  if(matches.length==0) return false;
-  else return true;
-} 
+  if (matches.length == 0)
+    return false;
+  else
+    return true;
+}

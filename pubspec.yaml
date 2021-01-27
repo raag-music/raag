@@ -22,6 +22,7 @@ environment:
 
 dependencies:
   animated_icon_button: ^0.3.0
+  animator: ^2.0.2
   audio_manager: ^0.5.5+3
   audioplayer: 0.8.1
   audioplayer_web: 0.7.1
@@ -66,3 +67,6 @@ flutter:
     - family: Alata
       fonts:
         - asset: assets/fonts/Alata-Regular.ttf
+    - family: YouTubeIcon
+      fonts:
+        - asset: assets/fonts/YouTubeIcon.ttf

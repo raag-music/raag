@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.0"
+  animator:
+    dependency: "direct main"
+    description:
+      name: animator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
   async:
     dependency: transitive
     description:
@@ -413,6 +420,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.0-nullsafety.6"
+  states_rebuilder:
+    dependency: transitive
+    description:
+      name: states_rebuilder
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.0"
   stream_channel:
     dependency: transitive
     description:
