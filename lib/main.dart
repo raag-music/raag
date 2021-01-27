@@ -104,7 +104,7 @@ class _MyAppState extends State<MyApp> {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: Styles.themeData(themeChangeProvider.darkTheme, context),
-            title: title,
+            title: appName,
             home: SplashScreen(),
           );
         },

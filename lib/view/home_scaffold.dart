@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:raag/view/My_Music_List.dart';
+import 'package:raag/view/download_music.dart';
 import 'package:raag/widgets/ThemeButton.dart';
 
 class HomeScaffold extends StatelessWidget {
@@ -10,6 +11,16 @@ class HomeScaffold extends StatelessWidget {
       appBar: AppBar(
           centerTitle: true,
           elevation: 0,
+          leading: IconButton(
+              icon: Icon(
+                Icons.download_rounded,
+                color: Theme.of(context).accentColor,
+              ),
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DownloadMusic(url: ''),
+                  ))),
           actions: <Widget>[
             ThemeButton(),
           ],
