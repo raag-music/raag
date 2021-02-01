@@ -4,8 +4,10 @@ import 'package:clipboard/clipboard.dart';
 import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:raag/model/connectivity.dart';
 import 'package:raag/model/strings.dart';
+import 'package:raag/provider/DarkThemeProvider.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/provider/theme.dart';
 import 'package:raag/provider/youtube_icon.dart';
@@ -133,8 +135,12 @@ class _DownloadMusicState extends State<DownloadMusic> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<DarkThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
+        brightness:
+            themeProvider.darkTheme ? Brightness.light : Brightness.dark,
         elevation: 0,
         leading: IconButton(
             icon: Icon(Icons.arrow_back_ios_outlined),
@@ -148,6 +154,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
               YouTubeIcon.youtube,
               color: Theme.of(context).accentColor,
             ),
+            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
             onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -178,13 +185,22 @@ class _DownloadMusicState extends State<DownloadMusic> {
                   decoration: InputDecoration(
                     focusedBorder: UnderlineInputBorder(
                         borderSide:
-                            BorderSide(color: Theme.of(context).accentColor)),
+                        BorderSide(color: Theme
+                            .of(context)
+                            .accentColor)),
                     border: UnderlineInputBorder(
                         borderSide:
-                            BorderSide(color: Theme.of(context).accentColor)),
+                        BorderSide(color: Theme
+                            .of(context)
+                            .accentColor)),
                     hintText: pasteYoutube,
-                    hintStyle: Theme.of(context).textTheme.subtitle1,
-                    fillColor: Theme.of(context).accentColor,
+                    hintStyle: Theme
+                        .of(context)
+                        .textTheme
+                        .subtitle1,
+                    fillColor: Theme
+                        .of(context)
+                        .accentColor,
                   ),
                 ),
               ),
@@ -227,32 +243,34 @@ class _DownloadMusicState extends State<DownloadMusic> {
                 ),
                 SizedBox(height: 32),
                 Stack(
-                  children: [
-                    //TODO Implement play button
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    //   children: [
-                    //     MaterialButton(
-                    //         child: Text('PLAY', style: TextStyle(fontFamily: 'Alata')),
-                    //         shape: RoundedRectangleBorder(
-                    //           borderRadius: BorderRadius.circular(18)
-                    //         ),
-                    //         textColor: Theme.of(context).backgroundColor,
-                    //         color: Theme.of(context).accentColor,
-                    //         onPressed: (){
-                    //           audioManagerInstance
-                    //               .start(downloadedFilePath, downloadedFileTitle,
-                    //               desc: downloadedFileTitle,
-                    //               auto: true,
-                    //               cover: thumbnailURL)
-                    //               .then((err) {
-                    //             print(err);
-                    //           });
-                    //     })
-                    //   ],
-                    // ),
-                    Opacity(
-                      opacity: progressOpacity, child: LinearProgressIndicator()),]
+                    children: [
+                      //TODO Implement play button
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      //   children: [
+                      //     MaterialButton(
+                      //         child: Text('PLAY', style: TextStyle(fontFamily: 'Alata')),
+                      //         shape: RoundedRectangleBorder(
+                      //           borderRadius: BorderRadius.circular(18)
+                      //         ),
+                      //         textColor: Theme.of(context).backgroundColor,
+                      //         color: Theme.of(context).accentColor,
+                      //         onPressed: (){
+                      //           audioManagerInstance
+                      //               .start(downloadedFilePath, downloadedFileTitle,
+                      //               desc: downloadedFileTitle,
+                      //               auto: true,
+                      //               cover: thumbnailURL)
+                      //               .then((err) {
+                      //             print(err);
+                      //           });
+                      //     })
+                      //   ],
+                      // ),
+                      Opacity(
+                          opacity: progressOpacity,
+                          child: LinearProgressIndicator()),
+                    ]
                 ),
                 SizedBox(height: 32),
                 Text(

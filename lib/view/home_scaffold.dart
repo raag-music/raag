@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
+import 'package:raag/provider/DarkThemeProvider.dart';
 import 'package:raag/view/My_Music_List.dart';
 import 'package:raag/view/download_music.dart';
 import 'package:raag/widgets/ThemeButton.dart';
@@ -7,8 +9,12 @@ import 'package:raag/widgets/ThemeButton.dart';
 class HomeScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<DarkThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
+          brightness:
+              themeProvider.darkTheme ? Brightness.light : Brightness.dark,
           centerTitle: true,
           elevation: 0,
           leading: IconButton(

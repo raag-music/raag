@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:animated_icon_button/animated_icon_button.dart';
-import 'package:raag/DarkThemeProvider.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:raag/provider/DarkThemeProvider.dart';
 
 class ThemeButton extends StatefulWidget {
   @override

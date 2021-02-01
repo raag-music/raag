@@ -3,7 +3,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:raag/model/strings.dart';
+import 'package:raag/provider/DarkThemeProvider.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/view/download_music.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -25,8 +27,12 @@ class _YoutubeSearchState extends State<YoutubeSearch> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<DarkThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
+        brightness:
+            themeProvider.darkTheme ? Brightness.light : Brightness.dark,
         title: Text('YouTube', style: Theme.of(context).textTheme.headline3),
         actions: <Widget>[
           NavigationControls(_controller.future),
