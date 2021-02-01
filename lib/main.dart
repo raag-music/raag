@@ -1,12 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:audio_manager/audio_manager.dart';
-import 'package:provider/provider.dart';
-import 'package:raag/provider/theme.dart';
-import 'package:raag/model/strings.dart';
-import 'package:raag/view/home_scaffold.dart';
-import 'package:raag/provider/audio_helper.dart';
 import 'dart:async';
-import 'DarkThemeProvider.dart';
+
+import 'package:audio_manager/audio_manager.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:raag/model/strings.dart';
+import 'package:raag/provider/audio_helper.dart';
+import 'package:raag/provider/theme.dart';
+import 'package:raag/view/home_scaffold.dart';
+
+import 'provider/DarkThemeProvider.dart';
 
 var audioManagerInstance = AudioManager.instance;
 
