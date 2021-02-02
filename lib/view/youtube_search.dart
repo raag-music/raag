@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/model/strings.dart';
-import 'package:raag/provider/DarkThemeProvider.dart';
+import 'package:raag/provider/dark_theme_provider.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/view/download_music.dart';
 import 'package:webview_flutter/webview_flutter.dart';

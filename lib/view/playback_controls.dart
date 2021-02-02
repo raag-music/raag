@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:raag/provider/audio_helper.dart';
-import 'package:raag/widgets/SeekBar.dart';
+import 'package:raag/widgets/seekbar.dart';
 
 import '../main.dart';
 

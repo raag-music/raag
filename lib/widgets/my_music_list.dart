@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:raag/model/music_model.dart';
-import 'package:raag/provider/DBProvider.dart';
-import 'package:raag/provider/SongWidget.dart';
-import 'package:raag/widgets/LoadingIndicator.dart';
+import 'package:raag/provider/db_provider.dart';
+import 'package:raag/provider/song_widget.dart';
+import 'package:raag/widgets/loading_indicator.dart';
 
 
 class MyMusicList extends StatelessWidget {

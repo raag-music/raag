@@ -1,17 +1,11 @@
-import 'dart:async';
-
 import 'package:audio_manager/audio_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:provider/provider.dart';
-import 'package:raag/model/music_model.dart';
-import 'package:raag/model/strings.dart';
-import 'package:raag/provider/DBProvider.dart';
-import 'package:raag/provider/audio_helper.dart';
-import 'package:raag/provider/theme.dart';
-import 'package:raag/view/home_scaffold.dart';
-import 'model/SharedPreferences.dart';
-import 'provider/DarkThemeProvider.dart';
+import 'package:raag/view/splash_screen.dart';
+import 'model/strings.dart';
+import 'provider/audio_helper.dart';
+import 'provider/dark_theme_provider.dart';
+import 'provider/theme.dart';
 
 var audioManagerInstance = AudioManager.instance;
 
@@ -22,34 +16,6 @@ void main() {
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
-}
-
-class SplashScreen extends StatefulWidget {
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() async{
-    super.initState();
-    await populateSongsIntoDB();
-    Future.delayed(Duration.zero, () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomeScaffold()));
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        color: Theme.of(context).backgroundColor,
-        child: Image.asset(
-          'assets/images/musical.png',
-          width: 40,
-          height: 40,
-        ));
-  }
 }
 
 class _MyAppState extends State<MyApp> {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import 'package:raag/provider/DarkThemeProvider.dart';
-import 'package:raag/view/My_Music_List.dart';
+import 'package:raag/provider/dark_theme_provider.dart';
+import 'package:raag/widgets/my_music_list.dart';
 import 'package:raag/view/download_music.dart';
-import 'package:raag/widgets/ThemeButton.dart';
+import 'package:raag/widgets/theme_button.dart';
 
 class HomeScaffold extends StatelessWidget {
   @override
