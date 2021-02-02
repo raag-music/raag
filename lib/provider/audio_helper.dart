@@ -4,9 +4,13 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:raag/model/SharedPreferences.dart';
+import 'package:raag/model/music_model.dart';
+import 'package:raag/provider/DBProvider.dart';
 
 AnimationController playFABController;
 double slider = 0.0;
+DBStatus _dbStatusProvider = new DBStatus();
 
 String parseToMinutesSeconds(int ms) {
   String data;
@@ -32,7 +36,7 @@ String formatDuration(Duration d) {
   return format;
 }
 
-Widget getAlbumArt(SongInfo song) {
+Widget getAlbumArt(Song song) {
   if (song.albumArtwork == null)
     return Container(
         width: 60, height: 60, child: Icon(Icons.music_note_sharp));
@@ -56,4 +60,27 @@ bool isValidYouTubeURL(String url) {
     return false;
   else
     return true;
+}
+
+populateSongsIntoDB() async{
+  print(_dbStatusProvider.isDBPopulated());
+  if (await _dbStatusProvider.isDBPopulated() != true) {
+    DBProvider.db.deleteAll();
+    print('inside filler');
+    List<SongInfo> songs = await FlutterAudioQuery().getSongs();
+    for (var it = 0; it < songs.length; it++) {
+      DBProvider.db.insertSong(new Song(
+          id: int.parse(songs[it].id),
+          title: songs[it].title,
+          displayName: songs[it].displayName,
+          filePath: songs[it].filePath,
+          albumArtwork: songs[it].albumArtwork,
+          artist: songs[it].artist,
+          album: songs[it].album,
+          duration: songs[it].duration,
+          composer: songs[it].composer)
+      );
+    }
+    _dbStatusProvider.setDBStatus(true);
+  }
 }
