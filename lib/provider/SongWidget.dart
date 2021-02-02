@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:raag/main.dart';
+import 'package:raag/model/music_model.dart';
 import 'package:raag/view/playback_controls.dart';
 
 import 'audio_helper.dart';
 
 class SongWidget extends StatefulWidget {
-  final List<SongInfo> songList;
+  final List<Song> songList;
 
   SongWidget({@required this.songList});
 
@@ -36,7 +37,7 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
         ListView.builder(
             itemCount: widget.songList.length,
             itemBuilder: (context, songIndex) {
-              SongInfo song = widget.songList[songIndex];
+              Song song = widget.songList[songIndex];
               if (song.displayName.contains(".mp3"))
                 return Container(
                   decoration: BoxDecoration(

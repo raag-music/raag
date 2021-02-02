@@ -2,12 +2,15 @@ import 'dart:async';
 
 import 'package:audio_manager/audio_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:provider/provider.dart';
+import 'package:raag/model/music_model.dart';
 import 'package:raag/model/strings.dart';
+import 'package:raag/provider/DBProvider.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/provider/theme.dart';
 import 'package:raag/view/home_scaffold.dart';
-
+import 'model/SharedPreferences.dart';
 import 'provider/DarkThemeProvider.dart';
 
 var audioManagerInstance = AudioManager.instance;
@@ -28,12 +31,13 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
-  void initState() {
+  void initState() async{
     super.initState();
-    Timer(
-        Duration(seconds: 1),
-        () => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomeScaffold())));
+    await populateSongsIntoDB();
+    Future.delayed(Duration.zero, () {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomeScaffold()));
+    });
   }
 
   @override
