@@ -2,30 +2,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences prefs;
 
-class DarkThemePreference {
-  static const THEME_STATUS = "THEMESTATUS";
+class Preferences {
+  static const THEME_STATUS = 'THEME_STATUS';
+  static const DB_POPULATED = 'DB_POPULATED';
+  static const ON_BOARDING_DONE = 'ON_BOARDING_DONE';
 
-  setDarkTheme(bool value) async {
+  void setBool(String key, bool value) async {
     prefs = await SharedPreferences.getInstance();
-    prefs.setBool(THEME_STATUS, value);
+    prefs.setBool(key, value);
   }
 
-  Future<bool> getTheme() async {
+  Future<bool> getBool(String key) async {
     prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(THEME_STATUS) ?? false;
-  }
-}
-
-class DBStatus{
-  static const DB_POPULATED = "DB_POPULATED";
-
-  setDBStatus(bool value) async {
-    prefs = await SharedPreferences.getInstance();
-    prefs.setBool(DB_POPULATED, value);
-  }
-
-  Future<bool> isDBPopulated() async {
-    prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(DB_POPULATED) ?? false;
+    return prefs.getBool(key) ?? false;
   }
 }

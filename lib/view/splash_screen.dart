@@ -3,10 +3,11 @@ import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:raag/model/SharedPreferences.dart';
 import 'package:raag/model/music_model.dart';
 import 'package:raag/provider/db_provider.dart';
+import 'package:raag/view/onboarding.dart';
 
 import 'home_scaffold.dart';
 
-DBStatus _dbStatusProvider = new DBStatus();
+Preferences _preferencesProvider = new Preferences();
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -19,7 +20,15 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    onBoarding();
     awaitPopulateSongs();
+  }
+
+  void onBoarding() async{
+    if(! await _preferencesProvider.getBool(Preferences.ON_BOARDING_DONE))
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => OnBoarding()));
+    _preferencesProvider.setBool(Preferences.ON_BOARDING_DONE, true);
   }
 
   awaitPopulateSongs() async {
@@ -35,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
       context, MaterialPageRoute(builder: (context) => HomeScaffold()));
 
   populateSongsIntoDB() async {
-    if (await _dbStatusProvider.isDBPopulated() != true) {
+    if (await _preferencesProvider.getBool(Preferences.DB_POPULATED) != true) {
       {
         await DBProvider.db.deleteAll();
         print('inside filler');
@@ -52,46 +61,19 @@ class _SplashScreenState extends State<SplashScreen> {
               duration: songs[it].duration,
               composer: songs[it].composer));
         }
-        _dbStatusProvider.setDBStatus(true);
+        _preferencesProvider.setBool(Preferences.DB_POPULATED,true);
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: Container(
+    return Container(
         color: Theme.of(context).backgroundColor,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-                color: Theme.of(context).backgroundColor,
-                child: Image.asset(
-                  'assets/images/musical.png',
-                  width: 160,
-                  height: 160,
-                )),
-            MaterialButton(
-              padding: EdgeInsets.all(18),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                  side: BorderSide(
-                      color: Theme.of(context).accentColor, width: 2)),
-              onPressed: () {
-                print(leaveSplash);
-                if (leaveSplash) goToHome();
-                else awaitPopulateSongs();
-              },
-              child: Text(
-                'Let\'s go!',
-                style: (Theme.of(context).textTheme.headline3),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+        child: Image.asset(
+          'assets/images/musical.png',
+          width: 160,
+          height: 160,
+        ));
   }
 }

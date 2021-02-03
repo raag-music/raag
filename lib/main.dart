@@ -1,6 +1,7 @@
 import 'package:audio_manager/audio_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:raag/model/SharedPreferences.dart';
 import 'package:raag/view/splash_screen.dart';
 import 'model/strings.dart';
 import 'provider/audio_helper.dart';
@@ -30,7 +31,7 @@ class _MyAppState extends State<MyApp> {
 
   void getCurrentAppTheme() async {
     themeChangeProvider.darkTheme =
-        await themeChangeProvider.darkThemePreference.getTheme();
+        await themeChangeProvider.darkThemePreference.getBool(Preferences.THEME_STATUS);
   }
 
   bool isPlaying = audioManagerInstance.isPlaying;
