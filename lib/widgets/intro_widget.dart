@@ -28,7 +28,6 @@ class IntroWidget extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.only(top: 25),
-      decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

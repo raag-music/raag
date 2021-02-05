@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:raag/model/strings.dart';
-import 'package:raag/view/splash_screen.dart';
 import 'package:raag/provider/theme.dart';
 import 'package:raag/widgets/intro_widget.dart';
 
@@ -15,13 +15,30 @@ class _OnBoardingState extends State<OnBoarding> {
   int currentPageValue = 0;
   int previousPageValue = 0;
   PageController controller;
-  double _moveBar = 0;
-  int page = 0;
+  int _page = 0;
 
   @override
   void initState() {
     super.initState();
     controller = PageController(initialPage: currentPageValue);
+  }
+
+  Widget _indicator(bool isActive) {
+    return AnimatedOpacity(
+      opacity: (_page == 2) ? 0 : 1,
+      duration: Duration(milliseconds: 200),
+      curve: Curves.easeIn,
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 150),
+        margin: EdgeInsets.symmetric(horizontal: 8.0),
+        height: 8.0,
+        width: isActive ? 24.0 : 16.0,
+        decoration: BoxDecoration(
+          color: isActive ? Colors.white : Color(0xFF7B51D3),
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+        ),
+      ),
+    );
   }
 
   @override
@@ -53,33 +70,26 @@ class _OnBoardingState extends State<OnBoarding> {
           type: 'Download',
           startGradientColor: hex('FF725E'),
           endGradientColor: hex('FF1A00'),
-          subText: 'YouTube to your device'),
+          subText: 'YouTube to your device. No strings'),
     ];
 
-    Widget movingBar() {
-      return GestureDetector(
-        onTap: () async {
-          if(page<2)
-            controller.animateToPage(page+1, duration: Duration(milliseconds: 400), curve: Curves.ease);
-          else
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => HomeScaffold()));
-        },
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 8),
-          height: screenHeight * 0.1,
-          width: screenWidth * 0.1,
-            child: Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: Colors.white,
-            ),
-        ),
-      );
+    List<Widget> _buildPageIndicator() {
+      List<Widget> list = [];
+      for (int i = 0; i < onBoardingWidgets.length; i++) {
+        list.add(i == _page ? _indicator(true) : _indicator(false));
+      }
+      return list;
     }
+
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(
         child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.centerRight,
+                  end: Alignment.centerLeft,
+                  stops: [0.1, 0.9],
+                  colors: [Colors.black54, Colors.black26])),
           child: Stack(
             alignment: AlignmentDirectional.bottomCenter,
             children: <Widget>[
@@ -88,61 +98,72 @@ class _OnBoardingState extends State<OnBoarding> {
                 itemCount: onBoardingWidgets.length,
                 onPageChanged: (int page) {
                   setState(() {
-                    this.page = page;
+                    this._page = page;
                   });
-                  getChangedPageAndMoveBar(page);
                 },
                 controller: controller,
                 itemBuilder: (context, index) {
                   return onBoardingWidgets[index];
                 },
               ),
-              Stack(
-                alignment: AlignmentDirectional.topStart,
+              Align(
+                alignment: Alignment.topRight,
+                child: AnimatedOpacity(
+                  opacity: (_page == 2) ? 0 : 1,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeIn,
+                  child: TextButton(
+                      onPressed: () {
+                        _page = 2;
+                        controller.animateToPage(_page,
+                            duration: Duration(milliseconds: 400),
+                            curve: Curves.ease);
+                      },
+                      child: Text(
+                        'Skip',
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .headline3,
+                      )),
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  AnimatedContainer(
-                      duration: Duration(milliseconds: 100),
-                      curve: Curves.fastOutSlowIn,
-                      margin: EdgeInsets.only(
-                          bottom: 35,
-                          left: screenWidth * _moveBar
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: _buildPageIndicator(),
+                  ),
+                  SizedBox(height: screenHeight * 0.03,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AnimatedOpacity(
+                        opacity: (_page == 2) ? 1 : 0,
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.fastOutSlowIn,
+                        child: TextButton(
+                          onPressed: () async {
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeScaffold()));
+                          },
+                          child: Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
-                      child: movingBar()),
+                    ],
+                  ),
+                  SizedBox(height: screenHeight * 0.05,)
                 ],
               ),
-              Visibility(
-                visible: currentPageValue == onBoardingWidgets.length - 1
-                    ? true
-                    : false,
-                child: FloatingActionButton(
-                  onPressed: () {},
-                  shape: BeveledRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(26))),
-                  child: Icon(Icons.arrow_forward),
-                ),
-              )
             ],
           ),
         ),
       ),
     );
-  }
-
-  void getChangedPageAndMoveBar(int page) {
-    print('page is $page');
-
-    if (previousPageValue == 0) {
-      previousPageValue = page;
-      _moveBar = _moveBar + 0.14;
-    } else {
-      if (previousPageValue < page) {
-        previousPageValue = page;
-        _moveBar = _moveBar + 0.14;
-      } else {
-        previousPageValue = page;
-        _moveBar = _moveBar - 0.14;
-      }
-    }
-    setState(() {});
   }
 }
