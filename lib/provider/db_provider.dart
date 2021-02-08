@@ -20,7 +20,7 @@ class DBProvider {
 
   initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "TestDB.db");
+    String path = join(documentsDirectory.path, "raagDB.db");
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
       await db.execute("CREATE TABLE Song ("
@@ -69,6 +69,11 @@ class DBProvider {
     return res.isNotEmpty ? Song.fromMap(res.first) : null;
   }
 
+  Future<int> getCount() async{
+    final db = await database;
+    return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM Song'));
+  }
+
   Future<List<Song>> getAllSongs() async {
     final db = await database;
     var res = await db.query("Song");
@@ -84,6 +89,6 @@ class DBProvider {
 
   deleteAll() async {
     final db = await database;
-    db.rawDelete("Delete * from Song");
+    db.rawQuery("Delete from Song");
   }
 }

@@ -43,11 +43,10 @@ class _SplashScreenState extends State<SplashScreen> {
   goToHome() => Navigator.pushReplacement(
       context, MaterialPageRoute(builder: (context) => HomeScaffold()));
 
-  populateSongsIntoDB() async {
+  static populateSongsIntoDB() async {
     if (await _preferencesProvider.getBool(Preferences.DB_POPULATED) != true) {
       {
         await DBProvider.db.deleteAll();
-        print('inside filler');
         List<SongInfo> songs = await FlutterAudioQuery().getSongs();
         for (var it = 0; it < songs.length; it++) {
           DBProvider.db.insertSong(new Song(

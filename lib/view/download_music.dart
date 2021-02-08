@@ -7,8 +7,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/model/connectivity.dart';
 import 'package:raag/model/strings.dart';
-import 'package:raag/provider/dark_theme_provider.dart';
 import 'package:raag/provider/audio_helper.dart';
+import 'package:raag/provider/settings_provider.dart';
 import 'package:raag/provider/theme.dart';
 import 'package:raag/provider/youtube_icon.dart';
 import 'package:raag/view/youtube_search.dart';
@@ -135,7 +135,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<DarkThemeProvider>(context);
+    final themeProvider = Provider.of<SettingsProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
