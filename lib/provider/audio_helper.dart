@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/animation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:raag/model/music_model.dart';
 
 AnimationController playFABController;
 double slider = 0.0;
@@ -32,16 +30,16 @@ String formatDuration(Duration d) {
   return format;
 }
 
-Widget getAlbumArt(Song song) {
-  if (song.albumArtwork == null)
+Widget getAlbumArt(String albumArtWork, double width, BuildContext context) {
+  if (albumArtWork == null)
     return Container(
-        width: 60, height: 60, child: Icon(Icons.music_note_sharp));
+        color: Theme.of(context).dividerColor,
+        width: width * 0.15,
+        height: width * 0.15,
+        child: Icon(Icons.music_note_sharp, color: Theme.of(context).accentColor,));
   else
-    return CircleAvatar(
-      backgroundImage: FileImage(File(song.albumArtwork)),
-      radius: 50,
-      minRadius: 30,
-      maxRadius: 70,
+    return Image(
+      image: FileImage(File(albumArtWork)),
     );
 }
 

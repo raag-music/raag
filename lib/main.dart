@@ -1,18 +1,22 @@
 import 'package:audio_manager/audio_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/model/SharedPreferences.dart';
+import 'package:raag/provider/settings_provider.dart';
 import 'package:raag/view/splash_screen.dart';
 
 import 'model/strings.dart';
 import 'provider/audio_helper.dart';
-import 'provider/dark_theme_provider.dart';
 import 'provider/theme.dart';
 
 var audioManagerInstance = AudioManager.instance;
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
+      .then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -21,7 +25,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  DarkThemeProvider themeChangeProvider = new DarkThemeProvider();
+  SettingsProvider themeChangeProvider = new SettingsProvider();
 
   @override
   void initState() {
@@ -31,8 +35,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   void getCurrentAppTheme() async {
-    themeChangeProvider.darkTheme =
-        await themeChangeProvider.darkThemePreference.getBool(Preferences.THEME_STATUS);
+    themeChangeProvider.darkTheme = await themeChangeProvider
+        .darkThemePreference
+        .getBool(Preferences.THEME_STATUS);
   }
 
   bool isPlaying = audioManagerInstance.isPlaying;
@@ -73,7 +78,7 @@ class _MyAppState extends State<MyApp> {
       create: (_) {
         return themeChangeProvider;
       },
-      child: Consumer<DarkThemeProvider>(
+      child: Consumer<SettingsProvider>(
         builder: (BuildContext context, value, Widget child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:raag/main.dart';
 import 'package:raag/model/music_model.dart';
@@ -32,6 +31,8 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Stack(
       children: [
         ListView.builder(
@@ -63,7 +64,8 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                               color: Theme.of(context).accentColor,
                             ),
                             onPressed: () {
-                              Fluttertoast.showToast(msg:'Feature yet to be released');
+                              Fluttertoast.showToast(
+                                  msg: 'Feature yet to be released');
                               showMenu(
                                   context: context,
                                   position: RelativeRect.fromLTRB(100, 100, 0,
@@ -85,11 +87,12 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                       ),
                       title: InkWell(
                         onTap: () {
+                          if(audioManagerInstance.isPlaying) audioManagerInstance.toPause();
                           audioManagerInstance
                               .start("file://${song.filePath}", song.title,
-                              desc: song.displayName,
-                              auto: true,
-                              cover: song.albumArtwork)
+                                  desc: song.displayName,
+                                  auto: true,
+                                  cover: song.albumArtwork)
                               .then((err) {
                             print(err);
                           });
@@ -97,22 +100,22 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                         },
                         child: Row(
                           children: <Widget>[
-                            getAlbumArt(song),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(40),
+                              child: getAlbumArt(song.albumArtwork, screenWidth, context),
+                            ),
+                            SizedBox(width: screenWidth * 0.03,),
                             Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.6,
+                              width: MediaQuery.of(context).size.width * 0.6,
                               child: Column(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Text(song.title,
                                       overflow: TextOverflow.ellipsis,
-                                      style: Theme
-                                          .of(context)
+                                      style: Theme.of(context)
                                           .textTheme
                                           .headline3),
                                   Text(song.artist,

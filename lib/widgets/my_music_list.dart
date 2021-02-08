@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:raag/model/music_model.dart';
 import 'package:raag/provider/db_provider.dart';
@@ -15,7 +14,7 @@ class MyMusicList extends StatelessWidget {
         future: DBProvider.db.getAllSongs(),
         builder: (context, snapshot) {
           List<Song> songInfo = snapshot.data;
-          if (snapshot.hasData) {
+          if (songInfo.isNotEmpty) {
             return SongWidget(songList: songInfo);
           }
           return LoadingIndicator();

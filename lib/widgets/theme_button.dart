@@ -1,7 +1,8 @@
 import 'package:animated_icon_button/animated_icon_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
-import 'package:raag/provider/dark_theme_provider.dart';
+import 'package:raag/provider/settings_provider.dart';
 
 class ThemeButton extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class ThemeButton extends StatefulWidget {
 class _ThemeButtonState extends State<ThemeButton>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
+
   @override
   void initState() {
     super.initState();
@@ -18,35 +20,66 @@ class _ThemeButtonState extends State<ThemeButton>
       duration: Duration(milliseconds: 400),
       vsync: this,
     );
-    controller.forward();
   }
 
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
-    final Color themeIconcolor = Theme.of(context).accentColor;
-    //Color(0xFF809DF5);
+    final provider = Provider.of<SettingsProvider>(context);
+    final screenWidth = MediaQuery.of(context).size.width;
+    Color iconColor = Theme.of(context).accentColor;
 
-    return AnimatedIconButton(
-      animationController: controller,
-      startIcon: Icon(
-        Icons.nights_stay,
-        color: themeIconcolor,
+    Widget nightIcon = Icon(
+      Icons.nightlight_round,
+      color: iconColor,
+    );
+    Widget dayIcon = Icon(
+      Icons.wb_sunny_outlined,
+      color: iconColor,
+    );
+
+    changeTheme(){
+      provider.changeTheme();
+      setState(() {
+        provider.darkTheme ? controller.forward() : controller.reverse();
+        iconColor = Theme.of(context).accentColor;
+      });
+    }
+
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height * 0.1,
+      child: Card(
+        elevation: 3,
+        child: InkWell(
+          splashColor: Colors.transparent,
+          onTap: () => changeTheme(),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                AnimatedIconButton(
+                  size: screenWidth * 0.08,
+                  animationController: controller,
+                  startIcon: (provider.darkTheme) ? dayIcon : nightIcon ,
+                  endIcon: (provider.darkTheme) ? nightIcon : dayIcon,
+                ),
+                SizedBox(
+                  width: screenWidth * 0.04,
+                ),
+                Text(
+                  'Dark Theme',
+                  style: Theme.of(context).textTheme.headline3,
+                ),
+                SizedBox(width: screenWidth * 0.3,),
+                Switch(
+                  value: !provider.darkTheme,
+                  onChanged: (bool value) => changeTheme(),
+                )
+              ],
+            ),
+          ),
+        ),
       ),
-      endIcon: Icon(
-        Icons.wb_sunny_outlined,
-        color: themeIconcolor,
-      ),
-      onPressed: () {
-        if (themeChange.darkTheme == true) {
-          themeChange.darkTheme = false;
-        } else {
-          themeChange.darkTheme = true;
-        }
-        setState(() {
-          themeChange.darkTheme ? controller.forward() : controller.reverse();
-        });
-      },
     );
   }
 }

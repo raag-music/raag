@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import 'package:raag/provider/dark_theme_provider.dart';
+import 'package:raag/provider/settings_provider.dart';
+import 'package:raag/view/settings.dart';
 import 'package:raag/widgets/my_music_list.dart';
 import 'package:raag/view/download_music.dart';
-import 'package:raag/widgets/theme_button.dart';
 
 class HomeScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<DarkThemeProvider>(context);
+    final themeProvider = Provider.of<SettingsProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -28,7 +28,17 @@ class HomeScaffold extends StatelessWidget {
                     builder: (context) => DownloadMusic(url: ''),
                   ))),
           actions: <Widget>[
-            ThemeButton(),
+            IconButton(
+                icon: Icon(
+                  Icons.settings,
+                  color: Theme.of(context).accentColor,
+                ),
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Settings(),
+                    ))
+            )
           ],
           title: Center(
               child: Padding(
