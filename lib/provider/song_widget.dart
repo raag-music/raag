@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:raag/main.dart';
 import 'package:raag/model/music_model.dart';
+import 'package:raag/provider/player_provider.dart';
 import 'package:raag/view/playback_controls.dart';
 
 import 'audio_helper.dart';

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:raag/provider/audio_helper.dart';
+import 'package:raag/provider/player_provider.dart';
 import 'package:raag/widgets/seekbar.dart';
-
-import '../main.dart';
 
 class PlayBackControls extends StatefulWidget {
   @override

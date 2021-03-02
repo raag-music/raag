@@ -4,7 +4,6 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 
 AnimationController playFABController;
-double slider = 0.0;
 
 String parseToMinutesSeconds(int ms) {
   String data;

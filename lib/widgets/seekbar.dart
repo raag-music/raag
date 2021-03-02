@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:raag/provider/audio_helper.dart';
-
-import '../main.dart';
+import 'package:raag/provider/player_provider.dart';
 
 class SeekBar extends StatefulWidget {
   @override
