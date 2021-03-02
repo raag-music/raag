@@ -1,0 +1,6 @@
+Features
+* Download audio from YouTube with the highest possible bitrate
+* Play on-device music files
+* Dark and light themes
+* In-app YouTube browser to search and download your favorite music quickly
+
