@@ -3,6 +3,7 @@ var myMusic = 'My Music';
 var notConnected = 'Not Connected';
 var checkConn = 'Please check your connection';
 var fetchingStream = 'Fetching Stream';
+var fileSize = 'File Size';
 var downloading = 'Downloading';
 var downloadComplete = 'Download Complete!';
 var resolvingURL = 'Resolving URL';
