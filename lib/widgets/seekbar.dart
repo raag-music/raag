@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/provider/player_provider.dart';
 
@@ -10,10 +11,11 @@ class SeekBar extends StatefulWidget {
 class _SeekBarState extends State<SeekBar> {
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<PlayerProvider>(context);
     return Row(
       children: <Widget>[
         Text(
-          formatDuration(audioManagerInstance.position),
+          formatDuration(provider.audioManagerInstance.position),
           style: Theme.of(context).textTheme.subtitle2,
         ),
         Expanded(
@@ -35,28 +37,32 @@ class _SeekBarState extends State<SeekBar> {
                   inactiveTrackColor: Theme.of(context).dividerColor,
                 ),
                 child: Slider(
-                  value: slider ?? 0,
+                  value: provider.slider ?? 0,
                   onChanged: (value) {
                     setState(() {
-                      slider = value;
+                      provider.slider = value;
                     });
                   },
                   onChangeEnd: (value) {
-                    if (audioManagerInstance.duration != null) {
+                    if (provider.audioManagerInstance.duration != null) {
                       Duration msec = Duration(
                           milliseconds:
-                              (audioManagerInstance.duration.inMilliseconds *
-                                      value)
-                                  .round());
-                      audioManagerInstance.seekTo(msec);
+                          (provider.audioManagerInstance.duration
+                              .inMilliseconds *
+                              value)
+                              .round());
+                      provider.audioManagerInstance.seekTo(msec);
                     }
                   },
                 )),
           ),
         ),
         Text(
-          formatDuration(audioManagerInstance.duration),
-          style: Theme.of(context).textTheme.subtitle2,
+          formatDuration(provider.audioManagerInstance.duration),
+          style: Theme
+              .of(context)
+              .textTheme
+              .subtitle2,
         ),
       ],
     );

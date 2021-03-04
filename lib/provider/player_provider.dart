@@ -3,28 +3,19 @@ import 'package:flutter/material.dart';
 
 enum PlayerState { stopped, playing, paused }
 
-var audioManagerInstance = AudioManager.instance;
-
-bool isPlaying = audioManagerInstance.isPlaying;
-double slider = 0.0;
-
 class PlayerProvider extends ChangeNotifier {
   Duration duration;
   Duration position;
-
-  PlayerState playerState = PlayerState.stopped;
+  PlayerState playerState;
+  double slider = 0.0;
+  var audioManagerInstance = AudioManager.instance;
 
   get isPlaying => playerState == PlayerState.playing;
 
   get isPaused => playerState == PlayerState.paused;
 
-  get durationText =>
-      duration != null ? duration.toString().split('.').first : '';
-
-  get positionText =>
-      position != null ? position.toString().split('.').first : '';
-
   void setUpAudio() {
+    playerState = PlayerState.stopped;
     audioManagerInstance.onEvents((events, args) {
       switch (events) {
         case AudioManagerEvents.start:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/provider/player_provider.dart';
 import 'package:raag/widgets/seekbar.dart';
@@ -11,11 +12,19 @@ class PlayBackControls extends StatefulWidget {
 class _PlayBackControlsState extends State<PlayBackControls> {
   @override
   Widget build(BuildContext context) {
+    var glowShadow = BoxShadow(
+      color: Theme.of(context).accentColor.withOpacity(0.3),
+      spreadRadius: 3,
+      blurRadius: 9,
+      offset: Offset(0, 0), // changes position of shadow
+    );
+    final provider = Provider.of<PlayerProvider>(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Container(
           decoration: BoxDecoration(
+              boxShadow: [glowShadow],
               color: Theme.of(context).backgroundColor,
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(20),
@@ -57,7 +66,7 @@ class _PlayBackControlsState extends State<PlayBackControls> {
                             ),
                             elevation: 0,
                             onPressed: () {
-                              audioManagerInstance.previous();
+                              provider.audioManagerInstance.previous();
                             }),
                       ),
                     ),
@@ -85,10 +94,15 @@ class _PlayBackControlsState extends State<PlayBackControls> {
                             ),
                             elevation: 0,
                             onPressed: () {
-                              audioManagerInstance.isPlaying
-                                  ? playFABController.reverse()
-                                  : playFABController.forward();
-                              audioManagerInstance.playOrPause();
+                              if (provider.audioManagerInstance.isPlaying) {
+                                playFABController.reverse();
+                                provider.playerState = PlayerState.paused;
+                              }
+                              else {
+                                playFABController.forward();
+                                provider.playerState = PlayerState.playing;
+                              }
+                              provider.audioManagerInstance.playOrPause();
                             }),
                       ),
                     ),
@@ -115,7 +129,7 @@ class _PlayBackControlsState extends State<PlayBackControls> {
                             ),
                             elevation: 0,
                             onPressed: () {
-                              audioManagerInstance.next();
+                              provider.audioManagerInstance.next();
                             }),
                       ),
                     ),
@@ -134,17 +148,17 @@ class _PlayBackControlsState extends State<PlayBackControls> {
                       ),
                       child: new Center(
                           child: RawMaterialButton(
-                        shape: CircleBorder(),
-                        onPressed: () {
-                          audioManagerInstance.stop();
-                          playFABController.reverse();
-                        },
-                        child: Icon(
-                          Icons.stop,
-                          color: Theme.of(context).accentColor,
-                        ),
-                        elevation: 4,
-                      )),
+                            shape: CircleBorder(),
+                            onPressed: () {
+                              provider.audioManagerInstance.stop();
+                              playFABController.reverse();
+                            },
+                            child: Icon(
+                              Icons.stop,
+                              color: Theme.of(context).accentColor,
+                            ),
+                            elevation: 4,
+                          )),
                     ),
                   ],
                 ),

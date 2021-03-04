@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:raag/model/music_model.dart';
 import 'package:raag/provider/player_provider.dart';
 import 'package:raag/view/playback_controls.dart';
@@ -32,6 +32,7 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final provider = Provider.of<PlayerProvider>(context);
 
     return Stack(
       children: [
@@ -54,41 +55,12 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                     color: Colors.transparent,
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          IconButton(
-                            icon: Icon(
-                              Icons.more_vert,
-                              size: 20.0,
-                              color: Theme.of(context).accentColor,
-                            ),
-                            onPressed: () {
-                              Fluttertoast.showToast(
-                                  msg: 'Feature yet to be released');
-                              showMenu(
-                                  context: context,
-                                  position: RelativeRect.fromLTRB(100, 100, 0,
-                                      100), //TODO Should not be constant
-                                  items: [
-                                    PopupMenuItem<String>(
-                                        child: const Text('Like'),
-                                        value: 'Doge'),
-                                    PopupMenuItem<String>(
-                                        child: const Text('Add to Playlist'),
-                                        value: 'Lion'),
-                                    PopupMenuItem<String>(
-                                        child: const Text('Song info'),
-                                        value: 'Lion'),
-                                  ]);
-                            },
-                          )
-                        ],
-                      ),
                       title: InkWell(
                         onTap: () {
-                          if(audioManagerInstance.isPlaying) audioManagerInstance.toPause();
-                          audioManagerInstance
+                          if (provider.audioManagerInstance.isPlaying)
+                            provider.audioManagerInstance.toPause();
+                          provider.playerState = PlayerState.playing;
+                          provider.audioManagerInstance
                               .start("file://${song.filePath}", song.title,
                                   desc: song.displayName,
                                   auto: true,
@@ -106,16 +78,20 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                             ),
                             SizedBox(width: screenWidth * 0.03,),
                             Container(
-                              width: MediaQuery.of(context).size.width * 0.6,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width * 0.7,
                               child: Column(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Text(song.title,
                                       overflow: TextOverflow.ellipsis,
-                                      style: Theme.of(context)
+                                      style: Theme
+                                          .of(context)
                                           .textTheme
                                           .headline3),
                                   Text(song.artist,
@@ -143,7 +119,11 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                 height: 0,
               );
             }),
-        PlayBackControls()
+        PlayBackControls(),
+        SizedBox(height: MediaQuery
+            .of(context)
+            .size
+            .height * 0.2,)
       ],
     );
   }
