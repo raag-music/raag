@@ -32,10 +32,10 @@ String formatDuration(Duration d) {
 Widget getAlbumArt(String albumArtWork, double width, BuildContext context) {
   if (albumArtWork == null)
     return Container(
-        color: Theme.of(context).dividerColor,
-        width: width * 0.15,
-        height: width * 0.15,
-        child: Icon(Icons.music_note_sharp, color: Theme.of(context).accentColor,));
+        color: Theme.of(context).accentColor,
+        width: 40,
+        height: 40,
+        child: Icon(Icons.music_note_sharp, size: 24, color: Theme.of(context).dividerColor,));
   else
     return Image(
       image: FileImage(File(albumArtWork)),

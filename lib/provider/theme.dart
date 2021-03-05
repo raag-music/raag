@@ -11,6 +11,9 @@ Color hex(String hexColor) {
   }
 }
 
+TextStyle durationTheme =
+    TextStyle(fontSize: 11, color: Colors.grey, fontWeight: FontWeight.w500);
+
 class Styles {
   static ThemeData themeData(bool isDarkTheme, BuildContext context) {
     return isDarkTheme ? AppTheme.lightTheme : AppTheme.darkTheme;
@@ -34,7 +37,7 @@ class AppTheme {
     accentColor: hex('#415EB4'),
     backgroundColor: hex('#D4D4D4'),
     scaffoldBackgroundColor: hex('#D4D4D4'),
-    dividerColor: hex('999999'),
+    dividerColor: hex('ededed'),
     appBarTheme: AppBarTheme(
       color: hex('#D4D4D4'),
       iconTheme: IconThemeData(
@@ -60,24 +63,24 @@ class AppTheme {
           fontWeight: FontWeight.bold,
           fontFamily: 'Alata'),
       headline3:
-          TextStyle(color: hex('#415EB4'), fontSize: 20.0, fontFamily: 'Alata'),
+          TextStyle(color: hex('#415EB4'), fontSize: 18, fontFamily: 'Alata'),
       subtitle1:
-          TextStyle(color: hex('5a6a99'), fontSize: 16, fontFamily: 'Alata'),
+          TextStyle(color: hex('5a6a99'), fontSize: 14, fontFamily: 'Alata'),
       subtitle2: TextStyle(
         color: Colors.black38,
-        fontSize: 14.0,
+        fontSize: 12.0,
       ),
     ),
   );
 
   //Dark theme data
   static final ThemeData darkTheme = ThemeData(
-    backgroundColor: hex('262626'),
+    backgroundColor: hex('000000'),
     accentColor: hex('809DF5'),
     dividerColor: hex('404040'),
-    scaffoldBackgroundColor: hex('262626'),
+    scaffoldBackgroundColor: hex('000000'),
     appBarTheme: AppBarTheme(
-      color: hex('262626'),
+      color: hex('000000'),
       iconTheme: IconThemeData(
         color: hex('809DF5'),
       ),
@@ -89,7 +92,7 @@ class AppTheme {
       secondary: Colors.red,
     ),
     cardTheme: CardTheme(
-      color: hex('262626'),
+      color: hex('000000'),
     ),
     iconTheme: IconThemeData(
       color: hex('#888888'),
@@ -101,12 +104,12 @@ class AppTheme {
           fontWeight: FontWeight.bold,
           fontFamily: 'Alata'),
       headline3:
-          TextStyle(color: hex('809DF5'), fontSize: 20.0, fontFamily: 'Alata'),
+          TextStyle(color: hex('809DF5'), fontSize: 18, fontFamily: 'Alata'),
       subtitle1:
-          TextStyle(color: hex('5a6a99'), fontSize: 16, fontFamily: 'Alata'),
+          TextStyle(color: hex('5a6a99'), fontSize: 14, fontFamily: 'Alata'),
       subtitle2: TextStyle(
         color: hex('D4D4D4'),
-        fontSize: 16.0,
+        fontSize: 12,
       ),
     ),
   );

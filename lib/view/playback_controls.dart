@@ -14,7 +14,7 @@ class _PlayBackControlsState extends State<PlayBackControls> {
   Widget build(BuildContext context) {
     var glowShadow = BoxShadow(
       color: Theme.of(context).accentColor.withOpacity(0.3),
-      spreadRadius: 3,
+      spreadRadius: 5,
       blurRadius: 9,
       offset: Offset(0, 0), // changes position of shadow
     );
@@ -83,28 +83,28 @@ class _PlayBackControlsState extends State<PlayBackControls> {
                           width: 2.5,
                         ),
                       ),
-                      child: new Center(
-                        child: RawMaterialButton(
-                            shape: CircleBorder(),
+                      child: RawMaterialButton(
+                          shape: CircleBorder(),
+                          child: Center(
                             child: AnimatedIcon(
                               color: Theme.of(context).accentColor,
                               icon: AnimatedIcons.play_pause,
                               size: 50,
                               progress: playFABController,
                             ),
-                            elevation: 0,
-                            onPressed: () {
-                              if (provider.audioManagerInstance.isPlaying) {
-                                playFABController.reverse();
-                                provider.playerState = PlayerState.paused;
-                              }
-                              else {
-                                playFABController.forward();
-                                provider.playerState = PlayerState.playing;
-                              }
-                              provider.audioManagerInstance.playOrPause();
-                            }),
-                      ),
+                          ),
+                          elevation: 0,
+                          onPressed: () {
+                            if (provider.audioManagerInstance.isPlaying) {
+                              playFABController.reverse();
+                              provider.playerState = PlayerState.paused;
+                            }
+                            else {
+                              playFABController.forward();
+                              provider.playerState = PlayerState.playing;
+                            }
+                            provider.audioManagerInstance.playOrPause();
+                          }),
                     ),
                     SizedBox(
                       width: 10,
@@ -151,6 +151,7 @@ class _PlayBackControlsState extends State<PlayBackControls> {
                             shape: CircleBorder(),
                             onPressed: () {
                               provider.audioManagerInstance.stop();
+                              provider.slider = 0;
                               playFABController.reverse();
                             },
                             child: Icon(

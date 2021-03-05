@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/provider/player_provider.dart';
+import 'package:raag/provider/theme.dart';
 
 class SeekBar extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _SeekBarState extends State<SeekBar> {
       children: <Widget>[
         Text(
           formatDuration(provider.audioManagerInstance.position),
-          style: Theme.of(context).textTheme.subtitle2,
+          style: durationTheme,
         ),
         Expanded(
           child: Padding(
@@ -59,10 +60,7 @@ class _SeekBarState extends State<SeekBar> {
         ),
         Text(
           formatDuration(provider.audioManagerInstance.duration),
-          style: Theme
-              .of(context)
-              .textTheme
-              .subtitle2,
+          style: durationTheme,
         ),
       ],
     );
