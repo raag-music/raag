@@ -190,26 +190,33 @@ class _DownloadMusicState extends State<DownloadMusic> {
                   decoration: InputDecoration(
                     focusedBorder: UnderlineInputBorder(
                         borderSide:
-                        BorderSide(color: Theme
-                            .of(context)
-                            .accentColor)),
+                            BorderSide(color: Theme.of(context).accentColor)),
                     border: UnderlineInputBorder(
                         borderSide:
-                        BorderSide(color: Theme
-                            .of(context)
-                            .accentColor)),
+                            BorderSide(color: Theme.of(context).accentColor)),
                     hintText: pasteYoutube,
-                    hintStyle: Theme
-                        .of(context)
-                        .textTheme
-                        .subtitle1,
-                    fillColor: Theme
-                        .of(context)
-                        .accentColor,
+                    hintStyle: Theme.of(context).textTheme.subtitle1,
+                    fillColor: Theme.of(context).accentColor,
+                  ),
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Theme.of(context).accentColor,
+                ),
+                child: IconButton(
+                  iconSize: 24,
+                  onPressed: () =>
+                      downloadMusic(urlFieldController.text, context),
+                  icon: Icon(
+                    Icons.download_rounded,
+                    color: Theme.of(context).backgroundColor,
                   ),
                 ),
               ),
               IconButton(
+                iconSize: 18,
                 onPressed: () {
                   urlFieldController.clear();
                   FlutterClipboard.paste().then((url) {
@@ -227,14 +234,6 @@ class _DownloadMusicState extends State<DownloadMusic> {
                   color: Theme.of(context).accentColor,
                 ),
               ),
-              IconButton(
-                onPressed: () =>
-                    downloadMusic(urlFieldController.text, context),
-                icon: Icon(
-                  Icons.download_rounded,
-                  color: Theme.of(context).accentColor,
-                ),
-              )
             ],
           ),
           Padding(
