@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/provider/settings_provider.dart';
+import 'package:raag/view/download_music.dart';
+import 'package:raag/view/playback_controls.dart';
 import 'package:raag/view/settings.dart';
 import 'package:raag/widgets/my_music_list.dart';
-import 'package:raag/view/download_music.dart';
 
 class HomeScaffold extends StatelessWidget {
   @override
@@ -57,6 +59,7 @@ class HomeScaffold extends StatelessWidget {
               children: [MyMusicList()],
             ),
           ),
+          PlayBackControls()
         ],
       ),
     );

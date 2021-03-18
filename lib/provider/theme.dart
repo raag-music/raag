@@ -77,7 +77,7 @@ class AppTheme {
   static final ThemeData darkTheme = ThemeData(
     backgroundColor: hex('000000'),
     accentColor: hex('809DF5'),
-    dividerColor: hex('404040'),
+    dividerColor: hex('1a1a1a'),
     scaffoldBackgroundColor: hex('000000'),
     appBarTheme: AppBarTheme(
       color: hex('000000'),

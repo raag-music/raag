@@ -14,7 +14,7 @@ class MyMusicList extends StatelessWidget {
         future: DBProvider.db.getAllSongs(),
         builder: (context, snapshot) {
           List<Song> songInfo = snapshot.data;
-          if (songInfo.isNotEmpty) {
+          if (songInfo?.isNotEmpty ?? true) {
             return SongWidget(songList: songInfo);
           }
           return LoadingIndicator();

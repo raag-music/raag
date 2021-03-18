@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:raag/model/music_model.dart';
 import 'package:raag/provider/player_provider.dart';
 import 'package:raag/provider/theme.dart';
-import 'package:raag/view/playback_controls.dart';
 
 import 'audio_helper.dart';
 
@@ -16,23 +15,9 @@ class SongWidget extends StatefulWidget {
   _SongWidgetState createState() => _SongWidgetState();
 }
 
-class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
-  @override
-  void initState() {
-    super.initState();
-    playFABController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    playFABController.dispose();
-  }
-
+class _SongWidgetState extends State<SongWidget> {
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final provider = Provider.of<PlayerProvider>(context);
 
@@ -40,9 +25,9 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
       children: [
         Flexible(
           child: ListView.builder(
-              itemCount: widget.songList.length,
+              itemCount: widget?.songList?.length,
               itemBuilder: (context, songIndex) {
-                Song song = widget.songList[songIndex];
+                Song song = widget?.songList[songIndex];
                 if (song.displayName.contains(".mp3"))
                   return Column(
                     children: [
@@ -50,9 +35,9 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 8),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).dividerColor.withOpacity(0.4),
-                          borderRadius: BorderRadius.all(Radius.circular(24))
-                        ),
+                            color: Theme.of(context).dividerColor,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(24))),
                         child: InkWell(
                           onTap: () {
                             if (provider.audioManagerInstance.isPlaying)
@@ -121,7 +106,6 @@ class _SongWidgetState extends State<SongWidget> with TickerProviderStateMixin {
                 );
               }),
         ),
-        PlayBackControls(),
       ],
     );
   }
