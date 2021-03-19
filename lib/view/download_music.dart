@@ -32,6 +32,16 @@ class _DownloadMusicState extends State<DownloadMusic> {
   var thumbnailURL =
       "https://user-images.githubusercontent.com/20596763/104451609-cceeff80-55c7-11eb-92f9-828dc8940daf.png";
   final urlFieldController = TextEditingController();
+  YoutubeExplode yt;
+  IOSink fileSink;
+
+  void _flushDownloader() {
+    fileSink.flush();
+    fileSink.close();
+    yt.close();
+    setProgress(0);
+    print('Downloader flushed');
+  }
 
   @override
   void initState() {
@@ -82,59 +92,111 @@ class _DownloadMusicState extends State<DownloadMusic> {
           .show();
       return 0;
     }
+    try {
+      yt = YoutubeExplode();
 
-    var yt = YoutubeExplode();
+      setBody(downloading);
+      setTitle(resolvingURL);
 
-    setBody(downloading);
-    setTitle(resolvingURL);
+      var video = await yt.videos.get(url);
+      var title = video.title;
+      setBody("$downloading $title");
+      setTitle(fetchingStream);
 
-    var video = await yt.videos.get(url);
-    var title = video.title;
-    setBody("$downloading $title");
-    setTitle(fetchingStream);
+      setThumbnail(video.thumbnails.mediumResUrl);
+      StreamManifest streamManifest =
+          await yt.videos.streamsClient.getManifest(video.id);
+      StreamInfo streamInfo = streamManifest.audioOnly.withHighestBitrate();
 
-    setThumbnail(video.thumbnails.mediumResUrl);
-    var streamManifest = await yt.videos.streamsClient.getManifest(video.id);
-    var streamInfo = streamManifest.audioOnly.withHighestBitrate();
+      setTitle(downloadDir);
+      Directory _downloadsPath = await DownloadsPathProvider.downloadsDirectory;
+      Directory _raagDownloadsDirectory =
+          Directory('${_downloadsPath.path}/$appName');
+      if (!await _raagDownloadsDirectory.exists())
+        _raagDownloadsDirectory.create(recursive: true);
 
-    setTitle(downloadDir);
-    Directory downloadsDirectory =
-        await DownloadsPathProvider.downloadsDirectory;
+      var tempTitle = title
+          .replaceAll('|', '-')
+          .replaceAll('\'', '')
+          .replaceAll('\"', '')
+          .replaceAll('.', ' ')
+          .replaceAll('/', ' ')
+          .replaceAll(':', ' ');
+      //TODO Do something efficient to choose only alpha-numeric characters from $title
+      var filePath = _raagDownloadsDirectory.path + '/' + tempTitle + '.mp3';
 
-    var tempTitle = title.replaceAll('|', '-').replaceAll('\'',
-        ''); //TODO Do something efficient to choose only alpha-numeric characters from $title
-    var filePath = downloadsDirectory.path + '/' + tempTitle + '.mp3';
+      print('Created directory: ${_raagDownloadsDirectory.path}');
+      if (streamInfo != null) {
+        var stream = yt.videos.streamsClient.get(streamInfo);
+        var file = new File(filePath);
+        if (!await file.exists()) file.create(recursive: true);
+        fileSink = file.openWrite();
+        var fileSizeInBytes = streamInfo.size.totalKiloBytes * 1024;
+        var received = 0;
+        setTitle('$downloading');
 
-    print('FilePath: ' + filePath);
+        await stream.map((s) {
+          received += s.length;
+          setProgress((received / fileSizeInBytes));
+          setTitle(
+              '$downloading ${(downloadProgress * 100).toStringAsFixed(2)} %');
+          return s;
+        }).pipe(fileSink);
 
-    if (streamInfo != null) {
-      var stream = yt.videos.streamsClient.get(streamInfo);
-      var file = new File(filePath);
-      var fileSink = file.openWrite();
-      var fileSizeInBytes = streamInfo.size.totalKiloBytes * 1024;
-      var received = 0;
-      setTitle('$downloading');
+        setTitle(downloadComplete);
+        setBody(
+            '$fileLocation: $filePath\n$fileSize: ${(streamInfo.size.totalMegaBytes.toString().substring(0, 4))} MB');
 
-      await stream.map((s) {
-        received += s.length;
-        setProgress((received / fileSizeInBytes));
-        setTitle(
-            '$downloading ${(downloadProgress * 100).toStringAsFixed(2)} %');
-        return s;
-      }).pipe(fileSink);
-
-      setTitle(downloadComplete);
-      setBody(
-          '$fileLocation: $filePath\n$fileSize: ${(streamInfo.size.totalMegaBytes.toString().substring(0, 4))} MB');
-
-      downloadedFilePath = 'file://$filePath';
-      downloadedFileTitle = tempTitle;
-
-      fileSink.flush();
-      fileSink.close();
+        downloadedFilePath = 'file://$filePath';
+        downloadedFileTitle = tempTitle;
+      }
+      yt.close();
+      setProgress(0);
+    } on FileSystemException {
+      Alert(
+          context: context,
+          title: 'File error',
+          desc: 'Raag was unable to create a file. Please retry',
+          type: AlertType.error,
+          style: Styles.alertStyle(context),
+          buttons: [
+            DialogButton(
+              child: Text(
+                "Retry",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () {
+                _flushDownloader();
+                downloadMusic(url, context);
+                Navigator.pop(context);
+              },
+            ),
+            DialogButton(
+                child: Text(
+                  "Cancel",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onPressed: () => Navigator.pop(context))
+          ]).show();
+      setTitle('');
+      setBody('');
+      setThumbnail(thumbnailURL);
+      return 0;
+    } catch (e, s) {
+      print("Exception: $e\nStack Trace: $s");
+      Alert(
+              context: context,
+              title: 'Unknown error',
+              desc: '$e',
+              type: AlertType.error,
+              style: Styles.alertStyle(context))
+          .show();
+      setTitle('');
+      setBody('');
+      setThumbnail(thumbnailURL);
+    } finally {
+      _flushDownloader();
     }
-    yt.close();
-    setProgress(0);
     return 1;
   }
 
@@ -242,10 +304,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
               children: [
                 Text(
                   alertTitle,
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .headline3,
+                  style: Theme.of(context).textTheme.headline3,
                 ),
                 SizedBox(height: 32),
                 Stack(children: [
@@ -256,10 +315,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
                 SizedBox(height: 32),
                 Text(
                   alertBody,
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .subtitle1,
+                  style: Theme.of(context).textTheme.subtitle1,
                 ),
                 SizedBox(height: 32),
                 Image.network(thumbnailURL)

@@ -147,7 +147,7 @@ packages:
       name: equatable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.5"
+    version: "1.2.6"
   fading_edge_scrollview:
     dependency: transitive
     description:
@@ -323,7 +323,7 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.2"
+    version: "1.11.0"
   petitparser:
     dependency: transitive
     description:
@@ -426,7 +426,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.1"
+    version: "1.8.0"
   sqflite:
     dependency: "direct main"
     description:
@@ -531,14 +531,14 @@ packages:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.7.0"
+    version: "4.5.1"
   youtube_explode_dart:
     dependency: "direct main"
     description:
       name: youtube_explode_dart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.7.5"
+    version: "1.8.0"
 sdks:
   dart: ">=2.12.0-259.9.beta <3.0.0"
   flutter: ">=1.22.2"
