@@ -50,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
         List<SongInfo> songs = await FlutterAudioQuery().getSongs();
         for (var it = 0; it < songs.length; it++) {
           DBProvider.db.insertSong(new Song(
-              id: int.parse(songs[it].id),
+              id: songs[it].id,
               title: songs[it].title,
               displayName: songs[it].displayName,
               filePath: songs[it].filePath,

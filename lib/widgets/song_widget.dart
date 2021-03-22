@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/model/music_model.dart';
+import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/provider/player_provider.dart';
 import 'package:raag/provider/theme.dart';
-
-import 'audio_helper.dart';
 
 class SongWidget extends StatefulWidget {
   final List<Song> songList;
@@ -45,9 +44,9 @@ class _SongWidgetState extends State<SongWidget> {
                             provider.playerState = PlayerState.playing;
                             provider.audioManagerInstance
                                 .start("file://${song.filePath}", song.title,
-                                desc: song.displayName,
-                                auto: true,
-                                cover: song.albumArtwork)
+                                    desc: song.displayName,
+                                    auto: true,
+                                    cover: song.albumArtwork)
                                 .then((err) {
                               print(err);
                             });
@@ -61,17 +60,26 @@ class _SongWidgetState extends State<SongWidget> {
                               title: Row(
                                 children: <Widget>[
                                   ClipRRect(
-                                    borderRadius: BorderRadius.circular(40),
-                                    child: getAlbumArt(song.albumArtwork, screenWidth, context),
+                                      borderRadius: BorderRadius.circular(40),
+                                      child: Container(
+                                          color: Theme
+                                              .of(context)
+                                              .accentColor,
+                                          width: 50,
+                                          height: 50,
+                                          child: getAlbumArt(song, context))),
+                                  SizedBox(
+                                    width: screenWidth * 0.03,
                                   ),
-                                  SizedBox(width: screenWidth * 0.03,),
                                   Container(
-                                    width: MediaQuery
+                                    width:
+                                    MediaQuery
                                         .of(context)
                                         .size
                                         .width * 0.7,
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         Text(song.title,
@@ -82,7 +90,8 @@ class _SongWidgetState extends State<SongWidget> {
                                                 .headline3),
                                         Text(song.artist,
                                             overflow: TextOverflow.ellipsis,
-                                            style: Theme.of(context)
+                                            style: Theme
+                                                .of(context)
                                                 .textTheme
                                                 .subtitle2),
                                       ],

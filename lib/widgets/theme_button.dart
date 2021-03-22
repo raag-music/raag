@@ -37,12 +37,10 @@ class _ThemeButtonState extends State<ThemeButton>
       color: iconColor,
     );
 
-    changeTheme(){
+    changeTheme() {
       provider.changeTheme();
-      setState(() {
-        provider.darkTheme ? controller.forward() : controller.reverse();
-        iconColor = Theme.of(context).accentColor;
-      });
+      provider.darkTheme ? controller.forward() : controller.reverse();
+      iconColor = Theme.of(context).accentColor;
     }
 
     return Container(
@@ -60,7 +58,7 @@ class _ThemeButtonState extends State<ThemeButton>
                 AnimatedIconButton(
                   size: screenWidth * 0.08,
                   animationController: controller,
-                  startIcon: (provider.darkTheme) ? dayIcon : nightIcon ,
+                  startIcon: (provider.darkTheme) ? dayIcon : nightIcon,
                   endIcon: (provider.darkTheme) ? nightIcon : dayIcon,
                 ),
                 SizedBox(
@@ -68,9 +66,14 @@ class _ThemeButtonState extends State<ThemeButton>
                 ),
                 Text(
                   'Dark Theme',
-                  style: Theme.of(context).textTheme.headline3,
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .headline3,
                 ),
-                SizedBox(width: screenWidth * 0.3,),
+                SizedBox(
+                  width: screenWidth * 0.3,
+                ),
                 Switch(
                   value: !provider.darkTheme,
                   onChanged: (bool value) => changeTheme(),

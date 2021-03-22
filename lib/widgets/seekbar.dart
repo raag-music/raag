@@ -39,17 +39,14 @@ class _SeekBarState extends State<SeekBar> {
                 child: Slider(
                   value: provider.slider ?? 0,
                   onChanged: (value) {
-                    setState(() {
-                      provider.slider = value;
-                    });
+                    provider.slider = value;
                   },
                   onChangeEnd: (value) {
                     if (provider.audioManagerInstance.duration != null) {
                       Duration msec = Duration(
-                          milliseconds:
-                          (provider.audioManagerInstance.duration
-                              .inMilliseconds *
-                              value)
+                          milliseconds: (provider.audioManagerInstance.duration
+                                      .inMilliseconds *
+                                  value)
                               .round());
                       provider.audioManagerInstance.seekTo(msec);
                     }

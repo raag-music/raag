@@ -11,7 +11,7 @@ String songToJson(Song data) {
 }
 
 class Song {
-  int id;
+  String id;
   String title;
   String displayName;
   String filePath;

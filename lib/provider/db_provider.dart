@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:raag/model/music_model.dart';
+
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:raag/model/music_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DBProvider {
@@ -24,7 +25,7 @@ class DBProvider {
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
       await db.execute("CREATE TABLE Song ("
-          "id INTEGER PRIMARY KEY,"
+          "id TEXT PRIMARY KEY,"
           "title TEXT,"
           "display_name TEXT,"
           "file_path TEXT,"

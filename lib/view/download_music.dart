@@ -238,7 +238,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
             children: [
               Container(
                 width: MediaQuery.of(context).size.width / 1.5,
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(8),
                 color: Theme.of(context).backgroundColor,
                 child: TextField(
                   controller: urlFieldController,
@@ -250,15 +250,24 @@ class _DownloadMusicState extends State<DownloadMusic> {
                     downloadMusic(url, context);
                   },
                   decoration: InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Theme.of(context).accentColor)),
-                    border: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Theme.of(context).accentColor)),
+                    // focusedBorder: UnderlineInputBorder(
+                    //     borderSide:
+                    //         BorderSide(color: Theme.of(context).accentColor)),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                      BorderSide(color: Theme
+                          .of(context)
+                          .accentColor),
+                      borderRadius: BorderRadius.all(Radius.circular(24)),
+                    ),
                     hintText: pasteYoutube,
-                    hintStyle: Theme.of(context).textTheme.subtitle1,
-                    fillColor: Theme.of(context).accentColor,
+                    hintStyle: Theme
+                        .of(context)
+                        .textTheme
+                        .subtitle1,
+                    fillColor: Theme
+                        .of(context)
+                        .accentColor,
                   ),
                 ),
               ),

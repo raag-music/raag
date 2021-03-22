@@ -1,7 +1,10 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:raag/model/music_model.dart';
 
 AnimationController playFABController;
 
@@ -29,17 +32,32 @@ String formatDuration(Duration d) {
   return format;
 }
 
-Widget getAlbumArt(String albumArtWork, double width, BuildContext context) {
-  if (albumArtWork == null)
-    return Container(
-        color: Theme.of(context).accentColor,
-        width: 40,
-        height: 40,
-        child: Icon(Icons.music_note_sharp, size: 24, color: Theme.of(context).dividerColor,));
-  else
+Widget getAlbumArt(Song song, BuildContext context) {
+  if (song.albumArtwork != null)
     return Image(
-      image: FileImage(File(albumArtWork)),
+      image: FileImage(File(song
+          .albumArtwork)), // Directly access album art when scoped storage approach is not used (less than Android API level 29)
     );
+
+  final defaultIcon = Icon(Icons.music_note_sharp,
+      size: 24, color: Theme.of(context).dividerColor);
+  FlutterAudioQuery audioQueryInstance = FlutterAudioQuery();
+  try {
+    return FutureBuilder(
+        future:
+            audioQueryInstance.getArtwork(type: ResourceType.SONG, id: song.id),
+        builder: (_, snapshot) {
+          Uint8List imageBytes = snapshot.data;
+          if (snapshot.data == null || imageBytes.isEmpty) {
+            return defaultIcon;
+          } else {
+            print(song.displayName);
+            return Image.memory(snapshot.data);
+          }
+        });
+  } catch (e) {
+    return defaultIcon;
+  }
 }
 
 bool isValidYouTubeURL(String url) {
