@@ -3,12 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/provider/player_provider.dart';
 
-class SeekBar extends StatefulWidget {
-  @override
-  _SeekBarState createState() => _SeekBarState();
-}
-
-class _SeekBarState extends State<SeekBar> {
+class SeekBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<PlayerProvider>(context);

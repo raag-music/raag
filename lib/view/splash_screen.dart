@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:raag/model/SharedPreferences.dart';
@@ -12,6 +14,31 @@ Preferences _preferencesProvider = new Preferences();
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
+
+  static populateSongsIntoDB() async {
+    if (await _preferencesProvider.getBool(Preferences.DB_POPULATED) != true) {
+      {
+        await DBProvider.db.deleteAll();
+        List<SongInfo> songs = await FlutterAudioQuery().getSongs();
+        for (var it = 0; it < songs.length; it++) {
+          Uint8List _albumArtBytes = await FlutterAudioQuery()
+              .getArtwork(type: ResourceType.SONG, id: songs[it].id);
+          DBProvider.db.insertSong(new Song(
+              id: songs[it].id,
+              title: songs[it].title,
+              displayName: songs[it].displayName,
+              filePath: songs[it].filePath,
+              albumArtwork: songs[it].albumArtwork,
+              albumArtWorkBytes: _albumArtBytes,
+              artist: songs[it].artist,
+              album: songs[it].album,
+              duration: songs[it].duration,
+              composer: songs[it].composer));
+        }
+        _preferencesProvider.setBool(Preferences.DB_POPULATED, true);
+      }
+    }
+  }
 }
 
 class _SplashScreenState extends State<SplashScreen> {
@@ -32,7 +59,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   awaitPopulateSongs() async {
-    await populateSongsIntoDB();
+    await SplashScreen.populateSongsIntoDB();
     setState(() {
       leaveSplash = true;
     });
@@ -42,28 +69,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   goToHome() => Navigator.pushReplacement(
       context, MaterialPageRoute(builder: (context) => HomeScaffold()));
-
-  static populateSongsIntoDB() async {
-    if (await _preferencesProvider.getBool(Preferences.DB_POPULATED) != true) {
-      {
-        await DBProvider.db.deleteAll();
-        List<SongInfo> songs = await FlutterAudioQuery().getSongs();
-        for (var it = 0; it < songs.length; it++) {
-          DBProvider.db.insertSong(new Song(
-              id: songs[it].id,
-              title: songs[it].title,
-              displayName: songs[it].displayName,
-              filePath: songs[it].filePath,
-              albumArtwork: songs[it].albumArtwork,
-              artist: songs[it].artist,
-              album: songs[it].album,
-              duration: songs[it].duration,
-              composer: songs[it].composer));
-        }
-        _preferencesProvider.setBool(Preferences.DB_POPULATED,true);
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

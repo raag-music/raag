@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/model/music_model.dart';
@@ -5,28 +7,38 @@ import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/provider/player_provider.dart';
 import 'package:raag/provider/theme.dart';
 
-class SongWidget extends StatefulWidget {
+class SongWidget extends StatelessWidget {
   final List<Song> songList;
 
   SongWidget({@required this.songList});
 
   @override
-  _SongWidgetState createState() => _SongWidgetState();
-}
-
-class _SongWidgetState extends State<SongWidget> {
-  @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final provider = Provider.of<PlayerProvider>(context);
+
+    Widget getAlbumArt(Song song, BuildContext context) {
+      if (song.albumArtwork !=
+          null) // Directly access album art when scoped storage approach is not used (less than Android API level 29)
+        return Image(
+          image: FileImage(File(song.albumArtwork)),
+        );
+
+      final defaultIcon = Icon(Icons.music_note_sharp,
+          size: 24, color: Theme.of(context).dividerColor);
+
+      return (song.albumArtWorkBytes == null || song.albumArtWorkBytes.isEmpty)
+          ? defaultIcon
+          : Image.memory(song.albumArtWorkBytes);
+    }
 
     return Column(
       children: [
         Flexible(
           child: ListView.builder(
-              itemCount: widget?.songList?.length,
+              itemCount: songList?.length,
               itemBuilder: (context, songIndex) {
-                Song song = widget?.songList[songIndex];
+                Song song = songList[songIndex];
                 if (song.displayName.contains(".mp3"))
                   return Column(
                     children: [
@@ -44,9 +56,9 @@ class _SongWidgetState extends State<SongWidget> {
                             provider.playerState = PlayerState.playing;
                             provider.audioManagerInstance
                                 .start("file://${song.filePath}", song.title,
-                                    desc: song.displayName,
-                                    auto: true,
-                                    cover: song.albumArtwork)
+                                desc: song.displayName,
+                                auto: true,
+                                cover: song.albumArtwork)
                                 .then((err) {
                               print(err);
                             });

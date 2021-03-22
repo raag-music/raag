@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:raag/model/SharedPreferences.dart';
-import 'package:raag/model/music_model.dart';
 import 'package:raag/provider/db_provider.dart';
+import 'package:raag/view/splash_screen.dart';
 
 class RefreshButton extends StatefulWidget {
   @override
@@ -36,25 +35,12 @@ class _RefreshButtonState extends State<RefreshButton> {
         onTap: () async {
           showAlert();
           var _oldCount = await DBProvider.db.getCount();
-          await DBProvider.db.deleteAll();
-          List<SongInfo> songs = await FlutterAudioQuery().getSongs();
-          for (var it = 0; it < songs.length; it++) {
-            DBProvider.db.insertSong(new Song(
-                id: songs[it].id,
-                title: songs[it].title,
-                displayName: songs[it].displayName,
-                filePath: songs[it].filePath,
-                albumArtwork: songs[it].albumArtwork,
-                artist: songs[it].artist,
-                album: songs[it].album,
-                duration: songs[it].duration,
-                composer: songs[it].composer));
-          }
-          _preferencesProvider.setBool(Preferences.DB_POPULATED,true);
-          var _diff = await DBProvider.db.getCount()-_oldCount;
-          var toastText = (_diff < 0) ? ' songs removed' : ' new songs added' ;
+          _preferencesProvider.setBool(Preferences.DB_POPULATED, false);
+          await SplashScreen.populateSongsIntoDB();
+          var _diff = await DBProvider.db.getCount() - _oldCount;
+          var toastText = (_diff < 0) ? ' songs removed' : ' new songs added';
           Navigator.of(context).pop();
-          Fluttertoast.showToast(msg: (_diff).toString()+toastText);
+          Fluttertoast.showToast(msg: (_diff).toString() + toastText);
         },
         child: Padding(
           padding: const EdgeInsets.all(16.0),

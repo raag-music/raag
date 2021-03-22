@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 Song songFromJson(String str) {
   final jsonData = json.decode(str);
@@ -16,6 +17,7 @@ class Song {
   String displayName;
   String filePath;
   String albumArtwork;
+  Uint8List albumArtWorkBytes;
   String artist;
   String album;
   String duration;
@@ -28,6 +30,7 @@ class Song {
     this.displayName,
     this.filePath,
     this.albumArtwork,
+    this.albumArtWorkBytes,
     this.artist,
     this.album,
     this.duration,
@@ -36,28 +39,30 @@ class Song {
   });
 
   factory Song.fromMap(Map<String, dynamic> json) => new Song(
-    id: json["id"],
-    title: json["title"],
-    displayName: json["display_name"],
-    filePath: json["file_path"],
-    albumArtwork: json["album_artwork"],
-    artist: json["artist"],
-    album: json["album"],
-    duration: json["duration"],
-    composer: json["composer"],
-    fav: json["fav"]==1,
-  );
+        id: json["id"],
+        title: json["title"],
+        displayName: json["display_name"],
+        filePath: json["file_path"],
+        albumArtwork: json["album_artwork"],
+        albumArtWorkBytes: json["albumArtWorkBytes"],
+        artist: json["artist"],
+        album: json["album"],
+        duration: json["duration"],
+        composer: json["composer"],
+        fav: json["fav"] == 1,
+      );
 
   Map<String, dynamic> toMap() => {
-    "id":id,
-    "title": title,
-    "display_name": displayName,
-    "file_path": filePath,
-    "album_artwork": albumArtwork,
-    "artist": artist,
-    "album": album,
-    "duration": duration,
-    "composer": composer,
-    "fav": fav,
-  };
+        "id": id,
+        "title": title,
+        "display_name": displayName,
+        "file_path": filePath,
+        "album_artwork": albumArtwork,
+        "album_art_work_bytes": albumArtWorkBytes,
+        "artist": artist,
+        "album": album,
+        "duration": duration,
+        "composer": composer,
+        "fav": fav,
+      };
 }

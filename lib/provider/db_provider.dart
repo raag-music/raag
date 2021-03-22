@@ -30,6 +30,7 @@ class DBProvider {
           "display_name TEXT,"
           "file_path TEXT,"
           "album_artwork TEXT,"
+          "album_art_work_bytes BLOB,"
           "artist TEXT,"
           "album TEXT,"
           "duration TEXT,"
@@ -48,13 +49,14 @@ class DBProvider {
     final db = await database;
     var raw = await db.rawInsert(
         "INSERT Into Song "
-        " VALUES (?,?,?,?,?,?,?,?,?,?)",
+        " VALUES (?,?,?,?,?,?,?,?,?,?,?)",
         [
           newSong.id,
           newSong.title,
           newSong.displayName,
           newSong.filePath,
           newSong.albumArtwork,
+          newSong.albumArtWorkBytes,
           newSong.artist,
           newSong.album,
           newSong.duration,
@@ -70,16 +72,31 @@ class DBProvider {
     return res.isNotEmpty ? Song.fromMap(res.first) : null;
   }
 
-  Future<int> getCount() async{
+  Future<int> getCount() async {
     final db = await database;
-    return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM Song'));
+    return Sqflite.firstIntValue(
+        await db.rawQuery('SELECT COUNT(*) FROM Song'));
   }
 
   Future<List<Song>> getAllSongs() async {
     final db = await database;
     var res = await db.query("Song");
-    List<Song> list =
-        res.isNotEmpty ? res.map((c) => Song.fromMap(c)).toList() : [];
+    List<Song> list = [];
+    res.forEach((_item) {
+      list.add(new Song(
+        id: _item['id'],
+        title: _item['title'],
+        displayName: _item['display_name'],
+        filePath: _item['file_path'],
+        albumArtwork: _item['album_artwork'],
+        albumArtWorkBytes: _item['album_art_work_bytes'],
+        artist: _item['artist'],
+        album: _item['album'],
+        duration: _item['duration'],
+        composer: _item['composer'],
+        fav: _item['fav'],
+      ));
+    });
     return list;
   }
 

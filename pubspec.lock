@@ -433,14 +433,14 @@ packages:
       name: sqflite
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.2+2"
+    version: "2.0.0+3"
   sqflite_common:
     dependency: transitive
     description:
       name: sqflite_common
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3+1"
+    version: "2.0.0+2"
   stack_trace:
     dependency: transitive
     description:
@@ -475,7 +475,7 @@ packages:
       name: synchronized
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.0+2"
+    version: "3.0.0"
   term_glyph:
     dependency: transitive
     description:
@@ -541,4 +541,4 @@ packages:
     version: "1.8.0"
 sdks:
   dart: ">=2.12.0-259.9.beta <3.0.0"
-  flutter: ">=1.22.2"
+  flutter: ">=1.24.0-10"
