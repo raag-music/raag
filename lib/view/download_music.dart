@@ -4,13 +4,16 @@ import 'package:clipboard/clipboard.dart';
 import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:raag/model/SharedPreferences.dart';
 import 'package:raag/model/connectivity.dart';
 import 'package:raag/model/strings.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/provider/settings_provider.dart';
 import 'package:raag/provider/theme.dart';
 import 'package:raag/provider/youtube_icon.dart';
+import 'package:raag/view/settings.dart';
 import 'package:raag/view/youtube_search.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
@@ -82,6 +85,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
   }
 
   Future<int> downloadMusic(String url, BuildContext context) async {
+    Preferences sharedPreference = Preferences();
     if (await isConnected() == false) {
       Alert(
               context: context,
@@ -105,16 +109,25 @@ class _DownloadMusicState extends State<DownloadMusic> {
 
       setThumbnail(video.thumbnails.mediumResUrl);
       StreamManifest streamManifest =
-          await yt.videos.streamsClient.getManifest(video.id);
+      await yt.videos.streamsClient.getManifest(video.id);
       StreamInfo streamInfo = streamManifest.audioOnly.withHighestBitrate();
 
       setTitle(downloadDir);
-      Directory _downloadsPath = await DownloadsPathProvider.downloadsDirectory;
-      Directory _raagDownloadsDirectory =
-          Directory('${_downloadsPath.path}/$appName');
-      if (!await _raagDownloadsDirectory.exists())
-        _raagDownloadsDirectory.create(recursive: true);
+      Directory _raagDownloadsDirectory;
+      if (await sharedPreference.getBool(Preferences.DOWNLOAD_DIRECTORY) ==
+          true) {
+        Directory downloadsDirectory = await DownloadsPathProvider
+            .downloadsDirectory;
+        _raagDownloadsDirectory =
+            Directory('${downloadsDirectory.path}/$appName');
+      }
+      else
+        _raagDownloadsDirectory = await getExternalStorageDirectory();
 
+      if (!await _raagDownloadsDirectory.exists()) {
+        _raagDownloadsDirectory.create(recursive: true);
+        print('Created directory: ${_raagDownloadsDirectory.path}');
+      }
       var tempTitle = title
           .replaceAll('|', '-')
           .replaceAll('\'', '')
@@ -125,7 +138,6 @@ class _DownloadMusicState extends State<DownloadMusic> {
       //TODO Do something efficient to choose only alpha-numeric characters from $title
       var filePath = _raagDownloadsDirectory.path + '/' + tempTitle + '.mp3';
 
-      print('Created directory: ${_raagDownloadsDirectory.path}');
       if (streamInfo != null) {
         var stream = yt.videos.streamsClient.get(streamInfo);
         var file = new File(filePath);
@@ -156,19 +168,21 @@ class _DownloadMusicState extends State<DownloadMusic> {
       Alert(
           context: context,
           title: 'File error',
-          desc: 'Raag was unable to create a file. Please retry',
+          desc: 'Raag was unable to create a file. Try changing the download location from settings and try again',
           type: AlertType.error,
           style: Styles.alertStyle(context),
           buttons: [
             DialogButton(
               child: Text(
-                "Retry",
+                "Settings",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               onPressed: () {
                 _flushDownloader();
-                downloadMusic(url, context);
                 Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => Settings(),
+                ));
               },
             ),
             DialogButton(
@@ -185,11 +199,11 @@ class _DownloadMusicState extends State<DownloadMusic> {
     } catch (e, s) {
       print("Exception: $e\nStack Trace: $s");
       Alert(
-              context: context,
-              title: 'Unknown error',
-              desc: '$e',
-              type: AlertType.error,
-              style: Styles.alertStyle(context))
+          context: context,
+          title: 'Unknown error',
+          desc: '$e',
+          type: AlertType.error,
+          style: Styles.alertStyle(context))
           .show();
       setTitle('');
       setBody('');
@@ -202,28 +216,34 @@ class _DownloadMusicState extends State<DownloadMusic> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<SettingsProvider>(context);
+    final settingsProvider = Provider.of<SettingsProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
         brightness:
-            themeProvider.darkTheme ? Brightness.light : Brightness.dark,
+        settingsProvider.darkTheme ? Brightness.light : Brightness.dark,
         elevation: 0,
         leading: IconButton(
             icon: Icon(Icons.arrow_back_ios_outlined),
             onPressed: () => Navigator.pop(context)),
         title: Text("Download music",
-            style: Theme.of(context).textTheme.headline3),
+            style: Theme
+                .of(context)
+                .textTheme
+                .headline3),
         centerTitle: true,
         actions: [
           IconButton(
             icon: Icon(
               YouTubeIcon.youtube,
-              color: Theme.of(context).accentColor,
+              color: Theme
+                  .of(context)
+                  .accentColor,
             ),
             padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            onPressed: () => Navigator.push(
-                context,
+            onPressed: () =>
+                Navigator.push(
+                    context,
                 MaterialPageRoute(
                   builder: (context) => YoutubeSearch(),
                 )),

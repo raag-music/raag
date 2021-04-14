@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:raag/widgets/download_location_button_settings.dart';
 import 'package:raag/widgets/refresh_button.dart';
 import 'package:raag/widgets/theme_button.dart';
 
@@ -35,9 +36,10 @@ class Settings extends StatelessWidget {
           ),
           SliverList(
             delegate: SliverChildListDelegate([
-              SizedBox(height: screenHeight*0.05),
+              SizedBox(height: screenHeight * 0.05),
               ThemeButton(),
               RefreshButton(),
+              DownloadLocationButton(),
             ]),
           )
         ],

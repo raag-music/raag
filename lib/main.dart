@@ -34,8 +34,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void getCurrentAppTheme() async {
-    themeChangeProvider.darkTheme = await themeChangeProvider
-        .darkThemePreference
+    themeChangeProvider.darkTheme = await themeChangeProvider.sharedPreference
         .getBool(Preferences.THEME_STATUS);
   }
 

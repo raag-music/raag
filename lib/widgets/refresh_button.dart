@@ -4,27 +4,23 @@ import 'package:raag/model/SharedPreferences.dart';
 import 'package:raag/provider/db_provider.dart';
 import 'package:raag/view/splash_screen.dart';
 
-class RefreshButton extends StatefulWidget {
-  @override
-  _RefreshButtonState createState() => _RefreshButtonState();
-}
-
-class _RefreshButtonState extends State<RefreshButton> {
-
+class RefreshButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     Preferences _preferencesProvider = new Preferences();
 
-    showAlert(){
+    showAlert() {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: Theme.of(context).backgroundColor,
-            title: Text('Refreshing DB', style: Theme.of(context).textTheme.headline3,),
-            content: Text('Looking for new songs')
-          );
+              backgroundColor: Theme.of(context).backgroundColor,
+              title: Text(
+                'Refreshing DB',
+                style: Theme.of(context).textTheme.headline3,
+              ),
+              content: Text('Looking for new songs'));
         },
       );
     }
