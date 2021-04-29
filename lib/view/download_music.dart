@@ -4,6 +4,7 @@ import 'package:clipboard/clipboard.dart';
 import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/model/SharedPreferences.dart';
@@ -158,7 +159,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
         setTitle(downloadComplete);
         setBody(
             '$fileLocation: $filePath\n$fileSize: ${(streamInfo.size.totalMegaBytes.toString().substring(0, 4))} MB');
-
+        OpenFile.open(filePath);
         downloadedFilePath = 'file://$filePath';
         downloadedFileTitle = tempTitle;
       }
