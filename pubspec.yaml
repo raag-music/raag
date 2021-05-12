@@ -26,11 +26,14 @@ dependencies:
   audio_manager: ^0.5.5+3
   audioplayer: 0.8.1
   audioplayer_web: 0.7.1
+  audiotagger: ^2.2.0
   clipboard: ^0.1.2+8
   connectivity: ^2.0.2
   downloads_path_provider_28: ^0.1.0
   flutter_audio_query: ^0.3.5+6
+  flutter_ffmpeg: ^0.4.0
   fluttertoast: ^7.1.1
+  http: ^0.13.3
   marquee: ^1.6.1
   open_file: ^3.2.0
   path_provider: ^2.0.0-nullsafety.1
