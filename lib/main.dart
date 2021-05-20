@@ -24,18 +24,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  SettingsProvider themeChangeProvider = new SettingsProvider();
+  SettingsProvider settingsProvider = new SettingsProvider();
 
   @override
   void initState() {
     super.initState();
-    getCurrentAppTheme();
+    initSettings();
     playerProvider.setUpAudio();
   }
 
-  void getCurrentAppTheme() async {
-    themeChangeProvider.darkTheme = await themeChangeProvider.sharedPreference
+  void initSettings() async {
+    settingsProvider.darkTheme = await settingsProvider.sharedPreference
         .getBool(Preferences.THEME_STATUS);
+    settingsProvider.appStorage = await settingsProvider.sharedPreference
+        .getBool(Preferences.DOWNLOAD_DIRECTORY);
   }
 
   @override
@@ -43,14 +45,16 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<SettingsProvider>(
-            create: (_) => themeChangeProvider),
-        ChangeNotifierProvider<PlayerProvider>(create: (_) => playerProvider,)
+            create: (_) => settingsProvider),
+        ChangeNotifierProvider<PlayerProvider>(
+          create: (_) => playerProvider,
+        )
       ],
       child: Consumer<SettingsProvider>(
         builder: (BuildContext context, value, Widget child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            theme: Styles.themeData(themeChangeProvider.darkTheme, context),
+            theme: Styles.themeData(settingsProvider.darkTheme, context),
             title: appName,
             home: SplashScreen(),
           );
