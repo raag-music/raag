@@ -4,11 +4,12 @@ import 'package:raag/model/SharedPreferences.dart';
 class SettingsProvider extends ChangeNotifier{
   Preferences sharedPreference = Preferences();
   bool _darkTheme = false;
+  bool _appStorage = false;
+  bool _refreshComplete = false;
 
   bool get darkTheme => _darkTheme;
-  bool _appStorage = false;
-
   bool get appStorage => _appStorage;
+  bool get refreshComplete => _refreshComplete;
 
   set darkTheme(bool value) {
     _darkTheme = value;
@@ -26,10 +27,6 @@ class SettingsProvider extends ChangeNotifier{
     darkTheme = darkTheme ? false : true;
     notifyListeners();
   }
-
-  bool _refreshComplete = false;
-
-  bool get refreshComplete => _refreshComplete;
 
   set refreshComplete(bool value) {
     _refreshComplete = value;

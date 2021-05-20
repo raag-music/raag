@@ -62,7 +62,7 @@ Future<String> webmToMP3(String path) async {
   final FlutterFFmpeg _flutterFFmpeg = new FlutterFFmpeg();
   int result = 0;
   final newPath = path.replaceAll('.webm', '_RaagApp.mp3');
-  var command = "-i \"$path\" -vn -ab 128k -ar 44100 -y \"$newPath\"";
+  var command = "-i \"$path\" -acodec libmp3lame \"$newPath\"";
   await _flutterFFmpeg.execute(command).then((rc) {
     print('FFmpeg Result: $rc');
     result = rc;
