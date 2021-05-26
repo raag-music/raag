@@ -61,13 +61,13 @@ Future<File> urlToFile(String imageUrl) async {
 Future<String> webmToMP3(String path) async {
   final FlutterFFmpeg _flutterFFmpeg = new FlutterFFmpeg();
   int result = 0;
-  final newPath = path.replaceAll('.webm', '_RaagApp.mp3');
-  var command = "-i \"$path\" -acodec libmp3lame \"$newPath\"";
+  final newPath = path.replaceAll('.webm', '.mp3');
+  var command = "-i \"$path\" -vn -ab 128k -ar 44100 -y \"$newPath\"";
   await _flutterFFmpeg.execute(command).then((rc) {
     print('FFmpeg Result: $rc');
     result = rc;
   });
-  await File(path).delete();
+  File(path).delete();
   return newPath;
 }
 
