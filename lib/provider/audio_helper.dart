@@ -1,9 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:audiotagger/audiotagger.dart';
 import 'package:flutter/animation.dart';
-import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
@@ -56,25 +54,4 @@ Future<File> urlToFile(String imageUrl) async {
   http.Response response = await http.get(Uri.parse(imageUrl));
   await file.writeAsBytes(response.bodyBytes);
   return file;
-}
-
-Future<String> webmToMP3(String path) async {
-  final FlutterFFmpeg _flutterFFmpeg = new FlutterFFmpeg();
-  int result = 0;
-  final newPath = path.replaceAll('.webm', '.mp3');
-  var command = "-i \"$path\" -vn -ab 128k -ar 44100 -y \"$newPath\"";
-  await _flutterFFmpeg.execute(command).then((rc) {
-    print('FFmpeg Result: $rc');
-    result = rc;
-  });
-  File(path).delete();
-  return newPath;
-}
-
-Future<bool> tagArtWork(String url, String path) async {
-  var tagger = new Audiotagger();
-  File albumArtFile = await urlToFile(url);
-  final result = await tagger.writeTag(
-      path: path, tagField: "artist", value: 'Artist');
-  return result;
 }

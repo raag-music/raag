@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 Song songFromJson(String str) {
   final jsonData = json.decode(str);
@@ -17,7 +16,6 @@ class Song {
   String displayName;
   String filePath;
   String albumArtwork;
-  Uint8List albumArtWorkBytes;
   String artist;
   String album;
   String duration;
@@ -30,7 +28,6 @@ class Song {
     this.displayName,
     this.filePath,
     this.albumArtwork,
-    this.albumArtWorkBytes,
     this.artist,
     this.album,
     this.duration,
@@ -44,7 +41,6 @@ class Song {
         displayName: json["display_name"],
         filePath: json["file_path"],
         albumArtwork: json["album_artwork"],
-        albumArtWorkBytes: json["albumArtWorkBytes"],
         artist: json["artist"],
         album: json["album"],
         duration: json["duration"],
@@ -58,7 +54,6 @@ class Song {
         "display_name": displayName,
         "file_path": filePath,
         "album_artwork": albumArtwork,
-        "album_art_work_bytes": albumArtWorkBytes,
         "artist": artist,
         "album": album,
         "duration": duration,

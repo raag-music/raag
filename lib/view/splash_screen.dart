@@ -21,15 +21,12 @@ class SplashScreen extends StatefulWidget {
         await DBProvider.db.deleteAll();
         List<SongInfo> songs = await FlutterAudioQuery().getSongs();
         for (var it = 0; it < songs.length; it++) {
-          Uint8List _albumArtBytes = await FlutterAudioQuery()
-              .getArtwork(type: ResourceType.SONG, id: songs[it].id);
           DBProvider.db.insertSong(new Song(
               id: songs[it].id,
               title: songs[it].title,
               displayName: songs[it].displayName,
               filePath: songs[it].filePath,
               albumArtwork: songs[it].albumArtwork,
-              albumArtWorkBytes: _albumArtBytes,
               artist: songs[it].artist,
               album: songs[it].album,
               duration: songs[it].duration,

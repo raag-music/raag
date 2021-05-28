@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/model/music_model.dart';
 import 'package:raag/provider/audio_helper.dart';
@@ -15,21 +17,28 @@ class SongWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final provider = Provider.of<PlayerProvider>(context);
+    final screenHeight = MediaQuery.of(context).size.height;
+    final provider = Provider.of<PlayerProvider>(context, listen: false);
 
     Widget getAlbumArt(Song song, BuildContext context) {
+      final defaultIcon = Icon(Icons.music_note_sharp,
+          size: 24, color: Theme.of(context).dividerColor);
       if (song.albumArtwork !=
           null) // Directly access album art when scoped storage approach is not used (less than Android API level 29)
         return Image(
           image: FileImage(File(song.albumArtwork)),
         );
-
-      final defaultIcon = Icon(Icons.music_note_sharp,
-          size: 24, color: Theme.of(context).dividerColor);
-
-      return (song.albumArtWorkBytes == null || song.albumArtWorkBytes.isEmpty)
-          ? defaultIcon
-          : Image.memory(song.albumArtWorkBytes);
+      return FutureBuilder(
+        future: FlutterAudioQuery()
+            .getArtwork(type: ResourceType.SONG, id: song.id),
+        builder: (context, snapshot) {
+          Uint8List _imageBytes = snapshot.data;
+          if (_imageBytes == null || _imageBytes.isEmpty)
+            return defaultIcon;
+          else
+            return Image.memory(_imageBytes);
+        },
+      );
     }
 
     return Column(
@@ -37,6 +46,7 @@ class SongWidget extends StatelessWidget {
         Flexible(
           child: ListView.builder(
               itemCount: songList?.length,
+              padding: EdgeInsets.only(bottom: screenHeight * 0.2),
               itemBuilder: (context, songIndex) {
                 Song song = songList[songIndex];
                 if (song.displayName.contains(".mp3"))
@@ -56,9 +66,9 @@ class SongWidget extends StatelessWidget {
                             provider.playerState = PlayerState.playing;
                             provider.audioManagerInstance
                                 .start("file://${song.filePath}", song.title,
-                                desc: song.displayName,
-                                auto: true,
-                                cover: song.albumArtwork)
+                                    desc: song.displayName,
+                                    auto: true,
+                                    cover: song.albumArtwork)
                                 .then((err) {
                               print(err);
                             });
@@ -74,9 +84,7 @@ class SongWidget extends StatelessWidget {
                                   ClipRRect(
                                       borderRadius: BorderRadius.circular(40),
                                       child: Container(
-                                          color: Theme
-                                              .of(context)
-                                              .accentColor,
+                                          color: Theme.of(context).accentColor,
                                           width: 50,
                                           height: 50,
                                           child: getAlbumArt(song, context))),
@@ -85,31 +93,26 @@ class SongWidget extends StatelessWidget {
                                   ),
                                   Container(
                                     width:
-                                    MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width * 0.7,
+                                        MediaQuery.of(context).size.width * 0.7,
                                     child: Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         Text(song.title,
                                             overflow: TextOverflow.ellipsis,
-                                            style: Theme
-                                                .of(context)
+                                            style: Theme.of(context)
                                                 .textTheme
                                                 .headline3),
                                         Text(song.artist,
                                             overflow: TextOverflow.ellipsis,
-                                            style: Theme
-                                                .of(context)
+                                            style: Theme.of(context)
                                                 .textTheme
                                                 .subtitle2),
                                       ],
                                     ),
                                   ),
-                                  SizedBox(width: 6),
+                                  SizedBox(width: screenWidth * 0.01),
                                   Text(
                                       parseToMinutesSeconds(
                                           int.parse(song.duration)),

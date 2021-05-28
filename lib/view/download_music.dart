@@ -137,7 +137,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
           .replaceAll('/', ' ')
           .replaceAll(':', ' ');
       //TODO Do something efficient to choose only alpha-numeric characters from $title
-      var filePath = _raagDownloadsDirectory.path + '/' + tempTitle + '.webm';
+      var filePath = _raagDownloadsDirectory.path + '/' + tempTitle + '.mp3';
 
       if (streamInfo != null) {
         var stream = yt.videos.streamsClient.get(streamInfo);
@@ -155,12 +155,6 @@ class _DownloadMusicState extends State<DownloadMusic> {
               '$downloading ${(downloadProgress * 100).toStringAsFixed(2)} %');
           return s;
         }).pipe(fileSink);
-
-        setTitle('Converting to MP3');
-        filePath = await webmToMP3(filePath);
-
-        // setTitle('Adding tags');
-        // print(await tagArtWork(video.thumbnails.mediumResUrl, filePath));
 
         setTitle(downloadComplete);
         setBody(

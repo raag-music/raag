@@ -30,7 +30,6 @@ class DBProvider {
           "display_name TEXT,"
           "file_path TEXT,"
           "album_artwork TEXT,"
-          "album_art_work_bytes BLOB,"
           "artist TEXT,"
           "album TEXT,"
           "duration TEXT,"
@@ -49,14 +48,13 @@ class DBProvider {
     final db = await database;
     var raw = await db.rawInsert(
         "INSERT Into Song "
-        " VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+        " VALUES (?,?,?,?,?,?,?,?,?,?)",
         [
           newSong.id,
           newSong.title,
           newSong.displayName,
           newSong.filePath,
           newSong.albumArtwork,
-          newSong.albumArtWorkBytes,
           newSong.artist,
           newSong.album,
           newSong.duration,
@@ -89,7 +87,6 @@ class DBProvider {
         displayName: _item['display_name'],
         filePath: _item['file_path'],
         albumArtwork: _item['album_artwork'],
-        albumArtWorkBytes: _item['album_art_work_bytes'],
         artist: _item['artist'],
         album: _item['album'],
         duration: _item['duration'],

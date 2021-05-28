@@ -31,7 +31,7 @@ class RefreshButton extends StatelessWidget {
         onTap: () async {
           showAlert();
           var _oldCount = await DBProvider.db.getCount();
-          _preferencesProvider.setBool(Preferences.DB_POPULATED, false);
+          // _preferencesProvider.setBool(Preferences.DB_POPULATED, false);
           await SplashScreen.populateSongsIntoDB();
           var _diff = await DBProvider.db.getCount() - _oldCount;
           var toastText = (_diff < 0) ? ' songs removed' : ' new songs added';
