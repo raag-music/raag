@@ -9,6 +9,7 @@
     alt="Get it on F-Droid"
     height="70"></a></td>
        <td><img src="https://action-badges.now.sh/raag-music/raag" height ="35"></td>
+        <td><a href="https://www.buymeacoffee.com/ashwinr"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" height="35"></a></td>
       </tr>
   </table>
  </div> 
