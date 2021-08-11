@@ -42,7 +42,7 @@ dependencies:
   shared_preferences: ^2.0.3
   sqflite: ^2.0.0+3
   webview_flutter: ^1.0.7
-  youtube_explode_dart: ^1.9.6
+  youtube_explode_dart: ^1.9.10
 
   flutter:
     sdk: flutter
