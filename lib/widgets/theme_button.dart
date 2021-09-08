@@ -60,16 +60,14 @@ class _ThemeButtonState extends State<ThemeButton>
                   animationController: controller,
                   startIcon: (provider.darkTheme) ? dayIcon : nightIcon,
                   endIcon: (provider.darkTheme) ? nightIcon : dayIcon,
+                  onPressed: () {},
                 ),
                 SizedBox(
                   width: screenWidth * 0.04,
                 ),
                 Text(
                   'Dark Theme',
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .headline3,
+                  style: Theme.of(context).textTheme.headline3,
                 ),
                 SizedBox(
                   width: screenWidth * 0.3,
