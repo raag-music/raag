@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:clipboard/clipboard.dart';
 import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -110,19 +111,18 @@ class _DownloadMusicState extends State<DownloadMusic> {
 
       setThumbnail(video.thumbnails.mediumResUrl);
       StreamManifest streamManifest =
-      await yt.videos.streamsClient.getManifest(video.id);
+          await yt.videos.streamsClient.getManifest(video.id);
       StreamInfo streamInfo = streamManifest.audioOnly.withHighestBitrate();
 
       setTitle(downloadDir);
       Directory _raagDownloadsDirectory;
       if (await sharedPreference.getBool(Preferences.DOWNLOAD_DIRECTORY) ==
           true) {
-        Directory downloadsDirectory = await DownloadsPathProvider
-            .downloadsDirectory;
+        Directory downloadsDirectory =
+            await DownloadsPathProvider.downloadsDirectory;
         _raagDownloadsDirectory =
             Directory('${downloadsDirectory.path}/$appName');
-      }
-      else
+      } else
         _raagDownloadsDirectory = await getExternalStorageDirectory();
 
       if (!await _raagDownloadsDirectory.exists()) {
@@ -169,11 +169,13 @@ class _DownloadMusicState extends State<DownloadMusic> {
       Alert(
           context: context,
           title: 'File error',
-          desc: 'Raag was unable to create a file. Try changing the download location from settings and try again',
+          desc:
+              'Raag was unable to create a file. Try changing the download location from settings and try again',
           type: AlertType.error,
           style: Styles.alertStyle(context),
           buttons: [
             DialogButton(
+              color: Theme.of(context).colorScheme.secondary,
               child: Text(
                 "Settings",
                 style: TextStyle(color: Colors.white, fontSize: 20),
@@ -181,9 +183,11 @@ class _DownloadMusicState extends State<DownloadMusic> {
               onPressed: () {
                 _flushDownloader();
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => Settings(),
-                ));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Settings(),
+                    ));
               },
             ),
             DialogButton(
@@ -200,11 +204,11 @@ class _DownloadMusicState extends State<DownloadMusic> {
     } catch (e, s) {
       print("Exception: $e\nStack Trace: $s");
       Alert(
-          context: context,
-          title: 'Unknown error',
-          desc: '$e',
-          type: AlertType.error,
-          style: Styles.alertStyle(context))
+              context: context,
+              title: 'Unknown error',
+              desc: '$e',
+              type: AlertType.error,
+              style: Styles.alertStyle(context))
           .show();
       setTitle('');
       setBody('');
@@ -221,30 +225,23 @@ class _DownloadMusicState extends State<DownloadMusic> {
 
     return Scaffold(
       appBar: AppBar(
-        brightness:
-        settingsProvider.darkTheme ? Brightness.light : Brightness.dark,
+        systemOverlayStyle: settingsProvider.darkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
         elevation: 0,
         leading: IconButton(
             icon: Icon(Icons.arrow_back_ios_outlined),
             onPressed: () => Navigator.pop(context)),
         title: Text("Download music",
-            style: Theme
-                .of(context)
-                .textTheme
-                .headline3),
+            style: Theme.of(context).textTheme.headline3),
         centerTitle: true,
         actions: [
           IconButton(
             icon: Icon(
               YouTubeIcon.youtube,
-              color: Theme
-                  .of(context)
-                  .accentColor,
+              color: Theme.of(context).colorScheme.secondary,
             ),
             padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            onPressed: () =>
-                Navigator.push(
-                    context,
+            onPressed: () => Navigator.push(
+                context,
                 MaterialPageRoute(
                   builder: (context) => YoutubeSearch(),
                 )),
@@ -273,29 +270,22 @@ class _DownloadMusicState extends State<DownloadMusic> {
                   decoration: InputDecoration(
                     // focusedBorder: UnderlineInputBorder(
                     //     borderSide:
-                    //         BorderSide(color: Theme.of(context).accentColor)),
+                    //         BorderSide(color: Theme.of(context).colorScheme.secondary)),
                     focusedBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Theme
-                          .of(context)
-                          .accentColor),
+                      borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.secondary),
                       borderRadius: BorderRadius.all(Radius.circular(24)),
                     ),
                     hintText: pasteYoutube,
-                    hintStyle: Theme
-                        .of(context)
-                        .textTheme
-                        .subtitle1,
-                    fillColor: Theme
-                        .of(context)
-                        .accentColor,
+                    hintStyle: Theme.of(context).textTheme.subtitle1,
+                    fillColor: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
               ),
               Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
                 child: IconButton(
                   iconSize: 24,
@@ -323,7 +313,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
                 },
                 icon: Icon(
                   Icons.paste_rounded,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
               ),
             ],
@@ -338,9 +328,11 @@ class _DownloadMusicState extends State<DownloadMusic> {
                 ),
                 SizedBox(height: 32),
                 Stack(children: [
-                  LinearProgressIndicator(
-                    value: downloadProgress,
-                  ),
+                  alertTitle != ''
+                      ? LinearProgressIndicator(
+                          value: downloadProgress,
+                        )
+                      : SizedBox(),
                 ]),
                 SizedBox(height: 32),
                 Text(

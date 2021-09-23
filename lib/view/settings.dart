@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:raag/widgets/download_location_button_settings.dart';
 import 'package:raag/widgets/refresh_button.dart';
 import 'package:raag/widgets/theme_button.dart';
@@ -16,7 +17,7 @@ class Settings extends StatelessWidget {
             expandedHeight: screenHeight * 0.3,
             toolbarHeight: screenHeight * 0.08,
             collapsedHeight: screenHeight * 0.1,
-            brightness: Brightness.dark,
+            systemOverlayStyle: SystemUiOverlayStyle.dark,
             floating: true,
             pinned: true,
             snap: true,

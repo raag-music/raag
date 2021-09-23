@@ -52,7 +52,7 @@ class _OnBoardingState extends State<OnBoarding> {
           screenHeight: screenHeight,
           image: 'assets/images/onBoarding1.png',
           type: appName,
-          startGradientColor: Theme.of(context).accentColor,
+          startGradientColor: Theme.of(context).colorScheme.secondary,
           endGradientColor: Colors.deepPurple,
           subText: 'The Millennial\'s music app'),
       IntroWidget(
@@ -121,10 +121,7 @@ class _OnBoardingState extends State<OnBoarding> {
                       },
                       child: Text(
                         'Skip',
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .headline3,
+                        style: Theme.of(context).textTheme.headline3,
                       )),
                 ),
               ),
@@ -135,7 +132,9 @@ class _OnBoardingState extends State<OnBoarding> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: _buildPageIndicator(),
                   ),
-                  SizedBox(height: screenHeight * 0.03,),
+                  SizedBox(
+                    height: screenHeight * 0.03,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -145,7 +144,8 @@ class _OnBoardingState extends State<OnBoarding> {
                         curve: Curves.fastOutSlowIn,
                         child: TextButton(
                           onPressed: () async {
-                            Navigator.pushReplacement(context,
+                            Navigator.pushReplacement(
+                                context,
                                 MaterialPageRoute(
                                     builder: (context) => HomeScaffold()));
                           },
@@ -157,7 +157,9 @@ class _OnBoardingState extends State<OnBoarding> {
                       ),
                     ],
                   ),
-                  SizedBox(height: screenHeight * 0.05,)
+                  SizedBox(
+                    height: screenHeight * 0.05,
+                  )
                 ],
               ),
             ],

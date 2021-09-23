@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/model/strings.dart';
@@ -31,8 +32,9 @@ class _YoutubeSearchState extends State<YoutubeSearch> {
 
     return Scaffold(
       appBar: AppBar(
-        brightness:
-            themeProvider.darkTheme ? Brightness.light : Brightness.dark,
+        systemOverlayStyle: themeProvider.darkTheme
+            ? SystemUiOverlayStyle.light
+            : SystemUiOverlayStyle.dark,
         title: Text('YouTube', style: Theme.of(context).textTheme.headline3),
         actions: <Widget>[
           NavigationControls(_controller.future),
@@ -126,24 +128,24 @@ class NavigationControls extends StatelessWidget {
               onPressed: !webViewReady
                   ? null
                   : () async {
-                if (await controller.canGoBack()) {
-                  await controller.goBack();
-                } else {
-                  Fluttertoast.showToast(msg: 'No page in history');
-                }
-              },
+                      if (await controller.canGoBack()) {
+                        await controller.goBack();
+                      } else {
+                        Fluttertoast.showToast(msg: 'No page in history');
+                      }
+                    },
             ),
             IconButton(
               icon: const Icon(Icons.arrow_forward_ios_rounded),
               onPressed: !webViewReady
                   ? null
                   : () async {
-                if (await controller.canGoForward()) {
-                  await controller.goForward();
-                } else {
-                  Fluttertoast.showToast(msg: 'No page to go forward');
-                }
-              },
+                      if (await controller.canGoForward()) {
+                        await controller.goForward();
+                      } else {
+                        Fluttertoast.showToast(msg: 'No page to go forward');
+                      }
+                    },
             ),
             IconButton(
               icon: const Icon(Icons.refresh_rounded),
