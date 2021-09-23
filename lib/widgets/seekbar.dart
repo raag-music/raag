@@ -19,7 +19,7 @@ class SeekBar extends StatelessWidget {
             child: SliderTheme(
                 data: SliderTheme.of(context).copyWith(
                   trackHeight: 2,
-                  thumbColor: Theme.of(context).accentColor,
+                  thumbColor: Theme.of(context).colorScheme.secondary,
                   overlayColor: Theme.of(context).dividerColor,
                   thumbShape: RoundSliderThumbShape(
                     disabledThumbRadius: 3,
@@ -28,7 +28,7 @@ class SeekBar extends StatelessWidget {
                   overlayShape: RoundSliderOverlayShape(
                     overlayRadius: 10,
                   ),
-                  activeTrackColor: Theme.of(context).accentColor,
+                  activeTrackColor: Theme.of(context).colorScheme.secondary,
                   inactiveTrackColor: Theme.of(context).dividerColor,
                 ),
                 child: Slider(
@@ -51,10 +51,7 @@ class SeekBar extends StatelessWidget {
         ),
         Text(
           formatDuration(provider.audioManagerInstance.duration),
-          style: Theme
-              .of(context)
-              .textTheme
-              .subtitle2,
+          style: Theme.of(context).textTheme.subtitle2,
         ),
       ],
     );

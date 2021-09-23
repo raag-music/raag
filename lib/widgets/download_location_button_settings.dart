@@ -34,7 +34,7 @@ class DownloadLocationButton extends StatelessWidget {
                 child: Icon(
                   Icons.folder_open,
                   size: screenWidth * 0.08,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                 )),
             SizedBox(
               width: screenWidth * 0.04,
@@ -54,9 +54,9 @@ class DownloadLocationButton extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
-              width: screenWidth * 0.3,
-            ),
+            // SizedBox(
+            //   width: screenWidth * 0.3,
+            // ),
           ]),
         ),
       ),

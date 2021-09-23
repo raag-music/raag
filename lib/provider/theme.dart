@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-Color hex(String hexColor) {
+hex(String hexColor) {
   hexColor = hexColor.replaceAll("#", "");
   if (hexColor.length == 6) {
     hexColor = "FF" + hexColor;
@@ -34,7 +34,7 @@ class AppTheme {
 
   //Light theme data
   static final ThemeData lightTheme = ThemeData(
-    accentColor: hex('#415EB4'),
+    // accentColor: hex('#415EB4'),
     backgroundColor: hex('#D4D4D4'),
     scaffoldBackgroundColor: hex('#D4D4D4'),
     dividerColor: hex('ededed'),
@@ -48,7 +48,7 @@ class AppTheme {
       primary: Colors.white,
       onPrimary: Colors.black,
       primaryVariant: Colors.white38,
-      secondary: Colors.red,
+      secondary: hex('#415EB4'),
     ),
     cardTheme: CardTheme(
       color: hex('#D4D4D4'),
@@ -76,7 +76,7 @@ class AppTheme {
   //Dark theme data
   static final ThemeData darkTheme = ThemeData(
     backgroundColor: hex('000000'),
-    accentColor: hex('809DF5'),
+    // accentColor: hex('809DF5'),
     dividerColor: hex('1a1a1a'),
     scaffoldBackgroundColor: hex('000000'),
     appBarTheme: AppBarTheme(
@@ -89,7 +89,7 @@ class AppTheme {
       primary: hex('809DF5'),
       onPrimary: Colors.black,
       primaryVariant: Colors.black,
-      secondary: Colors.red,
+      secondary: hex('809DF5'),
     ),
     cardTheme: CardTheme(
       color: hex('000000'),

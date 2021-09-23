@@ -74,7 +74,8 @@ class _PlayBackControlsState extends State<PlayBackControls>
                                 shape: CircleBorder(),
                                 child: Icon(
                                   Icons.skip_previous_outlined,
-                                  color: Theme.of(context).accentColor,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                   size: 30,
                                 ),
                                 elevation: 0,
@@ -100,7 +101,8 @@ class _PlayBackControlsState extends State<PlayBackControls>
                               shape: CircleBorder(),
                               child: Center(
                                 child: AnimatedIcon(
-                                  color: Theme.of(context).accentColor,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                   icon: AnimatedIcons.play_pause,
                                   size: 50,
                                   progress: playFABController,
@@ -136,7 +138,8 @@ class _PlayBackControlsState extends State<PlayBackControls>
                                 shape: CircleBorder(),
                                 child: Icon(
                                   Icons.skip_next_outlined,
-                                  color: Theme.of(context).accentColor,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                   size: 30,
                                 ),
                                 elevation: 0,
@@ -168,7 +171,7 @@ class _PlayBackControlsState extends State<PlayBackControls>
                             },
                             child: Icon(
                               Icons.stop,
-                              color: Theme.of(context).accentColor,
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
                             elevation: 4,
                           )),

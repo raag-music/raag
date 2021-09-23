@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:raag/model/SharedPreferences.dart';
 import 'package:raag/provider/db_provider.dart';
 import 'package:raag/view/splash_screen.dart';
 
@@ -8,7 +7,6 @@ class RefreshButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    Preferences _preferencesProvider = new Preferences();
 
     showAlert() {
       showDialog(
@@ -46,7 +44,7 @@ class RefreshButton extends StatelessWidget {
                 child: Icon(
                   Icons.refresh_rounded,
                   size: screenWidth * 0.08,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                 )),
             SizedBox(
               width: screenWidth * 0.04,

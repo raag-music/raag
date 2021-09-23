@@ -15,14 +15,15 @@ class HomeScaffold extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-          brightness:
-              themeProvider.darkTheme ? Brightness.light : Brightness.dark,
+          systemOverlayStyle: themeProvider.darkTheme
+              ? SystemUiOverlayStyle.light
+              : SystemUiOverlayStyle.dark,
           centerTitle: true,
           elevation: 0,
           leading: IconButton(
               icon: Icon(
                 Icons.download_rounded,
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).colorScheme.secondary,
               ),
               onPressed: () => Navigator.push(
                   context,
@@ -33,14 +34,13 @@ class HomeScaffold extends StatelessWidget {
             IconButton(
                 icon: Icon(
                   Icons.settings,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => Settings(),
-                    ))
-            )
+                    )))
           ],
           title: Center(
               child: Padding(

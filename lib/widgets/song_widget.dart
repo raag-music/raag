@@ -84,7 +84,9 @@ class SongWidget extends StatelessWidget {
                                   ClipRRect(
                                       borderRadius: BorderRadius.circular(40),
                                       child: Container(
-                                          color: Theme.of(context).accentColor,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
                                           width: 50,
                                           height: 50,
                                           child: getAlbumArt(song, context))),
