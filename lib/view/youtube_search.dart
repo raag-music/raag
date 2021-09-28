@@ -33,8 +33,8 @@ class _YoutubeSearchState extends State<YoutubeSearch> {
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: themeProvider.darkTheme
-            ? SystemUiOverlayStyle.light
-            : SystemUiOverlayStyle.dark,
+            ? SystemUiOverlayStyle.dark
+            : SystemUiOverlayStyle.light,
         title: Text('YouTube', style: Theme.of(context).textTheme.headline3),
         actions: <Widget>[
           NavigationControls(_controller.future),

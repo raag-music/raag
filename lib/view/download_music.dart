@@ -191,6 +191,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
               },
             ),
             DialogButton(
+                color: Theme.of(context).colorScheme.secondary,
                 child: Text(
                   "Cancel",
                   style: TextStyle(color: Colors.white, fontSize: 20),
@@ -225,7 +226,9 @@ class _DownloadMusicState extends State<DownloadMusic> {
 
     return Scaffold(
       appBar: AppBar(
-        systemOverlayStyle: settingsProvider.darkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
+        systemOverlayStyle: settingsProvider.darkTheme
+            ? SystemUiOverlayStyle.dark
+            : SystemUiOverlayStyle.light,
         elevation: 0,
         leading: IconButton(
             icon: Icon(Icons.arrow_back_ios_outlined),
