@@ -16,8 +16,8 @@ class HomeScaffold extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           systemOverlayStyle: themeProvider.darkTheme
-              ? SystemUiOverlayStyle.light
-              : SystemUiOverlayStyle.dark,
+              ? SystemUiOverlayStyle.dark
+              : SystemUiOverlayStyle.light,
           centerTitle: true,
           elevation: 0,
           leading: IconButton(
