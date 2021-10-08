@@ -41,6 +41,7 @@ class SongWidget extends StatelessWidget {
       );
     }
 
+    debugPrint(songList[3].filePath);
     return Column(
       children: [
         Flexible(
@@ -49,7 +50,7 @@ class SongWidget extends StatelessWidget {
               padding: EdgeInsets.only(bottom: screenHeight * 0.2),
               itemBuilder: (context, songIndex) {
                 Song song = songList[songIndex];
-                if (song.displayName.contains(".mp3"))
+                if (!song.filePath.contains('WhatsApp/Media'))
                   return Column(
                     children: [
                       SizedBox(height: 10),
