@@ -45,93 +45,104 @@ class SongWidget extends StatelessWidget {
     return Column(
       children: [
         Flexible(
-          child: ListView.builder(
-              itemCount: songList?.length,
-              padding: EdgeInsets.only(bottom: screenHeight * 0.2),
-              itemBuilder: (context, songIndex) {
-                Song song = songList[songIndex];
-                if (!song.filePath.contains('WhatsApp/Media'))
-                  return Column(
-                    children: [
-                      SizedBox(height: 10),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).dividerColor,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(24))),
-                        child: InkWell(
-                          onTap: () {
-                            if (provider.audioManagerInstance.isPlaying)
-                              provider.audioManagerInstance.toPause();
-                            provider.playerState = PlayerState.playing;
-                            provider.audioManagerInstance
-                                .start("file://${song.filePath}", song.title,
-                                    desc: song.displayName,
-                                    auto: true,
-                                    cover: song.albumArtwork)
-                                .then((err) {
-                              print(err);
-                            });
-                            playFABController.forward();
-                          },
-                          child: Card(
-                            elevation: 0,
-                            color: Colors.transparent,
-                            child: ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              title: Row(
-                                children: <Widget>[
-                                  ClipRRect(
-                                      borderRadius: BorderRadius.circular(40),
-                                      child: Container(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          width: 50,
-                                          height: 50,
-                                          child: getAlbumArt(song, context))),
-                                  SizedBox(
-                                    width: screenWidth * 0.03,
+          child: ScrollConfiguration(
+            behavior: ScrollBehavior(),
+            child: GlowingOverscrollIndicator(
+              color: Colors.black,
+              axisDirection: AxisDirection.down,
+              child: ListView.builder(
+                  itemCount: songList?.length,
+                  padding: EdgeInsets.only(bottom: screenHeight * 0.2),
+                  itemBuilder: (context, songIndex) {
+                    Song song = songList[songIndex];
+                    if (!song.filePath.contains('WhatsApp/Media'))
+                      return Column(
+                        children: [
+                          SizedBox(height: 10),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).dividerColor,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(24))),
+                            child: InkWell(
+                              onTap: () {
+                                if (provider.audioManagerInstance.isPlaying)
+                                  provider.audioManagerInstance.toPause();
+                                provider.playerState = PlayerState.playing;
+                                provider.audioManagerInstance
+                                    .start(
+                                        "file://${song.filePath}", song.title,
+                                        desc: song.displayName,
+                                        auto: true,
+                                        cover: song.albumArtwork)
+                                    .then((err) {
+                                  print(err);
+                                });
+                                playFABController.forward();
+                              },
+                              child: Card(
+                                elevation: 0,
+                                color: Colors.transparent,
+                                child: ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  title: Row(
+                                    children: <Widget>[
+                                      ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(40),
+                                          child: Container(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                              width: 50,
+                                              height: 50,
+                                              child:
+                                                  getAlbumArt(song, context))),
+                                      SizedBox(
+                                        width: screenWidth * 0.03,
+                                      ),
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.7,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Text(song.title,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline3),
+                                            Text(song.artist,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle2),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(width: screenWidth * 0.01),
+                                      Text(
+                                          parseToMinutesSeconds(
+                                              int.parse(song.duration)),
+                                          style: durationTheme),
+                                    ],
                                   ),
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.7,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Text(song.title,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline3),
-                                        Text(song.artist,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle2),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width: screenWidth * 0.01),
-                                  Text(
-                                      parseToMinutesSeconds(
-                                          int.parse(song.duration)),
-                                      style: durationTheme),
-                                ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ],
-                  );
-                return SizedBox(
-                  height: 0,
-                );
-              }),
+                        ],
+                      );
+                    return SizedBox(
+                      height: 0,
+                    );
+                  }),
+            ),
+          ),
         ),
       ],
     );
