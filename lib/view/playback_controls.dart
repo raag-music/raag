@@ -110,14 +110,16 @@ class _PlayBackControlsState extends State<PlayBackControls>
                               ),
                               elevation: 0,
                               onPressed: () {
-                                if (provider.audioManagerInstance.isPlaying) {
+                                if (provider.playerState == PlayerState.playing) {
                                   playFABController.reverse();
                                   provider.playerState = PlayerState.paused;
-                                } else {
+                                  provider.audioManagerInstance.playOrPause();
+                                } else if (provider.playerState ==
+                                    PlayerState.paused) {
                                   playFABController.forward();
                                   provider.playerState = PlayerState.playing;
-                                }
-                                provider.audioManagerInstance.playOrPause();
+                                  provider.audioManagerInstance.playOrPause();
+                                } else {}
                               }),
                         ),
                         SizedBox(
@@ -165,9 +167,10 @@ class _PlayBackControlsState extends State<PlayBackControls>
                               child: RawMaterialButton(
                             shape: CircleBorder(),
                             onPressed: () {
-                              provider.audioManagerInstance.stop();
                               provider.slider = 0;
                               playFABController.reverse();
+                              provider.audioManagerInstance.stop();
+                              provider.playerState = PlayerState.stopped;
                             },
                             child: Icon(
                               Icons.stop,
