@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/provider/settings_provider.dart';
+import 'package:raag/provider/theme.dart';
 
 class ThemeButton extends StatefulWidget {
   @override
@@ -26,21 +27,19 @@ class _ThemeButtonState extends State<ThemeButton>
   Widget build(BuildContext context) {
     final provider = Provider.of<SettingsProvider>(context);
     final screenWidth = MediaQuery.of(context).size.width;
-    Color iconColor = Theme.of(context).colorScheme.secondary;
 
     Widget nightIcon = Icon(
       Icons.nightlight_round,
-      color: iconColor,
+      color: hex('809DF5'),
     );
     Widget dayIcon = Icon(
       Icons.wb_sunny_outlined,
-      color: iconColor,
+      color: hex('415EB4'),
     );
 
     changeTheme() {
       provider.changeTheme();
       provider.darkTheme ? controller.forward() : controller.reverse();
-      iconColor = Theme.of(context).colorScheme.secondary;
     }
 
     return Container(

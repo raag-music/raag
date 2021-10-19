@@ -27,18 +27,9 @@ class Settings extends StatelessWidget {
             pinned: true,
             snap: true,
             flexibleSpace: FlexibleSpaceBar(
-                title: Text('Settings',
-                    style: Theme.of(context).textTheme.headline1),
-                background: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(24),
-                            bottomRight: Radius.circular(24)),
-                        gradient: LinearGradient(
-                            begin: Alignment.centerRight,
-                            end: Alignment.centerLeft,
-                            stops: [0.1, 0.8],
-                            colors: [Colors.black45, Colors.black12])))),
+              title: Text('Settings',
+                  style: Theme.of(context).textTheme.headline1),
+            ),
           ),
           SliverList(
             delegate: SliverChildListDelegate([
