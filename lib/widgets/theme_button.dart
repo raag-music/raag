@@ -1,6 +1,5 @@
 import 'package:animated_icon_button/animated_icon_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/provider/settings_provider.dart';
 import 'package:raag/provider/theme.dart';

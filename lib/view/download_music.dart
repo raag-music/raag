@@ -136,7 +136,6 @@ class _DownloadMusicState extends State<DownloadMusic> {
           .replaceAll('.', ' ')
           .replaceAll('/', ' ')
           .replaceAll(':', ' ');
-      //TODO Do something efficient to choose only alpha-numeric characters from $title
       var filePath = _raagDownloadsDirectory.path + '/' + tempTitle + '.mp3';
 
       if (streamInfo != null) {

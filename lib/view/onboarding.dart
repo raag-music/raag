@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:raag/model/strings.dart';
 import 'package:raag/provider/theme.dart';
 import 'package:raag/widgets/intro_widget.dart';
