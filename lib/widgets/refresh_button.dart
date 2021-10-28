@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:raag/provider/db_provider.dart';
 import 'package:raag/view/splash_screen.dart';
+import 'package:raag/model/strings.dart';
 
 class RefreshButton extends StatelessWidget {
   @override
@@ -15,10 +16,10 @@ class RefreshButton extends StatelessWidget {
           return AlertDialog(
               backgroundColor: Theme.of(context).backgroundColor,
               title: Text(
-                'Refreshing DB',
+                refreshingDB,
                 style: Theme.of(context).textTheme.headline3,
               ),
-              content: Text('Looking for new songs'));
+              content: Text(newSongs));
         },
       );
     }
@@ -32,7 +33,7 @@ class RefreshButton extends StatelessWidget {
           // _preferencesProvider.setBool(Preferences.DB_POPULATED, false);
           await SplashScreen.populateSongsIntoDB();
           var _diff = await DBProvider.db.getCount() - _oldCount;
-          var toastText = (_diff < 0) ? ' songs removed' : ' new songs added';
+          var toastText = (_diff < 0) ? songsRemoved : newSongsAdded;
           Navigator.of(context).pop();
           Fluttertoast.showToast(msg: (_diff).toString() + toastText);
         },
@@ -50,7 +51,7 @@ class RefreshButton extends StatelessWidget {
               width: screenWidth * 0.04,
             ),
             Text(
-              'Refresh Songs',
+              refreshSongs,
               style: Theme.of(context).textTheme.headline3,
             )
           ]),

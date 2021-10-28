@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:raag/model/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -131,7 +131,7 @@ class NavigationControls extends StatelessWidget {
                       if (await controller.canGoBack()) {
                         await controller.goBack();
                       } else {
-                        Fluttertoast.showToast(msg: 'No page in history');
+                        Fluttertoast.showToast(msg: noPageHistory);
                       }
                     },
             ),
@@ -143,7 +143,7 @@ class NavigationControls extends StatelessWidget {
                       if (await controller.canGoForward()) {
                         await controller.goForward();
                       } else {
-                        Fluttertoast.showToast(msg: 'No page to go forward');
+                        Fluttertoast.showToast(msg: noForward);
                       }
                     },
             ),

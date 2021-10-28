@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/provider/settings_provider.dart';
 import 'package:raag/provider/theme.dart';
-
+import 'package:raag/model/strings.dart';
 class ThemeButton extends StatefulWidget {
   @override
   _ThemeButtonState createState() => _ThemeButtonState();
@@ -64,7 +64,7 @@ class _ThemeButtonState extends State<ThemeButton>
                   width: screenWidth * 0.04,
                 ),
                 Text(
-                  'Dark Theme',
+                  darktheme,
                   style: Theme.of(context).textTheme.headline3,
                 ),
                 SizedBox(

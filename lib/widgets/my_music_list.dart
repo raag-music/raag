@@ -3,6 +3,7 @@ import 'package:raag/model/music_model.dart';
 import 'package:raag/provider/db_provider.dart';
 import 'package:raag/widgets/loading_indicator.dart';
 import 'package:raag/widgets/song_widget.dart';
+import 'package:raag/model/strings.dart';
 
 class MyMusicList extends StatelessWidget {
   @override
@@ -18,7 +19,7 @@ class MyMusicList extends StatelessWidget {
           } else if (songInfo?.isEmpty ?? true) {
             return Center(
                 child: Text(
-              'No music files found :(',
+                  noNewMusic,
               style: Theme.of(context).textTheme.subtitle1,
             ));
           }
