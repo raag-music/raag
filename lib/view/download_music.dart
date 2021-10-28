@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:raag/model/strings.dart';
-
 import 'package:clipboard/clipboard.dart';
 import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +17,8 @@ import 'package:raag/view/settings.dart';
 import 'package:raag/view/youtube_search.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'package:raag/model/strings.dart';
+
 
 class DownloadMusic extends StatefulWidget {
   final String url;
@@ -232,7 +232,8 @@ class _DownloadMusicState extends State<DownloadMusic> {
         leading: IconButton(
             icon: Icon(Icons.arrow_back_ios_outlined),
             onPressed: () => Navigator.pop(context)),
-        title: Text(downlaodMusic,
+        title: Text(
+            downloadMus,
             style: Theme.of(context).textTheme.headline3),
         centerTitle: true,
         actions: [
