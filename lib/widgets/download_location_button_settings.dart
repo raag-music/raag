@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/provider/settings_provider.dart';
+import 'package:raag/model/strings.dart';
 
 class DownloadLocationButton extends StatelessWidget {
   @override
@@ -17,11 +18,11 @@ class DownloadLocationButton extends StatelessWidget {
             provider.appStorage = false;
             Fluttertoast.showToast(
                 msg:
-                    'Downloaded files will be stored to \nAndroid/Data/in.amfoss.raag/files\nUse a File manager to move to your preferred location',
+                willBeStored,
                 toastLength: Toast.LENGTH_LONG);
           } else {
             Fluttertoast.showToast(
-                msg: 'Downloaded files will be stored to \nDownload/Raag/',
+                msg: y,
                 toastLength: Toast.LENGTH_LONG);
             provider.appStorage = true;
           }
@@ -43,13 +44,13 @@ class DownloadLocationButton extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Download Location',
+                  downloadedLocation,
                   style: Theme.of(context).textTheme.headline3,
                 ),
                 Text(
                   provider.appStorage == true
-                      ? 'Storage/Download/Raag'
-                      : 'Android/Data/in.amfoss.raag/files/',
+                      ? d
+                      : e,
                   style: Theme.of(context).textTheme.subtitle2,
                 )
               ],

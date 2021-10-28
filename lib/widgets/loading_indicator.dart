@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:raag/model/strings.dart';
 
 class LoadingIndicator extends StatelessWidget {
   @override
@@ -22,7 +23,7 @@ class LoadingIndicator extends StatelessWidget {
                 width: 20,
               ),
               Text(
-                "Loading",
+                loading,
                 style: Theme.of(context).textTheme.headline3,
               )
             ],

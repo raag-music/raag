@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:raag/model/strings.dart';
 import 'package:raag/provider/theme.dart';
 import 'package:raag/widgets/intro_widget.dart';
+import 'package:raag/model/strings.dart';
 
 import 'home_scaffold.dart';
 
@@ -54,7 +54,7 @@ class _OnBoardingState extends State<OnBoarding> {
           type: appName,
           startGradientColor: Theme.of(context).colorScheme.secondary,
           endGradientColor: Colors.deepPurple,
-          subText: 'The Millennial\'s music app'),
+          subText: millenium),
       IntroWidget(
           screenWidth: screenWidth,
           screenHeight: screenHeight,
@@ -62,7 +62,7 @@ class _OnBoardingState extends State<OnBoarding> {
           type: 'Listen',
           startGradientColor: hex('407BFF'),
           endGradientColor: hex('004DFF'),
-          subText: 'Listen to all your songs in one place'),
+          subText: allSongs),
       IntroWidget(
           screenWidth: screenWidth,
           screenHeight: screenHeight,
@@ -70,7 +70,7 @@ class _OnBoardingState extends State<OnBoarding> {
           type: 'Download',
           startGradientColor: hex('FF725E'),
           endGradientColor: hex('FF1A00'),
-          subText: 'YouTube to your device. No strings'),
+          subText: youtube),
     ];
 
     List<Widget> _buildPageIndicator() {
@@ -120,7 +120,7 @@ class _OnBoardingState extends State<OnBoarding> {
                             curve: Curves.ease);
                       },
                       child: Text(
-                        'Skip',
+                        skip,
                         style: Theme.of(context).textTheme.headline3,
                       )),
                 ),

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:clipboard/clipboard.dart';
 import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/model/SharedPreferences.dart';
 import 'package:raag/model/connectivity.dart';
-import 'package:raag/model/strings.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/provider/settings_provider.dart';
 import 'package:raag/provider/theme.dart';
@@ -19,6 +17,8 @@ import 'package:raag/view/settings.dart';
 import 'package:raag/view/youtube_search.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'package:raag/model/strings.dart';
+
 
 class DownloadMusic extends StatefulWidget {
   final String url;
@@ -136,7 +136,6 @@ class _DownloadMusicState extends State<DownloadMusic> {
           .replaceAll('.', ' ')
           .replaceAll('/', ' ')
           .replaceAll(':', ' ');
-      //TODO Do something efficient to choose only alpha-numeric characters from $title
       var filePath = _raagDownloadsDirectory.path + '/' + tempTitle + '.mp3';
 
       if (streamInfo != null) {
@@ -170,14 +169,14 @@ class _DownloadMusicState extends State<DownloadMusic> {
           context: context,
           title: 'File error',
           desc:
-              'Raag was unable to create a file. Try changing the download location from settings and try again',
+          unable,
           type: AlertType.error,
           style: Styles.alertStyle(context),
           buttons: [
             DialogButton(
               color: Theme.of(context).colorScheme.secondary,
               child: Text(
-                "Settings",
+                settings,
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               onPressed: () {
@@ -193,7 +192,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
             DialogButton(
                 color: Theme.of(context).colorScheme.secondary,
                 child: Text(
-                  "Cancel",
+                  cancel,
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 onPressed: () => Navigator.pop(context))
@@ -206,7 +205,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
       print("Exception: $e\nStack Trace: $s");
       Alert(
               context: context,
-              title: 'Unknown error',
+              title: unkownError,
               desc: '$e',
               type: AlertType.error,
               style: Styles.alertStyle(context))
@@ -233,7 +232,8 @@ class _DownloadMusicState extends State<DownloadMusic> {
         leading: IconButton(
             icon: Icon(Icons.arrow_back_ios_outlined),
             onPressed: () => Navigator.pop(context)),
-        title: Text("Download music",
+        title: Text(
+            downloadMus,
             style: Theme.of(context).textTheme.headline3),
         centerTitle: true,
         actions: [
