@@ -21,6 +21,10 @@
           </a>
         </td>
         <td>
+          <a href="https://f-droid.org/en/packages/in.amfoss.raag"><img src="https://github.com/raag-music/raag/actions/workflows/flutter.yml/badge.svg"alt="Get it on F-Droid"height="35">
+          </a>
+        </td>
+        <td>
           <a href="https://www.buymeacoffee.com/ashwinr"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" height="35"></a>
         </td>
       </tr>
@@ -38,11 +42,11 @@
 
 - These instructions will get you a copy of the project up and be running on your local machine for development and testing purposes.
 
-## Prerequisites ✍️
+### Prerequisites ✍️
 
 -  [Android Studio](https://developer.android.com/studio), with a recent version of the Android SDK.
 - [Flutter](https://flutter.dev/)
-## Setting up your development environment 🏭️
+### Setting up your development environment 🏭️
 
 1. Download and install Git.
 2. Fork [Raag](https://github.com/raag-music/raag.git)
