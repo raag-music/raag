@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:raag/model/strings.dart';
 import 'package:raag/provider/theme.dart';
 import 'package:raag/widgets/intro_widget.dart';
-import 'package:raag/model/strings.dart';
 
 import 'home_scaffold.dart';
 

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:raag/model/strings.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/provider/settings_provider.dart';
 import 'package:raag/view/download_music.dart';
