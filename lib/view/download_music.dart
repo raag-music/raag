@@ -169,7 +169,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
           context: context,
           title: 'File error',
           desc:
-          unable,
+          fileCreationError,
           type: AlertType.error,
           style: Styles.alertStyle(context),
           buttons: [
@@ -233,7 +233,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
             icon: Icon(Icons.arrow_back_ios_outlined),
             onPressed: () => Navigator.pop(context)),
         title: Text(
-            downloadMus,
+            downloadMusicString,
             style: Theme.of(context).textTheme.headline3),
         centerTitle: true,
         actions: [

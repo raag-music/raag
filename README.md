@@ -53,7 +53,7 @@
 3. Clone your fork of the project locally. At the command line:
             
    ```
-   $ git clone https://github.com/YOUR-GITLAB-USERNAME/raag.git
+   $ git clone https://github.com/YOUR-GITHUB-USERNAME/raag.git
    ```
 
 4. Open your code favourite editor (VS Code, Android Studio etc)
