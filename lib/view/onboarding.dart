@@ -54,7 +54,7 @@ class _OnBoardingState extends State<OnBoarding> {
           type: appName,
           startGradientColor: Theme.of(context).colorScheme.secondary,
           endGradientColor: Colors.deepPurple,
-          subText: millenium),
+          subText: splashTagString),
       IntroWidget(
           screenWidth: screenWidth,
           screenHeight: screenHeight,
@@ -62,7 +62,7 @@ class _OnBoardingState extends State<OnBoarding> {
           type: 'Listen',
           startGradientColor: hex('407BFF'),
           endGradientColor: hex('004DFF'),
-          subText: allSongs),
+          subText: splashCaption),
       IntroWidget(
           screenWidth: screenWidth,
           screenHeight: screenHeight,
@@ -70,7 +70,7 @@ class _OnBoardingState extends State<OnBoarding> {
           type: 'Download',
           startGradientColor: hex('FF725E'),
           endGradientColor: hex('FF1A00'),
-          subText: youtube),
+          subText: splashYouTube),
     ];
 
     List<Widget> _buildPageIndicator() {

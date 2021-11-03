@@ -49,8 +49,8 @@ class DownloadLocationButton extends StatelessWidget {
                 ),
                 Text(
                   provider.appStorage == true
-                      ? d
-                      : e,
+                      ? defaultDownloadDir
+                      : alternateDownloadDir,
                   style: Theme.of(context).textTheme.subtitle2,
                 )
               ],
