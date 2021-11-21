@@ -7,14 +7,14 @@ packages:
       name: animated_icon_button
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.0"
+    version: "1.0.2"
   animator:
     dependency: "direct main"
     description:
       name: animator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2"
+    version: "3.1.0"
   async:
     dependency: transitive
     description:
@@ -28,28 +28,7 @@ packages:
       name: audio_manager
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.5+3"
-  audioplayer:
-    dependency: "direct main"
-    description:
-      name: audioplayer
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.8.1"
-  audioplayer_web:
-    dependency: "direct main"
-    description:
-      name: audioplayer_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.7.1"
-  audiotagger:
-    dependency: "direct main"
-    description:
-      name: audiotagger
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.2.0"
+    version: "0.8.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -98,28 +77,28 @@ packages:
       name: connectivity
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2"
+    version: "3.0.6"
   connectivity_for_web:
     dependency: transitive
     description:
       name: connectivity_for_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.1+4"
+    version: "0.4.0+1"
   connectivity_macos:
     dependency: transitive
     description:
       name: connectivity_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.0+7"
+    version: "0.2.1+2"
   connectivity_platform_interface:
     dependency: transitive
     description:
       name: connectivity_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.6"
+    version: "2.0.1"
   csslib:
     dependency: transitive
     description:
@@ -134,20 +113,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  downloads_path_provider_28:
+  ext_storage:
     dependency: "direct main"
     description:
-      name: downloads_path_provider_28
+      name: ext_storage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.2"
+    version: "1.0.3"
   fading_edge_scrollview:
     dependency: transitive
     description:
       name: fading_edge_scrollview
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.4"
+    version: "2.0.1"
   fake_async:
     dependency: transitive
     description:
@@ -204,7 +183,7 @@ packages:
       name: fluttertoast
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.1.1"
+    version: "8.0.8"
   freezed_annotation:
     dependency: transitive
     description:
@@ -253,7 +232,7 @@ packages:
       name: marquee
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.1"
+    version: "2.2.0"
   matcher:
     dependency: transitive
     description:
@@ -274,7 +253,7 @@ packages:
       name: nested
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.4"
+    version: "1.0.0"
   open_file:
     dependency: "direct main"
     description:
@@ -351,7 +330,7 @@ packages:
       name: plugin_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "2.0.2"
   process:
     dependency: transitive
     description:
@@ -365,21 +344,14 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.2+2"
+    version: "6.0.1"
   rflutter_alert:
     dependency: "direct main"
     description:
       name: rflutter_alert
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
-  settings_ui:
-    dependency: "direct main"
-    description:
-      name: settings_ui
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.0"
+    version: "2.0.4"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -461,7 +433,7 @@ packages:
       name: states_rebuilder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.0"
+    version: "4.4.0"
   stream_channel:
     dependency: transitive
     description:
@@ -517,7 +489,28 @@ packages:
       name: webview_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.7"
+    version: "2.3.1"
+  webview_flutter_android:
+    dependency: transitive
+    description:
+      name: webview_flutter_android
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.3.0"
+  webview_flutter_platform_interface:
+    dependency: transitive
+    description:
+      name: webview_flutter_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.5.1"
+  webview_flutter_wkwebview:
+    dependency: transitive
+    description:
+      name: webview_flutter_wkwebview
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.4.0"
   win32:
     dependency: transitive
     description:
@@ -547,5 +540,5 @@ packages:
     source: hosted
     version: "1.10.6"
 sdks:
-  dart: ">=2.13.0 <3.0.0"
-  flutter: ">=1.24.0-10"
+  dart: ">=2.14.0 <3.0.0"
+  flutter: ">=2.5.0"

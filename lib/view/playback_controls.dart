@@ -16,14 +16,14 @@ class _PlayBackControlsState extends State<PlayBackControls>
   @override
   void initState() {
     super.initState();
-    playFABController =
+    playPauseController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
   }
 
   @override
   void dispose() {
     super.dispose();
-    playFABController.dispose();
+    playPauseController.dispose();
   }
 
   @override
@@ -79,9 +79,7 @@ class _PlayBackControlsState extends State<PlayBackControls>
                                   size: 30,
                                 ),
                                 elevation: 0,
-                                onPressed: () {
-                                  provider.audioManagerInstance.previous();
-                                }),
+                                onPressed: () => provider.previous()),
                           ),
                         ),
                         SizedBox(
@@ -105,20 +103,21 @@ class _PlayBackControlsState extends State<PlayBackControls>
                                       Theme.of(context).colorScheme.secondary,
                                   icon: AnimatedIcons.play_pause,
                                   size: 50,
-                                  progress: playFABController,
+                                  progress: playPauseController,
                                 ),
                               ),
                               elevation: 0,
                               onPressed: () {
-                                if (provider.playerState == PlayerState.playing) {
-                                  playFABController.reverse();
+                                if (provider.playerState ==
+                                    PlayerState.playing) {
+                                  playPauseController.reverse();
                                   provider.playerState = PlayerState.paused;
-                                  provider.audioManagerInstance.playOrPause();
+                                  provider.pause();
                                 } else if (provider.playerState ==
                                     PlayerState.paused) {
-                                  playFABController.forward();
+                                  playPauseController.forward();
                                   provider.playerState = PlayerState.playing;
-                                  provider.audioManagerInstance.playOrPause();
+                                  provider.resume();
                                 } else {}
                               }),
                         ),
@@ -145,9 +144,7 @@ class _PlayBackControlsState extends State<PlayBackControls>
                                   size: 30,
                                 ),
                                 elevation: 0,
-                                onPressed: () {
-                                  provider.audioManagerInstance.next();
-                                }),
+                                onPressed: () => provider.next()),
                           ),
                         ),
                         SizedBox(
@@ -167,9 +164,8 @@ class _PlayBackControlsState extends State<PlayBackControls>
                               child: RawMaterialButton(
                             shape: CircleBorder(),
                             onPressed: () {
-                              provider.slider = 0;
-                              playFABController.reverse();
-                              provider.audioManagerInstance.stop();
+                              playPauseController.reverse();
+                              provider.stop();
                               provider.playerState = PlayerState.stopped;
                             },
                             child: Icon(

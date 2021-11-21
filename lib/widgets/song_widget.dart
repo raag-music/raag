@@ -67,19 +67,11 @@ class SongWidget extends StatelessWidget {
                                     BorderRadius.all(Radius.circular(24))),
                             child: InkWell(
                               onTap: () {
-                                if (provider.audioManagerInstance.isPlaying)
-                                  provider.audioManagerInstance.toPause();
-                                provider.playerState = PlayerState.playing;
-                                provider.audioManagerInstance
-                                    .start(
-                                        "file://${song.filePath}", song.title,
-                                        desc: song.displayName,
-                                        auto: true,
-                                        cover: song.albumArtwork)
-                                    .then((err) {
-                                  print(err);
-                                });
-                                playFABController.forward();
+                                if (provider.playerState == PlayerState.playing)
+                                  provider.pause();
+                                provider.play(song.filePath, song.title,
+                                    song.displayName, song.albumArtwork);
+                                playPauseController.forward();
                               },
                               child: Card(
                                 elevation: 0,

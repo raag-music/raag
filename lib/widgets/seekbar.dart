@@ -10,7 +10,7 @@ class SeekBar extends StatelessWidget {
     return Row(
       children: <Widget>[
         Text(
-          formatDuration(provider.audioManagerInstance.position),
+          formatDuration(provider.position),
           style: Theme.of(context).textTheme.subtitle2,
         ),
         Expanded(
@@ -32,25 +32,18 @@ class SeekBar extends StatelessWidget {
                   inactiveTrackColor: Theme.of(context).dividerColor,
                 ),
                 child: Slider(
-                  value: provider.slider ?? 0,
+                  value: (provider.slider >= 0 && provider.slider <= 1)
+                      ? provider.slider
+                      : 0,
                   onChanged: (value) {
                     provider.slider = value;
                   },
-                  onChangeEnd: (value) {
-                    if (provider.audioManagerInstance.duration != null) {
-                      Duration msec = Duration(
-                          milliseconds: (provider.audioManagerInstance.duration
-                                      .inMilliseconds *
-                                  value)
-                              .round());
-                      provider.audioManagerInstance.seekTo(msec);
-                    }
-                  },
+                  onChangeEnd: (value) => provider.seekTo(value),
                 )),
           ),
         ),
         Text(
-          formatDuration(provider.audioManagerInstance.duration),
+          formatDuration(provider.duration),
           style: Theme.of(context).textTheme.subtitle2,
         ),
       ],

@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:clipboard/clipboard.dart';
-import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
+import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -118,10 +118,10 @@ class _DownloadMusicState extends State<DownloadMusic> {
       Directory _raagDownloadsDirectory;
       if (await sharedPreference.getBool(Preferences.DOWNLOAD_DIRECTORY) ==
           true) {
-        Directory downloadsDirectory =
-            await DownloadsPathProvider.downloadsDirectory;
-        _raagDownloadsDirectory =
-            Directory('${downloadsDirectory.path}/$appName');
+        String downloadsDirectory =
+            await ExtStorage.getExternalStoragePublicDirectory(
+                ExtStorage.DIRECTORY_DOWNLOADS);
+        _raagDownloadsDirectory = Directory('$downloadsDirectory/$appName');
       } else
         _raagDownloadsDirectory = await getExternalStorageDirectory();
 
