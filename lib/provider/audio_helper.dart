@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
-AnimationController playFABController;
+AnimationController playPauseController;
 
 String parseToMinutesSeconds(int ms) {
   String data;
@@ -25,7 +25,7 @@ String parseToMinutesSeconds(int ms) {
 String formatDuration(Duration d) {
   if (d == null) return "--:--";
   int minute = d.inMinutes;
-  int second = (d.inSeconds > 60) ? (d.inSeconds % 60) : d.inSeconds;
+  int second = (d.inSeconds >= 60) ? (d.inSeconds % 60) : d.inSeconds;
   String format = ((minute < 10) ? "0$minute" : "$minute") +
       ":" +
       ((second < 10) ? "0$second" : "$second");

@@ -56,8 +56,11 @@ class _ThemeButtonState extends State<ThemeButton>
                 AnimatedIconButton(
                   size: screenWidth * 0.08,
                   animationController: controller,
-                  startIcon: (provider.darkTheme) ? dayIcon : nightIcon,
-                  endIcon: (provider.darkTheme) ? nightIcon : dayIcon,
+                  initialIcon: (provider.darkTheme) ? 1:0,
+                  icons: [
+                    AnimatedIconItem(icon: nightIcon),
+                    AnimatedIconItem(icon: dayIcon),
+                  ],
                   onPressed: () {},
                 ),
                 SizedBox(

@@ -14,6 +14,7 @@ class HomeScaffold extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 70,
           systemOverlayStyle: themeProvider.darkTheme
               ? SystemUiOverlayStyle.dark
               : SystemUiOverlayStyle.light,
