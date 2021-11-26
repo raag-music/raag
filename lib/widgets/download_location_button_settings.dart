@@ -17,13 +17,9 @@ class DownloadLocationButton extends StatelessWidget {
           if (provider.appStorage != false) {
             provider.appStorage = false;
             Fluttertoast.showToast(
-                msg:
-                willBeStored,
-                toastLength: Toast.LENGTH_LONG);
+                msg: willBeStored, toastLength: Toast.LENGTH_LONG);
           } else {
-            Fluttertoast.showToast(
-                msg: y,
-                toastLength: Toast.LENGTH_LONG);
+            Fluttertoast.showToast(msg: y, toastLength: Toast.LENGTH_LONG);
             provider.appStorage = true;
           }
         },

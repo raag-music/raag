@@ -20,7 +20,7 @@ class Settings extends StatelessWidget {
           SliverAppBar(
             expandedHeight: screenHeight * 0.3,
             toolbarHeight: screenHeight * 0.08,
-            collapsedHeight: screenHeight * 0.1,
+            collapsedHeight: screenHeight * 0.15,
             systemOverlayStyle: themeProvider.darkTheme
                 ? SystemUiOverlayStyle.light
                 : SystemUiOverlayStyle.dark,
@@ -31,7 +31,9 @@ class Settings extends StatelessWidget {
               title: Text(settings,
                   style: Theme.of(context).textTheme.headline1),
             ),
-          ),
+            leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios_rounded),
+                onPressed: () => Navigator.pop(context)),          ),
           SliverList(
             delegate: SliverChildListDelegate([
               SizedBox(height: screenHeight * 0.05),

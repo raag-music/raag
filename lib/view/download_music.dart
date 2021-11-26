@@ -230,7 +230,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
             : SystemUiOverlayStyle.light,
         elevation: 0,
         leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_outlined),
+            icon: Icon(Icons.arrow_back_ios_rounded),
             onPressed: () => Navigator.pop(context)),
         title: Text(
             downloadMusicString,

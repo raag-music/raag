@@ -18,12 +18,12 @@ class Preferences {
     return prefs.getBool(key) ?? false;
   }
 
-  void setString (String key, String value) async {
+  void setString(String key, String value) async {
     prefs = await SharedPreferences.getInstance();
     prefs.setString(key, value);
   }
 
-  Future<String> getString (String key) async {
+  Future<String> getString(String key) async {
     prefs = await SharedPreferences.getInstance();
     return prefs.getString(key);
   }
