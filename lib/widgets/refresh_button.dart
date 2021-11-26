@@ -39,7 +39,9 @@ class RefreshButton extends StatelessWidget {
         },
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Row(children: [
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+              children: [
             Container(
                 padding: EdgeInsets.all(8.0),
                 child: Icon(

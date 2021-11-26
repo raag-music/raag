@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:raag/provider/settings_provider.dart';
 import 'package:raag/provider/theme.dart';
 import 'package:raag/model/strings.dart';
+
 class ThemeButton extends StatefulWidget {
   @override
   _ThemeButtonState createState() => _ThemeButtonState();
@@ -41,45 +42,43 @@ class _ThemeButtonState extends State<ThemeButton>
       provider.darkTheme ? controller.forward() : controller.reverse();
     }
 
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.1,
-      child: Card(
-        elevation: 3,
-        child: InkWell(
-          splashColor: Colors.transparent,
-          onTap: () => changeTheme(),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                AnimatedIconButton(
-                  size: screenWidth * 0.08,
-                  animationController: controller,
-                  initialIcon: (provider.darkTheme) ? 1:0,
-                  icons: [
-                    AnimatedIconItem(icon: nightIcon),
-                    AnimatedIconItem(icon: dayIcon),
-                  ],
-                  onPressed: () {},
-                ),
-                SizedBox(
-                  width: screenWidth * 0.04,
-                ),
-                Text(
-                  darktheme,
-                  style: Theme.of(context).textTheme.headline3,
-                ),
-                SizedBox(
-                  width: screenWidth * 0.3,
-                ),
-                Switch(
-                  activeColor: Theme.of(context).colorScheme.secondary,
-                  value: !provider.darkTheme,
-                  onChanged: (bool value) => changeTheme(),
-                )
-              ],
-            ),
+    return Card(
+      elevation: 3,
+      child: InkWell(
+        splashColor: Colors.transparent,
+        onTap: () => changeTheme(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              AnimatedIconButton(
+                padding: EdgeInsets.all(8.0),
+                size: screenWidth * 0.08,
+                animationController: controller,
+                initialIcon: (provider.darkTheme) ? 1 : 0,
+                icons: [
+                  AnimatedIconItem(icon: nightIcon),
+                  AnimatedIconItem(icon: dayIcon),
+                ],
+                onPressed: () => changeTheme(),
+              ),
+              SizedBox(
+                width: screenWidth * 0.01,
+              ),
+              Text(
+                darktheme,
+                style: Theme.of(context).textTheme.headline3,
+              ),
+              SizedBox(
+                width: screenWidth * 0.3,
+              ),
+              Switch(
+                activeColor: Theme.of(context).colorScheme.secondary,
+                value: !provider.darkTheme,
+                onChanged: (bool value) => changeTheme(),
+              )
+            ],
           ),
         ),
       ),
