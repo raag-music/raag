@@ -35,7 +35,6 @@ String formatDuration(Duration d) {
 bool isValidYouTubeURL(String url) {
   url =
       url.replaceAll('://m.y', '://www.y'); //For changing mobile URL to web URL
-  print('Web URL: ' + url);
   RegExp youtubeVideoRegExp = new RegExp(
       r'http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([(\w)\-\_]*)(&(amp;)?[(\w)\?=]*)?');
   var matches = youtubeVideoRegExp.allMatches(url);

@@ -6,15 +6,54 @@ import 'package:raag/view/download_music.dart';
 import 'package:raag/view/playback_controls.dart';
 import 'package:raag/view/settings.dart';
 import 'package:raag/widgets/my_music_list.dart';
+import 'package:raag/provider/audio_helper.dart';
 
-class HomeScaffold extends StatelessWidget {
+import 'package:receive_sharing_intent/receive_sharing_intent.dart';
+
+class HomeScaffold extends StatefulWidget {
+  @override
+  State<HomeScaffold> createState() => _HomeScaffoldState();
+}
+
+class _HomeScaffoldState extends State<HomeScaffold> {
+  @override
+  void initState() {
+    super.initState();
+    receiveDownloadURLIntent();
+  }
+
+  void receiveDownloadURLIntent() {
+    // For sharing or opening urls/text coming from outside the app while the app is in the memory
+    ReceiveSharingIntent.getTextStream().listen((String value) {
+      if (value != null) launchDownloader(value);
+    }, onError: (err) {
+      print("getLinkStream error: $err");
+    });
+
+    // For sharing or opening urls/text coming from outside the app while the app is closed
+    ReceiveSharingIntent.getInitialText().then((String value) {
+      if (value != null) launchDownloader(value);
+    });
+  }
+
+  void launchDownloader(String url) {
+    debugPrint("Received URL: $url");
+    if (isValidYouTubeURL(url)) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DownloadMusic(url: url),
+          ));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<SettingsProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 70,
+          toolbarHeight: 70,
           systemOverlayStyle: themeProvider.darkTheme
               ? SystemUiOverlayStyle.dark
               : SystemUiOverlayStyle.light,

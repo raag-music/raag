@@ -37,8 +37,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  bool leaveSplash = false;
-
   @override
   void initState() {
     super.initState();
@@ -46,8 +44,8 @@ class _SplashScreenState extends State<SplashScreen> {
     awaitPopulateSongs();
   }
 
-  void onBoarding() async{
-    if(! await _preferencesProvider.getBool(Preferences.ON_BOARDING_DONE))
+  void onBoarding() async {
+    if (!await _preferencesProvider.getBool(Preferences.ON_BOARDING_DONE))
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => OnBoarding()));
     _preferencesProvider.setBool(Preferences.ON_BOARDING_DONE, true);
@@ -55,9 +53,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   awaitPopulateSongs() async {
     await SplashScreen.populateSongsIntoDB();
-    setState(() {
-      leaveSplash = true;
-    });
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => HomeScaffold()));
   }
