@@ -41,7 +41,6 @@ class SongWidget extends StatelessWidget {
       );
     }
 
-    debugPrint(songList[3].filePath);
     return Column(
       children: [
         Flexible(

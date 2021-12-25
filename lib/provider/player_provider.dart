@@ -65,6 +65,20 @@ class PlayerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+    void playLocal(String url, String title, String displayName, String albumArtWork) {
+    if (audioManagerInstance.isPlaying) audioManagerInstance.toPause();
+    playerState = PlayerState.playing;
+    audioManagerInstance
+        .start(url, title,
+            desc: displayName,
+            auto: true,
+            cover: albumArtWork ?? 'assets/images/musical.png')
+        .then((err) {
+      print(err);
+    });
+    notifyListeners();
+  }
+
   void pause() => audioManagerInstance.toPause();
 
   void resume() => audioManagerInstance.playOrPause();
