@@ -54,3 +54,4 @@ Future<File> urlToFile(String imageUrl) async {
   await file.writeAsBytes(response.bodyBytes);
   return file;
 }
+

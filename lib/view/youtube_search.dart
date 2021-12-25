@@ -51,23 +51,17 @@ class _YoutubeSearchState extends State<YoutubeSearch> {
           ].toSet(),
           navigationDelegate: (NavigationRequest request) {
             if (request.url.startsWith('https://www.youtube.com/')) {
-              print('blocking navigation to $request}');
               return NavigationDecision.prevent;
             }
-            print('allowing navigation to $request');
             return NavigationDecision.navigate;
           },
           onPageStarted: (String url) {
-            print('Page started loading: $url');
             if (isValidYouTubeURL(url)) {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => DownloadMusic(url: '')));
             }
-          },
-          onPageFinished: (String url) {
-            print('Page finished loading: $url');
           },
           gestureNavigationEnabled: true,
         );
