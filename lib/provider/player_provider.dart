@@ -1,10 +1,12 @@
 import 'package:audio_manager/audio_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:raag/model/music_model.dart';
 
 enum PlayerState { stopped, playing, paused }
 
 class PlayerProvider extends ChangeNotifier {
   PlayerState playerState;
+  Song nowPlaying;
 
   double _slider = 0.0;
   AudioManager audioManagerInstance = AudioManager.instance;
@@ -51,31 +53,18 @@ class PlayerProvider extends ChangeNotifier {
     });
   }
 
-  void play(String url, String title, String displayName, String albumArtWork) {
+  void play(Song song) {
     if (audioManagerInstance.isPlaying) audioManagerInstance.toPause();
     playerState = PlayerState.playing;
     audioManagerInstance
-        .start("file://$url", title,
-            desc: displayName,
+        .start("file://${song.filePath}", song.title,
+            desc: song.displayName,
             auto: true,
-            cover: albumArtWork ?? 'assets/images/musical.png')
+            cover: song.albumArtwork ?? 'assets/images/musical.png')
         .then((err) {
       print(err);
     });
-    notifyListeners();
-  }
-
-    void playLocal(String url, String title, String displayName, String albumArtWork) {
-    if (audioManagerInstance.isPlaying) audioManagerInstance.toPause();
-    playerState = PlayerState.playing;
-    audioManagerInstance
-        .start(url, title,
-            desc: displayName,
-            auto: true,
-            cover: albumArtWork ?? 'assets/images/musical.png')
-        .then((err) {
-      print(err);
-    });
+    nowPlaying = song;
     notifyListeners();
   }
 
@@ -98,6 +87,7 @@ class PlayerProvider extends ChangeNotifier {
     audioManagerInstance.stop();
     playerState = PlayerState.stopped;
     _slider = 0.0;
+    nowPlaying = null;
     notifyListeners();
     disposePlayer();
   }
