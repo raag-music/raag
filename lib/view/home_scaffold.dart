@@ -1,8 +1,6 @@
-import 'package:audio_manager/audio_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:raag/provider/player_provider.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
 import 'package:raag/provider/settings_provider.dart';
@@ -11,7 +9,6 @@ import 'package:raag/view/playback_controls.dart';
 import 'package:raag/view/settings.dart';
 import 'package:raag/widgets/my_music_list.dart';
 import 'package:raag/provider/audio_helper.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class HomeScaffold extends StatefulWidget {
   @override

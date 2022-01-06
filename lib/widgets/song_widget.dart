@@ -1,8 +1,4 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/model/music_model.dart';
 import 'package:raag/provider/audio_helper.dart';
@@ -19,27 +15,6 @@ class SongWidget extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final provider = Provider.of<PlayerProvider>(context, listen: false);
-
-    Widget getAlbumArt(Song song, BuildContext context) {
-      final defaultIcon = Icon(Icons.music_note_sharp,
-          size: 24, color: Theme.of(context).dividerColor);
-      if (song.albumArtwork !=
-          null) // Directly access album art when scoped storage approach is not used (less than Android API level 29)
-        return Image(
-          image: FileImage(File(song.albumArtwork)),
-        );
-      return FutureBuilder(
-        future: FlutterAudioQuery()
-            .getArtwork(type: ResourceType.SONG, id: song.id),
-        builder: (context, snapshot) {
-          Uint8List _imageBytes = snapshot.data;
-          if (_imageBytes == null || _imageBytes.isEmpty)
-            return defaultIcon;
-          else
-            return Image.memory(_imageBytes);
-        },
-      );
-    }
 
     return Column(
       children: [
@@ -68,8 +43,7 @@ class SongWidget extends StatelessWidget {
                               onTap: () {
                                 if (provider.playerState == PlayerState.playing)
                                   provider.pause();
-                                provider.play(song.filePath, song.title,
-                                    song.displayName, song.albumArtwork);
+                                provider.play(song);
                                 playPauseController.forward();
                               },
                               child: Card(
@@ -88,8 +62,10 @@ class SongWidget extends StatelessWidget {
                                                   .secondary,
                                               width: 50,
                                               height: 50,
-                                              child:
-                                                  getAlbumArt(song, context))),
+                                              child: getAlbumArt(
+                                                  song,
+                                                  Theme.of(context)
+                                                      .dividerColor))),
                                       SizedBox(
                                         width: screenWidth * 0.03,
                                       ),
