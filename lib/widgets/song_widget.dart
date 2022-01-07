@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
-import 'package:raag/model/music_model.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/provider/player_provider.dart';
 import 'package:raag/provider/theme.dart';
 
 class SongWidget extends StatelessWidget {
-  final List<Song> songList;
+  final List<SongModel> songList;
 
   SongWidget({@required this.songList});
 
@@ -28,8 +28,8 @@ class SongWidget extends StatelessWidget {
                   itemCount: songList?.length,
                   padding: EdgeInsets.only(bottom: screenHeight * 0.2),
                   itemBuilder: (context, songIndex) {
-                    Song song = songList[songIndex];
-                    if (!song.filePath.contains('WhatsApp/Media'))
+                    SongModel song = songList[songIndex];
+                    if (!song.uri.contains('WhatsApp/Media'))
                       return Column(
                         children: [
                           SizedBox(height: 10),
@@ -92,9 +92,7 @@ class SongWidget extends StatelessWidget {
                                         ),
                                       ),
                                       SizedBox(width: screenWidth * 0.01),
-                                      Text(
-                                          parseToMinutesSeconds(
-                                              int.parse(song.duration)),
+                                      Text(parseToMinutesSeconds(song.duration),
                                           style: durationTheme),
                                     ],
                                   ),

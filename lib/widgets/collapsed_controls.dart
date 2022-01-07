@@ -31,32 +31,32 @@ class CollapsedControls extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                new Container(
-                  height: 40,
-                  width: 40,
-                  decoration: new BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: new Border.all(
-                      color: Theme.of(context).dividerColor,
-                      width: 2.5,
-                    ),
-                  ),
-                  child: new Center(
-                      child: RawMaterialButton(
-                    shape: CircleBorder(),
-                    onPressed: () async => await panelController.open(),
-                    child: Center(
-                      child: Icon(
-                        Icons.keyboard_arrow_up_outlined,
-                        color: Theme.of(context).colorScheme.secondary,
-                        size: 35,
-                      ),
-                    ),
-                    elevation: 4,
-                  )),
-                ),
+                // new Container(
+                //   height: 40,
+                //   width: 40,
+                //   decoration: new BoxDecoration(
+                //     shape: BoxShape.circle,
+                //     border: new Border.all(
+                //       color: Theme.of(context).dividerColor,
+                //       width: 2.5,
+                //     ),
+                //   ),
+                //   child: new Center(
+                //       child: RawMaterialButton(
+                //     shape: CircleBorder(),
+                //     onPressed: () async => await panelController.open(),
+                //     child: Center(
+                //       child: Icon(
+                //         Icons.keyboard_arrow_up_outlined,
+                //         color: Theme.of(context).colorScheme.secondary,
+                //         size: 35,
+                //       ),
+                //     ),
+                //     elevation: 4,
+                //   )),
+                // ),
                 SizedBox(
-                  width: 30,
+                  width: 70,
                 ),
                 new Container(
                   height: 50,
