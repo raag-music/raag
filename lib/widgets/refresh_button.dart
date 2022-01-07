@@ -29,10 +29,10 @@ class RefreshButton extends StatelessWidget {
       child: InkWell(
         onTap: () async {
           showAlert();
-          var _oldCount = await DBProvider.db.getCount();
+          var _oldCount = await DBProvider.getCount();
           // _preferencesProvider.setBool(Preferences.DB_POPULATED, false);
           await SplashScreen.populateSongsIntoDB();
-          var _diff = await DBProvider.db.getCount() - _oldCount;
+          var _diff = await DBProvider.getCount() - _oldCount;
           var toastText = (_diff < 0) ? songsRemoved : newSongsAdded;
           Navigator.of(context).pop();
           Fluttertoast.showToast(msg: (_diff).toString() + toastText);

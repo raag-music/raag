@@ -7,12 +7,15 @@ import 'package:raag/provider/settings_provider.dart';
 import 'package:raag/view/splash_screen.dart';
 
 import 'model/strings.dart';
+import 'provider/db_provider.dart';
 import 'provider/theme.dart';
 
 PlayerProvider playerProvider = new PlayerProvider();
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initHive();
+  
   SystemChrome.setPreferredOrientations(
           [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((_) => runApp(MyApp()));

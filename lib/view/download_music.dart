@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:clipboard/clipboard.dart';
 import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,8 @@ import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/model/SharedPreferences.dart';
-import 'package:raag/model/connectivity.dart';
+import 'package:raag/model/connectivity.dart' as connectivity;
+import 'package:raag/model/strings.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/provider/settings_provider.dart';
 import 'package:raag/provider/theme.dart';
@@ -17,8 +19,6 @@ import 'package:raag/view/settings.dart';
 import 'package:raag/view/youtube_search.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-import 'package:raag/model/strings.dart';
-
 
 class DownloadMusic extends StatefulWidget {
   final String url;
@@ -88,7 +88,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
 
   Future<int> downloadMusic(String url, BuildContext context) async {
     Preferences sharedPreference = Preferences();
-    if (await isConnected() == false) {
+    if (await connectivity.isConnected() == false) {
       Alert(
               context: context,
               title: '$notConnected',

@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:raag/model/music_model.dart';
+import 'package:on_audio_query/on_audio_query.dart';
+import 'package:raag/provider/audio_query.dart';
 import 'package:raag/provider/db_provider.dart';
 import 'package:raag/widgets/loading_indicator.dart';
 import 'package:raag/widgets/song_widget.dart';
 import 'package:raag/model/strings.dart';
 
 class MyMusicList extends StatelessWidget {
+  // final OfflineAudioQuery audioQuery = new OfflineAudioQuery();
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: FutureBuilder(
-        future: DBProvider.db.getAllSongs(),
+        future: DBProvider.getAllSongs(),
+        // future: audioQuery.getSongs(),
         builder: (context, snapshot) {
-          List<Song> songInfo = [];
+          List<SongModel> songInfo = [];
           songInfo = snapshot.data;
           if (songInfo?.isNotEmpty ?? false) {
             return SongWidget(songList: songInfo);
           } else if (songInfo?.isEmpty ?? true) {
             return Center(
                 child: Text(
-                  noNewMusic,
+              noNewMusic,
               style: Theme.of(context).textTheme.subtitle1,
             ));
           }
