@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:raag/provider/audio_query.dart';
+import 'package:provider/provider.dart';
 import 'package:raag/provider/db_provider.dart';
 import 'package:raag/widgets/loading_indicator.dart';
 import 'package:raag/widgets/song_widget.dart';
 import 'package:raag/model/strings.dart';
 
 class MyMusicList extends StatelessWidget {
-  // final OfflineAudioQuery audioQuery = new OfflineAudioQuery();
 
   @override
   Widget build(BuildContext context) {
+    final DBProvider dbProvider = Provider.of<DBProvider>(context);
+
     return Expanded(
       child: FutureBuilder(
-        future: DBProvider.getAllSongs(),
-        // future: audioQuery.getSongs(),
+        future: dbProvider.songsList,
         builder: (context, snapshot) {
           List<SongModel> songInfo = [];
           songInfo = snapshot.data;

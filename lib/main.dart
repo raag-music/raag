@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:raag/model/SharedPreferences.dart';
-import 'package:raag/provider/player_provider.dart';
-import 'package:raag/provider/settings_provider.dart';
-import 'package:raag/view/splash_screen.dart';
 
+import 'model/SharedPreferences.dart';
 import 'model/strings.dart';
 import 'provider/db_provider.dart';
+import 'provider/player_provider.dart';
+import 'provider/settings_provider.dart';
 import 'provider/theme.dart';
-
-PlayerProvider playerProvider = new PlayerProvider();
+import 'view/home_scaffold.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initHive();
-  
+  // await initHive();
   SystemChrome.setPreferredOrientations(
           [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((_) => runApp(MyApp()));
@@ -27,6 +24,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  DBProvider dbProvider = new DBProvider();
+  PlayerProvider playerProvider = new PlayerProvider();
   SettingsProvider settingsProvider = new SettingsProvider();
 
   @override
@@ -36,12 +35,8 @@ class _MyAppState extends State<MyApp> {
     playerProvider.setUpAudio();
   }
 
-  void initSettings() async {
-    settingsProvider.darkTheme = await settingsProvider.sharedPreference
+  void initSettings() async => settingsProvider.darkTheme = await settingsProvider.sharedPreference
         .getBool(Preferences.THEME_STATUS);
-    settingsProvider.appStorage = await settingsProvider.sharedPreference
-        .getBool(Preferences.DOWNLOAD_DIRECTORY);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +46,8 @@ class _MyAppState extends State<MyApp> {
             create: (_) => settingsProvider),
         ChangeNotifierProvider<PlayerProvider>(
           create: (_) => playerProvider,
-        )
+        ),
+        ChangeNotifierProvider<DBProvider>(create: (_) => DBProvider()),
       ],
       child: Consumer<SettingsProvider>(
         builder: (BuildContext context, value, Widget child) {
@@ -59,7 +55,7 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             theme: Styles.themeData(settingsProvider.darkTheme, context),
             title: appName,
-            home: SplashScreen(),
+            home: HomeScaffold(),
           );
         },
       ),
