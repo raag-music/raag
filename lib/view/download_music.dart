@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:clipboard/clipboard.dart';
-import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,6 +11,7 @@ import 'package:raag/model/SharedPreferences.dart';
 import 'package:raag/model/connectivity.dart' as connectivity;
 import 'package:raag/model/strings.dart';
 import 'package:raag/provider/audio_helper.dart';
+import 'package:raag/provider/db_provider.dart';
 import 'package:raag/provider/settings_provider.dart';
 import 'package:raag/provider/theme.dart';
 import 'package:raag/provider/youtube_icon.dart';
@@ -87,7 +87,9 @@ class _DownloadMusicState extends State<DownloadMusic> {
   }
 
   Future<int> downloadMusic(String url, BuildContext context) async {
-    Preferences sharedPreference = Preferences();
+    // Preferences sharedPreference = Preferences();
+    final DBProvider dbProvider =
+        Provider.of<DBProvider>(context, listen: false);
     if (await connectivity.isConnected() == false) {
       Alert(
               context: context,
@@ -116,12 +118,14 @@ class _DownloadMusicState extends State<DownloadMusic> {
 
       setTitle(downloadDir);
       Directory _raagDownloadsDirectory;
-      if (await sharedPreference.getBool(Preferences.DOWNLOAD_DIRECTORY) ==
-          true) {
-        String downloadsDirectory =
-            await ExtStorage.getExternalStoragePublicDirectory(
-                ExtStorage.DIRECTORY_DOWNLOADS);
-        _raagDownloadsDirectory = Directory('$downloadsDirectory/$appName');
+
+      if (Platform.isAndroid) {
+        _raagDownloadsDirectory =
+            Directory('/storage/emulated/0/Music/$appName');
+
+        if (!await _raagDownloadsDirectory.exists()) {
+          await _raagDownloadsDirectory.create(recursive: true);
+        }
       } else
         _raagDownloadsDirectory = await getExternalStorageDirectory();
 
@@ -135,7 +139,8 @@ class _DownloadMusicState extends State<DownloadMusic> {
           .replaceAll('\"', '')
           .replaceAll('.', ' ')
           .replaceAll('/', ' ')
-          .replaceAll(':', ' ');
+          .replaceAll(':', ' ')
+          .replaceAll(RegExp(r'[\.\\\*\:\"\?#/;\|]'), ' ');
       var filePath = _raagDownloadsDirectory.path + '/' + tempTitle + '.mp3';
 
       if (streamInfo != null) {
@@ -158,6 +163,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
         setTitle(downloadComplete);
         setBody(
             '$fileLocation: $filePath\n$fileSize: ${(streamInfo.size.totalMegaBytes.toString().substring(0, 4))} MB');
+        dbProvider.songsList = DBProvider.getAllSongs();
         OpenFile.open(filePath);
         downloadedFilePath = 'file://$filePath';
         downloadedFileTitle = tempTitle;
@@ -168,8 +174,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
       Alert(
           context: context,
           title: 'File error',
-          desc:
-          fileCreationError,
+          desc: fileCreationError,
           type: AlertType.error,
           style: Styles.alertStyle(context),
           buttons: [
@@ -232,8 +237,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
         leading: IconButton(
             icon: Icon(Icons.arrow_back_ios_rounded),
             onPressed: () => Navigator.pop(context)),
-        title: Text(
-            downloadMusicString,
+        title: Text(downloadMusicString,
             style: Theme.of(context).textTheme.headline3),
         centerTitle: true,
         actions: [

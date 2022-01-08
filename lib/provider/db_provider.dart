@@ -1,26 +1,36 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:raag/model/song_model_adapter.dart';
 
-class DBProvider {
-  static Future<void> insertSong(SongModel newSong) async {
+import 'audio_query.dart';
+
+class DBProvider extends ChangeNotifier {
+  Future<List<SongModel>> songsList = getAllSongs();
+
+  Future<void> insertSong(SongModel newSong) async {
     Hive.box('downloads').put(newSong.id, newSong);
   }
 
-  static Future<int> getCount() async => Hive.box('downloads').length;
+  // Future<int> getCount() async => Hive.box('downloads').length;
 
   static Future<List<SongModel>> getAllSongs() async {
-    List<SongModel> list = Hive.box('downloads').values.toList();
-    return list;
+    // songsList = Hive.box('downloads').values.toList();
+    final OfflineAudioQuery audioQuery = new OfflineAudioQuery();
+    Future<List<SongModel>> _songsList = (audioQuery.getSongs(
+      sortType: SongSortType.DATE_ADDED,
+      orderType: OrderType.DESC_OR_GREATER,
+    ));
+    return _songsList;
   }
 
-  static deleteSong(int id) async => await Hive.box('downloads').delete(id);
+  deleteSong(int id) async => await Hive.box('downloads').delete(id);
 
-  static deleteAll() async =>
+  deleteAll() async =>
       Hive.box('downloads').deleteAll(Hive.box('downloads').keys);
 }
 

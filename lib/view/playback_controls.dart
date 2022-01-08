@@ -63,34 +63,34 @@ class _PlayBackControlsState extends State<PlayBackControls>
           decoration: BoxDecoration(
             color: Theme.of(context).backgroundColor.withOpacity(0.65),
           ),
-          //   child: BackdropFilter(
-          //       filter: new ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
-          //       child: Column(
-          //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //         children: [
-          //           Center(
-          //             child: Container(
-          //               width: sw * .8,
-          //               child: Text(
-          //                 // playerProvider.nowPlaying?.title ??
-          //                 'Not playing',
-          //                 style: Theme.of(context)
-          //                     .textTheme
-          //                     .headline1
-          //                     .copyWith(fontSize: sh * .036),
-          //                 textAlign: TextAlign.center,
-          //                 softWrap: false,
-          //               ),
-          //             ),
-          //           ),
-          //           Container(
-          //               color: Theme.of(context).colorScheme.secondary,
-          //               width: sh * .35,
-          //               height: sh * .35,
-          //               child: getAlbumArt(playerProvider?.nowPlaying,
-          //                   Theme.of(context).dividerColor)),
-          //         ],
-          //       )),
+            child: BackdropFilter(
+                filter: new ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Center(
+                      child: Container(
+                        width: sw * .8,
+                        child: Text(
+                          playerProvider.nowPlaying?.displayNameWOExt ??
+                          'Not playing',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline1
+                              .copyWith(fontSize: sh * .036),
+                          textAlign: TextAlign.center,
+                          softWrap: false,
+                        ),
+                      ),
+                    ),
+                    Container(
+                        color: Theme.of(context).colorScheme.secondary,
+                        width: sh * .35,
+                        height: sh * .35,
+                        child: getAlbumArt(playerProvider?.nowPlaying,
+                            Theme.of(context).dividerColor)),
+                  ],
+                )),
         ),
       ),
     );

@@ -78,12 +78,16 @@ class SongWidget extends StatelessWidget {
                                               CrossAxisAlignment.start,
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
-                                            Text(song.title,
+                                            Text(song.title ?? 'Untitled',
                                                 overflow: TextOverflow.ellipsis,
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .headline3),
-                                            Text(song.artist,
+                                            Text(
+                                                song.artist?.replaceAll(
+                                                        '<unknown>',
+                                                        'Unknown') ??
+                                                    'Unknown',
                                                 overflow: TextOverflow.ellipsis,
                                                 style: Theme.of(context)
                                                     .textTheme

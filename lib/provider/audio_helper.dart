@@ -59,16 +59,14 @@ Future<File> urlToFile(String imageUrl) async {
 
 Widget getAlbumArt(SongModel song, Color iconColor) {
   final OfflineAudioQuery audioQuery = new OfflineAudioQuery();
-  final defaultIcon = Icon(Icons.music_note_sharp,
-      size: 24, color: iconColor);
+  final defaultIcon = Icon(Icons.music_note_sharp, size: 24, color: iconColor);
   // if (song?.albumArtwork !=
   //     null) // Directly access album art when scoped storage approach is not used (less than Android API level 29)
   //   return Image(
   //     image: FileImage(File(song.albumArtwork)),
   //   );
   return FutureBuilder(
-    future: 
-        audioQuery.getAlbumArt(song.id),
+    future: audioQuery.getAlbumArt(song?.id),
     builder: (context, snapshot) {
       Uint8List _imageBytes = snapshot.data;
       if (_imageBytes == null || _imageBytes.isEmpty)

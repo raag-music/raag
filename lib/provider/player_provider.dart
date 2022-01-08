@@ -6,7 +6,7 @@ enum PlayerState { stopped, playing, paused }
 
 class PlayerProvider extends ChangeNotifier {
   PlayerState playerState;
-  // SongModel nowPlaying;
+  SongModel nowPlaying;
 
   double _slider = 0.0;
   AudioManager audioManagerInstance = AudioManager.instance;
@@ -66,7 +66,7 @@ class PlayerProvider extends ChangeNotifier {
         .then((err) {
       print(err);
     });
-    // nowPlaying = song;
+    nowPlaying = song;
     notifyListeners();
   }
 
@@ -89,7 +89,7 @@ class PlayerProvider extends ChangeNotifier {
     audioManagerInstance.stop();
     playerState = PlayerState.stopped;
     _slider = 0.0;
-    // nowPlaying = null;
+    nowPlaying = null;
     notifyListeners();
     disposePlayer();
   }
