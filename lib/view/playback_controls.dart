@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/provider/audio_helper.dart';
@@ -63,34 +64,39 @@ class _PlayBackControlsState extends State<PlayBackControls>
           decoration: BoxDecoration(
             color: Theme.of(context).backgroundColor.withOpacity(0.65),
           ),
-            child: BackdropFilter(
-                filter: new ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Center(
-                      child: Container(
-                        width: sw * .8,
-                        child: Text(
-                          playerProvider.nowPlaying?.displayNameWOExt ??
-                          'Not playing',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline1
-                              .copyWith(fontSize: sh * .036),
-                          textAlign: TextAlign.center,
-                          softWrap: false,
+          child: BackdropFilter(
+              filter: new ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
+              child: StreamBuilder<MediaItem>(
+                  stream: playerProvider.audioHandler?.mediaItem,
+                  builder: (context, snapshot) {
+                    MediaItem mediaItem = snapshot.data;
+                    if (mediaItem == null) return const SizedBox();
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Center(
+                          child: Container(
+                            width: sw * .8,
+                            child: Text(
+                              mediaItem?.title ?? 'Not playing',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline1
+                                  .copyWith(fontSize: sh * .036),
+                              textAlign: TextAlign.center,
+                              softWrap: false,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Container(
-                        color: Theme.of(context).colorScheme.secondary,
-                        width: sh * .35,
-                        height: sh * .35,
-                        child: getAlbumArt(playerProvider?.nowPlaying,
-                            Theme.of(context).dividerColor)),
-                  ],
-                )),
+                        Container(
+                            color: Theme.of(context).colorScheme.secondary,
+                            width: sh * .35,
+                            height: sh * .35,
+                            child: getMediaAlbumArt(
+                                mediaItem, Theme.of(context).dividerColor)),
+                      ],
+                    );
+                  })),
         ),
       ),
     );

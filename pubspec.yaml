@@ -10,17 +10,17 @@ environment:
 dependencies:
   animated_icon_button: ^1.0.2
   animator: ^3.1.0
-  audio_manager: ^0.8.2
+  audio_service: ^0.18.3
   clipboard: ^0.1.2+8
   connectivity: ^3.0.6
   cupertino_icons: ^1.0.0
-  ext_storage: ^1.0.3
   flutter:
     sdk: flutter
   fluttertoast: ^8.0.8
   hive: ^2.0.5
   hive_flutter: ^1.1.0
   http: ^0.13.3
+  just_audio: ^0.9.18
   marquee: ^2.2.0
   on_audio_query: ^2.5.3
   open_file: ^3.2.0

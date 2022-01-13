@@ -8,7 +8,7 @@ import 'provider/db_provider.dart';
 import 'provider/player_provider.dart';
 import 'provider/settings_provider.dart';
 import 'provider/theme.dart';
-import 'view/home_scaffold.dart';
+import 'view/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,8 +35,8 @@ class _MyAppState extends State<MyApp> {
     playerProvider.setUpAudio();
   }
 
-  void initSettings() async => settingsProvider.darkTheme = await settingsProvider.sharedPreference
-        .getBool(Preferences.THEME_STATUS);
+  void initSettings() async => settingsProvider.darkTheme =
+      await settingsProvider.sharedPreference.getBool(Preferences.THEME_STATUS);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             theme: Styles.themeData(settingsProvider.darkTheme, context),
             title: appName,
-            home: HomeScaffold(),
+            home: SplashScreen(),
           );
         },
       ),

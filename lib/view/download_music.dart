@@ -7,7 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:raag/model/SharedPreferences.dart';
 import 'package:raag/model/connectivity.dart' as connectivity;
 import 'package:raag/model/strings.dart';
 import 'package:raag/provider/audio_helper.dart';
@@ -122,10 +121,6 @@ class _DownloadMusicState extends State<DownloadMusic> {
       if (Platform.isAndroid) {
         _raagDownloadsDirectory =
             Directory('/storage/emulated/0/Music/$appName');
-
-        if (!await _raagDownloadsDirectory.exists()) {
-          await _raagDownloadsDirectory.create(recursive: true);
-        }
       } else
         _raagDownloadsDirectory = await getExternalStorageDirectory();
 
