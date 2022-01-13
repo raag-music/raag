@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:on_audio_query/on_audio_query.dart';
@@ -73,6 +74,59 @@ Widget getAlbumArt(SongModel song, Color iconColor) {
         return defaultIcon;
       else
         return Image.memory(_imageBytes, fit: BoxFit.cover);
+    },
+  );
+}
+
+Widget getMediaAlbumArt(MediaItem song, Color iconColor) {
+  final OfflineAudioQuery audioQuery = new OfflineAudioQuery();
+  final defaultIcon = Icon(Icons.music_note_sharp, size: 24, color: iconColor);
+  // if (song?.albumArtwork !=
+  //     null) // Directly access album art when scoped storage approach is not used (less than Android API level 29)
+  //   return Image(
+  //     image: FileImage(File(song.albumArtwork)),
+  //   );
+  return FutureBuilder(
+    future: audioQuery.getAlbumArt(int.parse(song?.id)),
+    builder: (context, snapshot) {
+      Uint8List _imageBytes = snapshot.data;
+      if (_imageBytes == null || _imageBytes.isEmpty)
+        return defaultIcon;
+      else
+        return Image.memory(_imageBytes, fit: BoxFit.cover);
+    },
+  );
+}
+
+Future<Uri> getArtUri(SongModel song) async {
+  final OfflineAudioQuery audioQuery = new OfflineAudioQuery();
+  return Uri.file(
+      File.fromRawPath(await audioQuery.getAlbumArt(song?.id)).path);
+}
+
+MediaItem downMapToMediaItem(Map song) {
+  return MediaItem(
+    id: song['id'].toString(),
+    album: song['album'].toString(),
+    artist: song['artist'].toString(),
+    duration: Duration(
+      seconds: int.parse(
+        (song['duration'] == null || song['duration'] == 'null')
+            ? '180'
+            : song['duration'].toString(),
+      ),
+    ),
+    title: song['title'].toString(),
+    artUri: Uri.file(song['image'].toString()),
+    genre: song['genre'].toString(),
+    extras: {
+      'url': song['path'].toString(),
+      'year': song['year'],
+      'language': song['genre'],
+      'release_date': song['release_date'],
+      'album_id': song['album_id'],
+      'subtitle': song['subtitle'],
+      'quality': song['quality'],
     },
   );
 }

@@ -7,7 +7,6 @@ import 'package:raag/widgets/song_widget.dart';
 import 'package:raag/model/strings.dart';
 
 class MyMusicList extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     final DBProvider dbProvider = Provider.of<DBProvider>(context);
@@ -20,7 +19,7 @@ class MyMusicList extends StatelessWidget {
           songInfo = snapshot.data;
           if (songInfo?.isNotEmpty ?? false) {
             return SongWidget(songList: songInfo);
-          } else if (songInfo?.isEmpty ?? true) {
+          } else if (snapshot.hasData && songInfo.isEmpty) {
             return Center(
                 child: Text(
               noNewMusic,

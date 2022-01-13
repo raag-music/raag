@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:raag/model/SharedPreferences.dart';
+import 'package:raag/provider/audio_query.dart';
 import 'package:raag/view/onboarding.dart';
 
 import 'home_scaffold.dart';
@@ -11,10 +12,10 @@ class SplashScreen extends StatefulWidget {
   _SplashScreenState createState() => _SplashScreenState();
 
   static populateSongsIntoDB() async {
+    // OfflineAudioQuery offlineAudioQuery = new OfflineAudioQuery();
+    await OfflineAudioQuery.requestPermission();
     // if (await _preferencesProvider.getBool(Preferences.DB_POPULATED) != true) {
     //   {
-    //     OfflineAudioQuery offlineAudioQuery = new OfflineAudioQuery();
-    //     await offlineAudioQuery.requestPermission();
     //     List _songs = (await offlineAudioQuery.getSongs(
     //       sortType: SongSortType.DATE_ADDED,
     //       orderType: OrderType.DESC_OR_GREATER,
@@ -52,7 +53,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   awaitPopulateSongs() async {
-    // await SplashScreen.populateSongsIntoDB();
+    await SplashScreen.populateSongsIntoDB();
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => HomeScaffold()));
   }
