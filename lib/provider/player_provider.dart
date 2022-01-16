@@ -2,7 +2,10 @@ import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:raag/model/strings.dart';
+import 'package:raag/provider/audio_helper.dart';
+import 'package:raag/provider/audio_query.dart';
 
 enum PlayerState { stopped, playing, paused }
 
@@ -25,17 +28,27 @@ class PlayerProvider extends ChangeNotifier {
       ),
     );
     positionStream = await _audioHandler.customAction('positionStream');
+    defaultArt = await getDefaultArt();
     notifyListeners();
   }
 
   updateQueue(List<SongModel> queue) async {
-    globalQueue = queue
-        .map((song) => MediaItem(
-              id: song.id.toString() ?? '',
-              album: song.album ?? '',
-              title: song.title ?? '',
-              extras: {'url': song.data ?? ''},
-            ))
+    appDirectory = await getApplicationDocumentsDirectory();
+    globalQueue = (await Future.wait(queue.map((song) async {
+      Uri artUri = Uri.file(await OfflineAudioQuery.queryNSave(
+          id: song.id,
+          type: ArtworkType.AUDIO,
+          tempPath: appDirectory.path,
+          fileName: '${song.id}_${song.displayNameWOExt}'));
+
+      return MediaItem(
+        id: song.id.toString() ?? '',
+        album: song.album ?? '',
+        title: song.title ?? '',
+        artUri: artUri,
+        extras: {'url': song.data ?? ''},
+      );
+    })))
         .toList();
     if (globalQueue.isNotEmpty) await _audioHandler.addQueueItems(globalQueue);
   }
@@ -47,6 +60,11 @@ class PlayerProvider extends ChangeNotifier {
     globalIndex = index;
     await _audioHandler.skipToQueueItem(index);
     await _audioHandler.play();
+  }
+
+  stop() {
+    globalIndex = null;
+    _audioHandler.stop();
   }
 }
 
