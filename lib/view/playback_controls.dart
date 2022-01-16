@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/provider/player_provider.dart';
 import 'package:raag/widgets/collapsed_controls.dart';
+import 'package:raag/widgets/seekbar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class PlayBackControls extends StatefulWidget {
@@ -74,6 +75,12 @@ class _PlayBackControlsState extends State<PlayBackControls>
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
+                        Container(
+                            color: Theme.of(context).dividerColor,
+                            width: sh * .35,
+                            height: sh * .35,
+                            child: getMediaAlbumArt(mediaItem,
+                                Theme.of(context).colorScheme.secondary)),
                         Center(
                           child: Container(
                             width: sw * .8,
@@ -88,17 +95,192 @@ class _PlayBackControlsState extends State<PlayBackControls>
                             ),
                           ),
                         ),
-                        Container(
-                            color: Theme.of(context).colorScheme.secondary,
-                            width: sh * .35,
-                            height: sh * .35,
-                            child: getMediaAlbumArt(
-                                mediaItem, Theme.of(context).dividerColor)),
+                        SeekBar(),
                       ],
                     );
                   })),
         ),
       ),
     );
+  }
+}
+
+class PlaybackControls extends StatefulWidget {
+  const PlaybackControls({
+    Key key,
+    @required this.provider,
+    @required this.isCollapsed,
+    @required this.panelController,
+  }) : super(key: key);
+
+  final PlayerProvider provider;
+  final bool isCollapsed;
+  final PanelController panelController;
+
+  @override
+  State<PlaybackControls> createState() => _PlaybackControlsState();
+}
+
+class _PlaybackControlsState extends State<PlaybackControls> {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<PlaybackState>(
+        stream: widget.provider.audioHandler?.playbackState,
+        builder: (context, snapshot) {
+          final playbackState = snapshot.data;
+          final playing = playbackState?.playing ?? true;
+
+          if (playing)
+            playPauseController.forward();
+          else
+            playPauseController.reverse();
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              widget.isCollapsed
+                  ? Container(
+                      height: 40,
+                      width: 40,
+                      decoration: new BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: new Border.all(
+                          color: Theme.of(context).dividerColor,
+                          width: 2.5,
+                        ),
+                      ),
+                      child: new Center(
+                          child: RawMaterialButton(
+                        shape: CircleBorder(),
+                        onPressed: () async =>
+                            await widget.panelController.open(),
+                        child: Center(
+                          child: Icon(
+                            Icons.keyboard_arrow_up_outlined,
+                            color: Theme.of(context).colorScheme.secondary,
+                            size: 35,
+                          ),
+                        ),
+                        elevation: 4,
+                      )),
+                    )
+                  : SizedBox(),
+              SizedBox(
+                width: widget.isCollapsed ? 30 : 70,
+              ),
+              new Container(
+                height: 50,
+                width: 50,
+                decoration: new BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: new Border.all(
+                    color: Theme.of(context).dividerColor,
+                    width: 2.5,
+                  ),
+                ),
+                child: new Center(
+                  child: RawMaterialButton(
+                      shape: CircleBorder(),
+                      child: Icon(
+                        Icons.skip_previous_outlined,
+                        color: Theme.of(context).colorScheme.secondary,
+                        size: 30,
+                      ),
+                      elevation: 0,
+                      onPressed: () =>
+                          widget.provider.audioHandler.skipToPrevious()),
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              new Container(
+                height: 70,
+                width: 70,
+                decoration: new BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: new Border.all(
+                    color: Theme.of(context).dividerColor,
+                    width: 2.5,
+                  ),
+                ),
+                child: RawMaterialButton(
+                    shape: CircleBorder(),
+                    child: Center(
+                      child: AnimatedIcon(
+                        color: Theme.of(context).colorScheme.secondary,
+                        icon: AnimatedIcons.play_pause,
+                        size: 50,
+                        progress: playPauseController,
+                      ),
+                    ),
+                    elevation: 0,
+                    onPressed: () {
+                      if (!playing) {
+                        playPauseController.forward();
+                        widget.provider.audioHandler.play();
+                      } else if (playing) {
+                        playPauseController.reverse();
+                        widget.provider.audioHandler.pause();
+                      } else {
+                        debugPrint('error');
+                      }
+                    }),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              new Container(
+                height: 50,
+                width: 50,
+                decoration: new BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: new Border.all(
+                    color: Theme.of(context).dividerColor,
+                    width: 2.5,
+                  ),
+                ),
+                child: new Center(
+                  child: RawMaterialButton(
+                      shape: CircleBorder(),
+                      child: Icon(
+                        Icons.skip_next_outlined,
+                        color: Theme.of(context).colorScheme.secondary,
+                        size: 30,
+                      ),
+                      elevation: 0,
+                      onPressed: () =>
+                          widget.provider.audioHandler.skipToNext()),
+                ),
+              ),
+              SizedBox(
+                width: 35,
+              ),
+              new Container(
+                height: 40,
+                width: 40,
+                decoration: new BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: new Border.all(
+                    color: Theme.of(context).dividerColor,
+                    width: 2.5,
+                  ),
+                ),
+                child: new Center(
+                    child: RawMaterialButton(
+                  shape: CircleBorder(),
+                  onPressed: () {
+                    playPauseController.reverse();
+                    widget.provider.stop();
+                  },
+                  child: Icon(
+                    Icons.stop,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                  elevation: 4,
+                )),
+              ),
+            ],
+          );
+        });
   }
 }

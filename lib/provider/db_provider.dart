@@ -6,7 +6,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:raag/model/song_model_adapter.dart';
-
 import 'audio_query.dart';
 
 class DBProvider extends ChangeNotifier {

@@ -24,55 +24,58 @@ class _SeekBarState extends State<SeekBar> {
               stream: provider.positionStream,
               builder: (context, snapshot) {
                 final position = snapshot.data;
-                return Row(
-                  children: <Widget>[
-                    Text(
-                      formatDuration(position),
-                      style: Theme.of(context).textTheme.subtitle2,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
-                        child: SliderTheme(
-                            data: SliderTheme.of(context).copyWith(
-                              trackHeight: 2,
-                              thumbColor:
-                                  Theme.of(context).colorScheme.secondary,
-                              overlayColor: Theme.of(context).dividerColor,
-                              thumbShape: RoundSliderThumbShape(
-                                disabledThumbRadius: 3,
-                                enabledThumbRadius: 5,
-                              ),
-                              overlayShape: RoundSliderOverlayShape(
-                                overlayRadius: 10,
-                              ),
-                              activeTrackColor:
-                                  Theme.of(context).colorScheme.secondary,
-                              inactiveTrackColor:
-                                  Theme.of(context).dividerColor,
-                            ),
-                            child: Slider(
-                              value: (position?.inMilliseconds ?? 0)
-                                      .toDouble() /
-                                  (duration?.inMilliseconds ?? 1).toDouble(),
-                              onChangeEnd: (value) {
-                                debugPrint(
-                                    'Duration: ${(Duration(milliseconds: (duration.inMilliseconds * value).round()))} ');
-                                provider.audioHandler?.seek(Duration(
-                                    milliseconds:
-                                        (duration.inMilliseconds * value)
-                                            .round()));
-                              },
-                              onChanged: (double value) {},
-                              // onChangeEnd: (value) => provider.seekTo(value),
-                            )),
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        formatDuration(position),
+                        style: Theme.of(context).textTheme.subtitle2,
                       ),
-                    ),
-                    Text(
-                      formatDuration(duration ?? Duration.zero),
-                      style: Theme.of(context).textTheme.subtitle2,
-                    )
-                  ],
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          child: SliderTheme(
+                              data: SliderTheme.of(context).copyWith(
+                                trackHeight: 2,
+                                thumbColor:
+                                    Theme.of(context).colorScheme.secondary,
+                                overlayColor: Theme.of(context).dividerColor,
+                                thumbShape: RoundSliderThumbShape(
+                                  disabledThumbRadius: 3,
+                                  enabledThumbRadius: 5,
+                                ),
+                                overlayShape: RoundSliderOverlayShape(
+                                  overlayRadius: 10,
+                                ),
+                                activeTrackColor:
+                                    Theme.of(context).colorScheme.secondary,
+                                inactiveTrackColor:
+                                    Theme.of(context).dividerColor,
+                              ),
+                              child: Slider(
+                                value: (position?.inMilliseconds ?? 0)
+                                        .toDouble() /
+                                    (duration?.inMilliseconds ?? 1).toDouble(),
+                                onChangeEnd: (value) {
+                                  debugPrint(
+                                      'Duration: ${(Duration(milliseconds: (duration.inMilliseconds * value).round()))} ');
+                                  provider.audioHandler?.seek(Duration(
+                                      milliseconds:
+                                          (duration.inMilliseconds * value)
+                                              .round()));
+                                },
+                                onChanged: (double value) {},
+                                // onChangeEnd: (value) => provider.seekTo(value),
+                              )),
+                        ),
+                      ),
+                      Text(
+                        formatDuration(duration ?? Duration.zero),
+                        style: Theme.of(context).textTheme.subtitle2,
+                      )
+                    ],
+                  ),
                 );
               });
         });
