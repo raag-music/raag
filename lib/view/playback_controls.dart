@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/provider/player_provider.dart';
+import 'package:raag/widgets/animated_text.dart';
 import 'package:raag/widgets/collapsed_controls.dart';
 import 'package:raag/widgets/seekbar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -76,26 +77,61 @@ class _PlayBackControlsState extends State<PlayBackControls>
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                            color: Theme.of(context).dividerColor,
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).dividerColor,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                    blurRadius: 25,
+                                    spreadRadius: 5.0,
+                                  ),
+                                ]),
                             width: sh * .35,
                             height: sh * .35,
                             child: getMediaAlbumArt(mediaItem,
                                 Theme.of(context).colorScheme.secondary)),
                         Center(
                           child: Container(
-                            width: sw * .8,
-                            child: Text(
-                              mediaItem?.title ?? 'Not playing',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline1
-                                  .copyWith(fontSize: sh * .036),
-                              textAlign: TextAlign.center,
-                              softWrap: false,
-                            ),
-                          ),
+                              width: sw * .8,
+                              child: AnimatedText(
+                                text: '${mediaItem.title ?? "Unknown"}',
+                                pauseAfterRound: const Duration(seconds: 3),
+                                showFadingOnlyWhenScrolling: false,
+                                fadingEdgeEndFraction: 0.1,
+                                fadingEdgeStartFraction: 0.1,
+                                startAfter: const Duration(seconds: 2),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline1
+                                    .copyWith(fontSize: sh * .036),
+                              )
+                              // child: Text(
+                              //   mediaItem?.title ?? 'Not playing',
+                              // style: Theme.of(context)
+                              //     .textTheme
+                              //     .headline1
+                              //     .copyWith(fontSize: sh * .036),
+                              // textAlign: TextAlign.center,
+                              // softWrap: false,
+                              // ),
+                              ),
                         ),
-                        SeekBar(),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SeekBar(),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            PlayBackControlButtons(
+                                provider: playerProvider,
+                                isCollapsed: false,
+                                panelController: panelController),
+                          ],
+                        ),
                       ],
                     );
                   })),
@@ -105,8 +141,8 @@ class _PlayBackControlsState extends State<PlayBackControls>
   }
 }
 
-class PlaybackControls extends StatefulWidget {
-  const PlaybackControls({
+class PlayBackControlButtons extends StatefulWidget {
+  const PlayBackControlButtons({
     Key key,
     @required this.provider,
     @required this.isCollapsed,
@@ -118,10 +154,10 @@ class PlaybackControls extends StatefulWidget {
   final PanelController panelController;
 
   @override
-  State<PlaybackControls> createState() => _PlaybackControlsState();
+  State<PlayBackControlButtons> createState() => _PlayBackControlButtonsState();
 }
 
-class _PlaybackControlsState extends State<PlaybackControls> {
+class _PlayBackControlButtonsState extends State<PlayBackControlButtons> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<PlaybackState>(
@@ -142,6 +178,7 @@ class _PlaybackControlsState extends State<PlaybackControls> {
                       height: 40,
                       width: 40,
                       decoration: new BoxDecoration(
+                        color: Theme.of(context).backgroundColor,
                         shape: BoxShape.circle,
                         border: new Border.all(
                           color: Theme.of(context).dividerColor,
@@ -171,6 +208,7 @@ class _PlaybackControlsState extends State<PlaybackControls> {
                 height: 50,
                 width: 50,
                 decoration: new BoxDecoration(
+                  color: Theme.of(context).backgroundColor,
                   shape: BoxShape.circle,
                   border: new Border.all(
                     color: Theme.of(context).dividerColor,
@@ -197,6 +235,7 @@ class _PlaybackControlsState extends State<PlaybackControls> {
                 height: 70,
                 width: 70,
                 decoration: new BoxDecoration(
+                  color: Theme.of(context).backgroundColor,
                   shape: BoxShape.circle,
                   border: new Border.all(
                     color: Theme.of(context).dividerColor,
@@ -233,6 +272,7 @@ class _PlaybackControlsState extends State<PlaybackControls> {
                 height: 50,
                 width: 50,
                 decoration: new BoxDecoration(
+                  color: Theme.of(context).backgroundColor,
                   shape: BoxShape.circle,
                   border: new Border.all(
                     color: Theme.of(context).dividerColor,
@@ -259,6 +299,7 @@ class _PlaybackControlsState extends State<PlaybackControls> {
                 height: 40,
                 width: 40,
                 decoration: new BoxDecoration(
+                  color: Theme.of(context).backgroundColor,
                   shape: BoxShape.circle,
                   border: new Border.all(
                     color: Theme.of(context).dividerColor,

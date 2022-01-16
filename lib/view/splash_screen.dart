@@ -63,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Container(
         color: Theme.of(context).backgroundColor,
         child: Image.asset(
-          'assets/images/musical.png',
+          'assets/images/logo_dark.png',
           width: 160,
           height: 160,
         ));

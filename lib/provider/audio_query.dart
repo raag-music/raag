@@ -140,19 +140,19 @@ class OfflineAudioQuery {
     int quality = 100,
     ArtworkFormat format = ArtworkFormat.JPEG,
   }) async {
-    final File file = File('$tempPath/$fileName.jpg');
+    final Uint8List _imageBytes = await audioQuery.queryArtwork(
+      id,
+      type,
+      format: format,
+      size: size,
+      quality: quality,
+    );
+    if (_imageBytes == null || _imageBytes.isEmpty)
+      return (await getDefaultArt()).path;
 
+    final File file = File('$tempPath/$fileName.jpg');
     if (!await file.exists()) {
       await file.create();
-      final Uint8List _imageBytes = await audioQuery.queryArtwork(
-        id,
-        type,
-        format: format,
-        size: size,
-        quality: quality,
-      );
-      if (_imageBytes == null || _imageBytes.isEmpty)
-        return (await getDefaultArt()).path;
       file.writeAsBytesSync(_imageBytes);
     }
     return file.path;
