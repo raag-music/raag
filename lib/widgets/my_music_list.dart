@@ -6,7 +6,12 @@ import 'package:raag/widgets/loading_indicator.dart';
 import 'package:raag/widgets/song_widget.dart';
 import 'package:raag/model/strings.dart';
 
-class MyMusicList extends StatelessWidget {
+class MyMusicList extends StatefulWidget {
+  @override
+  State<MyMusicList> createState() => _MyMusicListState();
+}
+
+class _MyMusicListState extends State<MyMusicList> {
   @override
   Widget build(BuildContext context) {
     final DBProvider dbProvider = Provider.of<DBProvider>(context);

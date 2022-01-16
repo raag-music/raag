@@ -88,11 +88,17 @@ class _HomeScaffoldState extends State<HomeScaffold> {
           title: Center(
               child: Padding(
             padding: const EdgeInsets.all(2.0),
-            child: Image.asset(
-              'assets/images/musical.png',
-              width: 40,
-              height: 40,
-            ),
+            child: themeProvider.darkTheme
+                ? Image.asset(
+                    'assets/images/logo_light.png',
+                    width: 35,
+                    height: 40,
+                  )
+                : Image.asset(
+                    'assets/images/logo_dark.png',
+                    width: 35,
+                    height: 40,
+                  ),
           ))),
       body: Stack(
         children: <Widget>[

@@ -25,7 +25,7 @@ class CollapsedControls extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             SeekBar(),
-            PlaybackControls(
+            PlayBackControlButtons(
               provider: provider,
               isCollapsed: true,
               panelController: panelController,

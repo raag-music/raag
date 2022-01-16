@@ -106,9 +106,9 @@ Widget getMediaAlbumArt(MediaItem song, Color iconColor) {
 
 Future<File> getDefaultArt() async {
   final file =
-      File('${(await getApplicationDocumentsDirectory()).path}/musical.png');
+      File('${(await getApplicationDocumentsDirectory()).path}/logo_dark.png');
   if (!(await file.exists())) {
-    final _byteData = await rootBundle.load('assets/images/musical.png');
+    final _byteData = await rootBundle.load('assets/images/logo_dark.png');
     await file.writeAsBytes(_byteData.buffer
         .asUint8List(_byteData.offsetInBytes, _byteData.lengthInBytes));
   }
