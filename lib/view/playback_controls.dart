@@ -11,17 +11,21 @@ import 'package:raag/widgets/seekbar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class PlayBackControls extends StatefulWidget {
+  final PanelController panelController;
+
+  PlayBackControls({@required this.panelController});
   @override
   _PlayBackControlsState createState() => _PlayBackControlsState();
 }
 
 class _PlayBackControlsState extends State<PlayBackControls>
     with TickerProviderStateMixin {
-  PanelController panelController = PanelController();
+  PanelController panelController;
 
   @override
   void initState() {
     super.initState();
+    panelController =  widget.panelController;
     playPauseController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
   }
