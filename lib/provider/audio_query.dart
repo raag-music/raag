@@ -131,26 +131,18 @@ class OfflineAudioQuery {
     );
   }
 
-  static Future<String> queryNSave({
-    int id,
-    ArtworkType type,
-    String tempPath,
-    String fileName,
-    int size = 200,
-    int quality = 100,
-    ArtworkFormat format = ArtworkFormat.JPEG,
-  }) async {
+  static Future<String> imageQuery(SongModel song) async {
     final Uint8List _imageBytes = await audioQuery.queryArtwork(
-      id,
-      type,
-      format: format,
-      size: size,
-      quality: quality,
+      song.id,
+      ArtworkType.AUDIO,
+      format: ArtworkFormat.JPEG,
+      size: 200,
+      quality: 100,
     );
     if (_imageBytes == null || _imageBytes.isEmpty)
       return (await getDefaultArt()).path;
 
-    final File file = File('$tempPath/$fileName.jpg');
+    final File file = File('${appDirectory.path}/${song.id}_${song.displayNameWOExt}.jpg');
     if (!await file.exists()) {
       await file.create();
       file.writeAsBytesSync(_imageBytes);

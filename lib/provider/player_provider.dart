@@ -1,11 +1,11 @@
 import 'package:audio_service/audio_service.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:raag/model/strings.dart';
-import 'package:raag/provider/audio_helper.dart';
-import 'package:raag/provider/audio_query.dart';
+import '../model/strings.dart';
+import '../provider/audio_helper.dart';
+import '../provider/audio_query.dart';
 
 enum PlayerState { stopped, playing, paused }
 
@@ -32,14 +32,11 @@ class PlayerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateQueue(List<SongModel> queue) async {
+  Future<void> updateQueue(List<SongModel> queue) async {
     appDirectory = await getApplicationDocumentsDirectory();
     globalQueue = (await Future.wait(queue.map((song) async {
-      Uri artUri = Uri.file(await OfflineAudioQuery.queryNSave(
-          id: song.id,
-          type: ArtworkType.AUDIO,
-          tempPath: appDirectory.path,
-          fileName: '${song.id}_${song.displayNameWOExt}'));
+      Uri artUri = Uri.file(
+          await OfflineAudioQuery.imageQuery(song));
 
       return MediaItem(
         id: song.id.toString() ?? '',

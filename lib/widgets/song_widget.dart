@@ -1,12 +1,11 @@
-import 'dart:isolate';
-
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:provider/provider.dart';
-import 'package:raag/model/strings.dart';
-import 'package:raag/provider/audio_helper.dart';
-import 'package:raag/provider/player_provider.dart';
-import 'package:raag/provider/theme.dart';
+
+import '../model/strings.dart';
+import '../provider/audio_helper.dart';
+import '../provider/player_provider.dart';
+import '../provider/theme.dart';
 
 class SongWidget extends StatelessWidget {
   final List<SongModel> songList;
