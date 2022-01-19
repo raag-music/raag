@@ -9,6 +9,7 @@ import 'package:raag/view/playback_controls.dart';
 import 'package:raag/view/settings.dart';
 import 'package:raag/widgets/my_music_list.dart';
 import 'package:raag/provider/audio_helper.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class HomeScaffold extends StatefulWidget {
   @override
@@ -16,6 +17,8 @@ class HomeScaffold extends StatefulWidget {
 }
 
 class _HomeScaffoldState extends State<HomeScaffold> {
+  final PanelController panelController = PanelController();
+
   @override
   void initState() {
     super.initState();
@@ -55,61 +58,73 @@ class _HomeScaffoldState extends State<HomeScaffold> {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<SettingsProvider>(context);
 
-    return Scaffold(
-      appBar: AppBar(
-          toolbarHeight: 70,
-          systemOverlayStyle: themeProvider.darkTheme
-              ? SystemUiOverlayStyle.dark
-              : SystemUiOverlayStyle.light,
-          centerTitle: true,
-          elevation: 0,
-          leading: IconButton(
-              icon: Icon(
-                Icons.download_rounded,
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-              onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DownloadMusic(url: ''),
-                  ))),
-          actions: <Widget>[
-            IconButton(
+    return WillPopScope(
+      onWillPop: () {
+        if (panelController?.isAttached == true &&
+            panelController?.isPanelOpen == true) {
+          panelController.close();
+          return Future.value(false);
+        } else
+          return Future.value(true);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+            toolbarHeight: 70,
+            systemOverlayStyle: themeProvider.darkTheme
+                ? SystemUiOverlayStyle.dark
+                : SystemUiOverlayStyle.light,
+            centerTitle: true,
+            elevation: 0,
+            leading: IconButton(
                 icon: Icon(
-                  Icons.settings,
+                  Icons.download_rounded,
                   color: Theme.of(context).colorScheme.secondary,
                 ),
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Settings(),
-                    )))
-          ],
-          title: Center(
-              child: Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: themeProvider.darkTheme
-                ? Image.asset(
-                    'assets/images/logo_light.png',
-                    width: 35,
-                    height: 40,
-                  )
-                : Image.asset(
-                    'assets/images/logo_dark.png',
-                    width: 35,
-                    height: 40,
+                      builder: (context) => DownloadMusic(url: ''),
+                    ))),
+            actions: <Widget>[
+              IconButton(
+                  icon: Icon(
+                    Icons.settings,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
-          ))),
-      body: Stack(
-        children: <Widget>[
-          SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [MyMusicList()],
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Settings(),
+                      )))
+            ],
+            title: Center(
+                child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: themeProvider.darkTheme
+                  ? Image.asset(
+                      'assets/images/logo_light.png',
+                      width: 35,
+                      height: 40,
+                    )
+                  : Image.asset(
+                      'assets/images/logo_dark.png',
+                      width: 35,
+                      height: 40,
+                    ),
+            ))),
+        body: Stack(
+          children: <Widget>[
+            SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [MyMusicList()],
+              ),
             ),
-          ),
-          PlayBackControls()
-        ],
+            PlayBackControls(
+              panelController: panelController,
+            )
+          ],
+        ),
       ),
     );
   }
