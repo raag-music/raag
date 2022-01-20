@@ -56,17 +56,14 @@
    $ git clone https://github.com/YOUR-GITHUB-USERNAME/raag.git
    ```
 
-4. Open your code favourite editor (VS Code, Android Studio etc)
-5. Click on 'Open an Existing Project'
-6. Browse to the directory where you cloned the repo and click OK
-7. Let your code editor import the project
-8. To install the dependencies run the following command in the terminal.
+4. Open Raag in your favourite editor (VS Code, Android Studio etc)
+5. To install the dependencies run the following command in the terminal.
 
     ```
     $ flutter pub get
     ```
-9. Connect your Android emulator or your mobile device to your computer.
-10. Build the application in your device by clicking **Run** <img src="https://www.iconsdb.com/icons/preview/green/play-xxl.png" alt="run" width="2%"/> button or run the following in terminal.
+6. Connect your Android emulator or your mobile device to your computer.
+7.  Build the application in your device by clicking **Run** <img src="https://www.iconsdb.com/icons/preview/green/play-xxl.png" alt="run" width="2%"/> button or run the following in terminal.
     ```
     $ flutter run
     ```
@@ -75,14 +72,14 @@
 ## Screenshots 🤩️
   <table>
       <tr>
-       <td><img src="https://raw.githubusercontent.com/raag-music/raag/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png"></td>
-       <td><img src="https://raw.githubusercontent.com/raag-music/raag/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png"></td>
+       <td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png"></td>
+       <td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png"></td>
       </tr>
   </table>
   <table>
        <tr>
-       <td><img src="https://raw.githubusercontent.com/raag-music/raag/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png"></td>
-       <td><img src="https://raw.githubusercontent.com/raag-music/raag/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png"></td>
+       <td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.png"></td>
+       <td><img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png"></td>
       </tr>
   </table>
 
@@ -100,7 +97,9 @@ A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-- Icon source: <a target="_blank" href="https://icons8.com/icons/set/musical-notes">Musical Notes icon</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 
 For help getting started with Flutter, view the [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+
+- Icon source: <a target="_blank" href="https://icons8.com/icons/set/musical-notes">Musical Notes icon</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
