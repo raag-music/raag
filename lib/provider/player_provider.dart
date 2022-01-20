@@ -25,6 +25,7 @@ class PlayerProvider extends ChangeNotifier {
         androidNotificationChannelName: appName,
         androidNotificationOngoing: true,
         androidShowNotificationBadge: true,
+        androidNotificationIcon: "mipmap/launcher_icon",
       ),
     );
     positionStream = await _audioHandler.customAction('positionStream');
@@ -35,8 +36,7 @@ class PlayerProvider extends ChangeNotifier {
   Future<void> updateQueue(List<SongModel> queue) async {
     appDirectory = await getApplicationDocumentsDirectory();
     globalQueue = (await Future.wait(queue.map((song) async {
-      Uri artUri = Uri.file(
-          await OfflineAudioQuery.imageQuery(song));
+      Uri artUri = Uri.file(await OfflineAudioQuery.imageQuery(song));
 
       return MediaItem(
         id: song.id.toString() ?? '',

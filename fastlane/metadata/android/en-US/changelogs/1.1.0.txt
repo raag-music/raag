@@ -1,0 +1,5 @@
+- Migrate to just_audio from audio_manager. Big thanks to @rayanheise for the package. The music player now uses the default media API used by Android - ExoPlayer. Playback can be controlled via connected devices (BT headphones, AndroidAuto, Smartwatches, etc).
+- New now playing screen added with a sliding up interface. 
+- Native media player notification with media controls and artwork.
+- 'sdcard/Music/Raag' will now be the default directory for all downloads.
+- Music query package migrated from flutter_audio_query to on_audio_query. 
