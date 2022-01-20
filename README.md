@@ -49,7 +49,9 @@
 ### Setting up your development environment 🏭️
 
 1. Download and install Git.
+   
 2. Fork [Raag](https://github.com/raag-music/raag.git)
+   
 3. Clone your fork of the project locally. At the command line:
             
    ```
@@ -57,12 +59,15 @@
    ```
 
 4. Open Raag in your favourite editor (VS Code, Android Studio etc)
+   
 5. To install the dependencies run the following command in the terminal.
 
     ```
     $ flutter pub get
     ```
-6. Connect your Android emulator or your mobile device to your computer.
+
+6.  Connect your Android emulator or your mobile device to your computer.
+   
 7.  Build the application in your device by clicking **Run** <img src="https://www.iconsdb.com/icons/preview/green/play-xxl.png" alt="run" width="2%"/> button or run the following in terminal.
     ```
     $ flutter run
