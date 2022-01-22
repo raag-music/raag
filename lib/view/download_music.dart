@@ -89,6 +89,9 @@ class _DownloadMusicState extends State<DownloadMusic> {
     // Preferences sharedPreference = Preferences();
     final DBProvider dbProvider =
         Provider.of<DBProvider>(context, listen: false);
+    final settingsProvider =
+        Provider.of<SettingsProvider>(context, listen: false);
+
     if (await connectivity.isConnected() == false) {
       Alert(
               context: context,
@@ -119,8 +122,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
       Directory _raagDownloadsDirectory;
 
       if (Platform.isAndroid) {
-        _raagDownloadsDirectory =
-            Directory('/storage/emulated/0/Music/$appName');
+        _raagDownloadsDirectory = Directory(settingsProvider.downloadPath);
       } else
         _raagDownloadsDirectory = await getExternalStorageDirectory();
 
@@ -252,6 +254,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -306,8 +309,9 @@ class _DownloadMusicState extends State<DownloadMusic> {
                   FlutterClipboard.paste().then((url) {
                     if (isValidYouTubeURL(url)) {
                       urlFieldController.text = url;
-                      urlFieldController.selection = TextSelection.fromPosition(
-                          TextPosition(offset: urlFieldController.text.length));
+                      urlFieldController.selection =
+                          TextSelection.fromPosition(TextPosition(
+                              offset: urlFieldController.text.length));
                     } else {
                       Fluttertoast.showToast(msg: clipBoardYT);
                     }
