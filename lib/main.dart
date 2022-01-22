@@ -35,8 +35,12 @@ class _MyAppState extends State<MyApp> {
     playerProvider.setUpAudio();
   }
 
-  void initSettings() async => settingsProvider.darkTheme =
-      await settingsProvider.sharedPreference.getBool(Preferences.THEME_STATUS);
+  void initSettings() async {
+    settingsProvider.darkTheme = await settingsProvider.sharedPreference
+        .getBool(Preferences.THEME_STATUS);
+    settingsProvider.downloadPath = await settingsProvider.sharedPreference
+        .getString(Preferences.DOWNLOAD_PATH);
+  }
 
   @override
   Widget build(BuildContext context) {

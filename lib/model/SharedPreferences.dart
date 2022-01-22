@@ -4,7 +4,7 @@ SharedPreferences prefs;
 
 class Preferences {
   static const THEME_STATUS = 'THEME_STATUS';
-  static const DB_POPULATED = 'DB_POPULATED';
+  static const DOWNLOAD_PATH = 'DOWNLOAD_PATH';
   static const ON_BOARDING_DONE = 'ON_BOARDING_DONE';
 
   void setBool(String key, bool value) async {
