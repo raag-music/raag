@@ -34,9 +34,9 @@ class OfflineAudioQuery {
   }
 
   Future<List<SongModel>> getSongs({
-    SongSortType sortType,
-    OrderType orderType,
-    String path,
+    SongSortType? sortType,
+    OrderType? orderType,
+    String? path,
   }) async {
     return audioQuery.querySongs(
       sortType: sortType ?? SongSortType.DATE_ADDED,
@@ -46,7 +46,8 @@ class OfflineAudioQuery {
     );
   }
 
-  Future<Uint8List> getAlbumArt({int id, int quality = 100, int size = 150}) =>
+  Future<Uint8List?> getAlbumArt(
+          {required int id, int quality = 100, int size = 150}) =>
       audioQuery.queryArtwork(id, ArtworkType.AUDIO,
           quality: quality, size: size);
 
@@ -54,41 +55,41 @@ class OfflineAudioQuery {
     return audioQuery.queryPlaylists();
   }
 
-  Future<bool> createPlaylist({String name}) async {
+  Future<bool> createPlaylist({required String name}) async {
     name.replaceAll(avoid, '').replaceAll('  ', ' ');
     return audioQuery.createPlaylist(name);
   }
 
-  Future<bool> removePlaylist({int playlistId}) async {
+  Future<bool> removePlaylist({required int playlistId}) async {
     return audioQuery.removePlaylist(playlistId);
   }
 
   Future<bool> addToPlaylist({
-    int playlistId,
-    int audioId,
+    required int playlistId,
+    required int audioId,
   }) async {
     return audioQuery.addToPlaylist(playlistId, audioId);
   }
 
   Future<bool> removeFromPlaylist({
-    int playlistId,
-    int audioId,
+    required int playlistId,
+    required int audioId,
   }) async {
     return audioQuery.removeFromPlaylist(playlistId, audioId);
   }
 
   Future<bool> renamePlaylist({
-    int playlistId,
-    String newName,
+    required int playlistId,
+    required String newName,
   }) async {
     return audioQuery.renamePlaylist(playlistId, newName);
   }
 
   Future<List<SongModel>> getPlaylistSongs(
     int playlistId, {
-    SongSortType sortType,
-    OrderType orderType,
-    String path,
+    SongSortType? sortType,
+    OrderType? orderType,
+    String? path,
   }) async {
     return audioQuery.queryAudiosFrom(
       AudiosFromType.PLAYLIST,
@@ -99,8 +100,8 @@ class OfflineAudioQuery {
   }
 
   Future<List<AlbumModel>> getAlbums({
-    AlbumSortType sortType,
-    OrderType orderType,
+    AlbumSortType? sortType,
+    OrderType? orderType,
   }) async {
     return audioQuery.queryAlbums(
       sortType: sortType,
@@ -110,8 +111,8 @@ class OfflineAudioQuery {
   }
 
   Future<List<ArtistModel>> getArtists({
-    ArtistSortType sortType,
-    OrderType orderType,
+    ArtistSortType? sortType,
+    OrderType? orderType,
   }) async {
     return audioQuery.queryArtists(
       sortType: sortType,
@@ -121,8 +122,8 @@ class OfflineAudioQuery {
   }
 
   Future<List<GenreModel>> getGenres({
-    GenreSortType sortType,
-    OrderType orderType,
+    GenreSortType? sortType,
+    OrderType? orderType,
   }) async {
     return audioQuery.queryGenres(
       sortType: sortType,
@@ -132,7 +133,7 @@ class OfflineAudioQuery {
   }
 
   static Future<String> imageQuery(SongModel song) async {
-    final Uint8List _imageBytes = await audioQuery.queryArtwork(
+    final Uint8List? _imageBytes = await audioQuery.queryArtwork(
       song.id,
       ArtworkType.AUDIO,
       format: ArtworkFormat.JPEG,
@@ -142,7 +143,8 @@ class OfflineAudioQuery {
     if (_imageBytes == null || _imageBytes.isEmpty)
       return (await getDefaultArt()).path;
 
-    final File file = File('${appDirectory.path}/${song.id}_${song.displayNameWOExt}.jpg');
+    final File file =
+        File('${appDirectory.path}/${song.id}_${song.displayNameWOExt}.jpg');
     if (!await file.exists()) {
       await file.create();
       file.writeAsBytesSync(_imageBytes);

@@ -30,15 +30,13 @@ class _HomeScaffoldState extends State<HomeScaffold> {
     ReceiveSharingIntent.getTextStream().listen((String value) async {
       debugPrint("Received URL: $value");
       // Download if YouTube URL is received
-      if (value != null) {
-        if (isValidYouTubeURL(value)) launchDownloader(value);
-      }
+      if (isValidYouTubeURL(value)) launchDownloader(value);
     }, onError: (err) {
       print("getLinkStream error: $err");
     });
 
     // For sharing or opening urls/text coming from outside the app while the app is closed
-    ReceiveSharingIntent.getInitialText().then((String value) {
+    ReceiveSharingIntent.getInitialText().then((String? value) {
       debugPrint("Received URL: $value");
       if (value != null) {
         if (isValidYouTubeURL(value)) launchDownloader(value);
@@ -60,8 +58,8 @@ class _HomeScaffoldState extends State<HomeScaffold> {
 
     return WillPopScope(
       onWillPop: () {
-        if (panelController?.isAttached == true &&
-            panelController?.isPanelOpen == true) {
+        if (panelController.isAttached == true &&
+            panelController.isPanelOpen == true) {
           panelController.close();
           return Future.value(false);
         } else

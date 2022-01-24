@@ -13,7 +13,7 @@ class OnBoarding extends StatefulWidget {
 class _OnBoardingState extends State<OnBoarding> {
   int currentPageValue = 0;
   int previousPageValue = 0;
-  PageController controller;
+  PageController? controller;
   int _page = 0;
 
   @override
@@ -114,7 +114,7 @@ class _OnBoardingState extends State<OnBoarding> {
                   child: TextButton(
                       onPressed: () {
                         _page = 2;
-                        controller.animateToPage(_page,
+                        controller!.animateToPage(_page,
                             duration: Duration(milliseconds: 400),
                             curve: Curves.ease);
                       },

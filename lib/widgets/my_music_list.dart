@@ -23,10 +23,10 @@ class _MyMusicListState extends State<MyMusicList> {
     return FutureBuilder(
       future: dbProvider.songsList,
       builder: (context, snapshot) {
-        List<SongModel> songList = [];
-        songList = snapshot.data;
+        List<SongModel>? songList = [];
+        songList = snapshot.data as List<SongModel>?;
         if (songList?.isNotEmpty ?? false) {
-          playerProvider.updateQueue(songList);
+          playerProvider.updateQueue(songList!);
 
           return Column(
             children: [
@@ -37,10 +37,10 @@ class _MyMusicListState extends State<MyMusicList> {
                     color: Colors.black,
                     axisDirection: AxisDirection.down,
                     child: ListView.builder(
-                        itemCount: songList?.length,
+                        itemCount: songList.length,
                         padding: EdgeInsets.only(bottom: screenHeight * 0.2),
                         itemBuilder: (context, songIndex) {
-                          SongModel song = songList[songIndex];
+                          SongModel song = songList![songIndex];
                           return SongCard(
                               provider: playerProvider,
                               song: song,
@@ -52,7 +52,7 @@ class _MyMusicListState extends State<MyMusicList> {
               ),
             ],
           );
-        } else if (snapshot.hasData && songList.isEmpty) {
+        } else if (snapshot.hasData && songList!.isEmpty) {
           return Center(
               child: Text(
             noNewMusic,

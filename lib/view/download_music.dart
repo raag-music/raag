@@ -20,9 +20,9 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class DownloadMusic extends StatefulWidget {
-  final String url;
+  final String? url;
 
-  DownloadMusic({@required this.url});
+  DownloadMusic({required this.url});
   @override
   _DownloadMusicState createState() => _DownloadMusicState();
 }
@@ -36,8 +36,8 @@ class _DownloadMusicState extends State<DownloadMusic> {
   var thumbnailURL =
       "https://user-images.githubusercontent.com/20596763/104451609-cceeff80-55c7-11eb-92f9-828dc8940daf.png";
   final urlFieldController = TextEditingController();
-  YoutubeExplode yt;
-  IOSink fileSink;
+  late YoutubeExplode yt;
+  late IOSink fileSink;
 
   void _flushDownloader() {
     fileSink.flush();
@@ -51,8 +51,8 @@ class _DownloadMusicState extends State<DownloadMusic> {
   void initState() {
     super.initState();
     urlFieldController.clear();
-    urlFieldController.text = widget.url;
-    if (isValidYouTubeURL(widget.url)) downloadMusic(widget.url, context);
+    urlFieldController.text = widget.url!;
+    if (isValidYouTubeURL(widget.url!)) downloadMusic(widget.url, context);
   }
 
   void setTitle(String title) {
@@ -85,7 +85,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
     super.dispose();
   }
 
-  Future<int> downloadMusic(String url, BuildContext context) async {
+  Future<int> downloadMusic(String? url, BuildContext context) async {
     // Preferences sharedPreference = Preferences();
     final DBProvider dbProvider =
         Provider.of<DBProvider>(context, listen: false);
@@ -119,14 +119,14 @@ class _DownloadMusicState extends State<DownloadMusic> {
       StreamInfo streamInfo = streamManifest.audioOnly.withHighestBitrate();
 
       setTitle(downloadDir);
-      Directory _raagDownloadsDirectory;
+      Directory? _raagDownloadsDirectory;
 
       if (Platform.isAndroid) {
         _raagDownloadsDirectory = Directory(settingsProvider.downloadPath);
       } else
         _raagDownloadsDirectory = await getExternalStorageDirectory();
 
-      if (!await _raagDownloadsDirectory.exists()) {
+      if (!await _raagDownloadsDirectory!.exists()) {
         _raagDownloadsDirectory.create(recursive: true);
         print('Created directory: ${_raagDownloadsDirectory.path}');
       }
@@ -140,31 +140,29 @@ class _DownloadMusicState extends State<DownloadMusic> {
           .replaceAll(RegExp(r'[\.\\\*\:\"\?#/;\|]'), ' ');
       var filePath = _raagDownloadsDirectory.path + '/' + tempTitle + '.mp3';
 
-      if (streamInfo != null) {
-        var stream = yt.videos.streamsClient.get(streamInfo);
-        var file = new File(filePath);
-        if (!await file.exists()) file.create(recursive: true);
-        fileSink = file.openWrite();
-        var fileSizeInBytes = streamInfo.size.totalKiloBytes * 1024;
-        var received = 0;
-        setTitle('$downloading');
+      var stream = yt.videos.streamsClient.get(streamInfo);
+      var file = new File(filePath);
+      if (!await file.exists()) file.create(recursive: true);
+      fileSink = file.openWrite();
+      var fileSizeInBytes = streamInfo.size.totalKiloBytes * 1024;
+      var received = 0;
+      setTitle('$downloading');
 
-        await stream.map((s) {
-          received += s.length;
-          setProgress((received / fileSizeInBytes));
-          setTitle(
-              '$downloading ${(downloadProgress * 100).toStringAsFixed(2)} %');
-          return s;
-        }).pipe(fileSink);
+      await stream.map((s) {
+        received += s.length;
+        setProgress((received / fileSizeInBytes));
+        setTitle(
+            '$downloading ${(downloadProgress * 100).toStringAsFixed(2)} %');
+        return s;
+      }).pipe(fileSink);
 
-        setTitle(downloadComplete);
-        setBody(
-            '$fileLocation: $filePath\n$fileSize: ${(streamInfo.size.totalMegaBytes.toString().substring(0, 4))} MB');
-        dbProvider.songsList = DBProvider.getAllSongs();
-        OpenFile.open(filePath);
-        downloadedFilePath = 'file://$filePath';
-        downloadedFileTitle = tempTitle;
-      }
+      setTitle(downloadComplete);
+      setBody(
+          '$fileLocation: $filePath\n$fileSize: ${(streamInfo.size.totalMegaBytes.toString().substring(0, 4))} MB');
+      dbProvider.songsList = DBProvider.getAllSongs();
+      OpenFile.open(filePath);
+      downloadedFilePath = 'file://$filePath';
+      downloadedFileTitle = tempTitle;
       yt.close();
       setProgress(0);
     } on FileSystemException {
@@ -309,9 +307,8 @@ class _DownloadMusicState extends State<DownloadMusic> {
                   FlutterClipboard.paste().then((url) {
                     if (isValidYouTubeURL(url)) {
                       urlFieldController.text = url;
-                      urlFieldController.selection =
-                          TextSelection.fromPosition(TextPosition(
-                              offset: urlFieldController.text.length));
+                      urlFieldController.selection = TextSelection.fromPosition(
+                          TextPosition(offset: urlFieldController.text.length));
                     } else {
                       Fluttertoast.showToast(msg: clipBoardYT);
                     }

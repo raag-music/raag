@@ -2,28 +2,28 @@ import 'package:flutter/material.dart';
 
 class IntroWidget extends StatelessWidget {
   const IntroWidget(
-      {Key key,
-        @required this.screenWidth,
-        @required this.screenHeight,
-        this.image,
-        this.type,
-        this.startGradientColor,
-        this.endGradientColor,
-        this.subText})
+      {Key? key,
+      required this.screenWidth,
+      required this.screenHeight,
+      this.image,
+      this.type,
+      this.startGradientColor,
+      this.endGradientColor,
+      this.subText})
       : super(key: key);
 
   final double screenWidth;
   final double screenHeight;
   final image;
   final type;
-  final Color startGradientColor;
-  final Color endGradientColor;
-  final String subText;
+  final Color? startGradientColor;
+  final Color? endGradientColor;
+  final String? subText;
 
   @override
   Widget build(BuildContext context) {
     final Shader linearGradient = LinearGradient(
-      colors: <Color>[startGradientColor, endGradientColor],
+      colors: <Color>[startGradientColor!, endGradientColor!],
     ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
 
     return Container(
@@ -74,7 +74,7 @@ class IntroWidget extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(left: 20),
             child: Text(
-              subText,
+              subText!,
               style: TextStyle(
                   fontWeight: FontWeight.w300,
                   color: Colors.grey,
