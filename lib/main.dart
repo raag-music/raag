@@ -38,8 +38,9 @@ class _MyAppState extends State<MyApp> {
   void initSettings() async {
     settingsProvider.darkTheme = await settingsProvider.sharedPreference
         .getBool(Preferences.THEME_STATUS);
-    settingsProvider.downloadPath = await settingsProvider.sharedPreference
-        .getString(Preferences.DOWNLOAD_PATH);
+    settingsProvider.downloadPath = (await settingsProvider.sharedPreference
+            .getString(Preferences.DOWNLOAD_PATH) ??
+        '/storage/emulated/0/Music/$appName');
   }
 
   @override
