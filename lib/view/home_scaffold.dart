@@ -114,12 +114,7 @@ class _HomeScaffoldState extends State<HomeScaffold> {
             ))),
         body: Stack(
           children: <Widget>[
-            SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [MyMusicList()],
-              ),
-            ),
+            MyMusicList(),
             PlayBackControls(
               panelController: panelController,
             )
