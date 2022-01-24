@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-SharedPreferences prefs;
+late SharedPreferences prefs;
 
 class Preferences {
   static const THEME_STATUS = 'THEME_STATUS';
@@ -22,7 +22,7 @@ class Preferences {
     prefs.setString(key, value);
   }
 
-  Future<String> getString(String key) async {
+  Future<String?> getString(String key) async {
     prefs = await SharedPreferences.getInstance();
     return prefs.getString(key);
   }

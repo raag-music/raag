@@ -10,12 +10,12 @@ import '../provider/audio_query.dart';
 enum PlayerState { stopped, playing, paused }
 
 class PlayerProvider extends ChangeNotifier {
-  AudioHandler _audioHandler;
+  AudioHandler? _audioHandler;
   List<MediaItem> globalQueue = [];
-  int globalIndex;
-  Stream<Duration> positionStream = Stream.empty();
+  int? globalIndex;
+  Stream<Duration>? positionStream = Stream.empty();
 
-  AudioHandler get audioHandler => _audioHandler;
+  AudioHandler? get audioHandler => _audioHandler;
 
   Future<void> setUpAudio() async {
     _audioHandler = await AudioService.init(
@@ -28,7 +28,7 @@ class PlayerProvider extends ChangeNotifier {
         androidNotificationIcon: "mipmap/launcher_icon",
       ),
     );
-    positionStream = await _audioHandler.customAction('positionStream');
+    positionStream = await _audioHandler!.customAction('positionStream');
     defaultArt = await getDefaultArt();
     notifyListeners();
   }
@@ -39,15 +39,15 @@ class PlayerProvider extends ChangeNotifier {
       Uri artUri = Uri.file(await OfflineAudioQuery.imageQuery(song));
 
       return MediaItem(
-        id: song.id.toString() ?? '',
-        album: song.album ?? '',
-        title: song.title ?? '',
+        id: song.id.toString(),
+        album: song.album,
+        title: song.title,
         artUri: artUri,
-        extras: {'url': song.data ?? ''},
+        extras: {'url': song.data},
       );
     })))
         .toList();
-    if (globalQueue.isNotEmpty) await _audioHandler.addQueueItems(globalQueue);
+    if (globalQueue.isNotEmpty) await _audioHandler!.addQueueItems(globalQueue);
   }
 
   play(int index) async {
@@ -55,13 +55,13 @@ class PlayerProvider extends ChangeNotifier {
       return;
     }
     globalIndex = index;
-    await _audioHandler.skipToQueueItem(index);
-    await _audioHandler.play();
+    await _audioHandler!.skipToQueueItem(index);
+    await _audioHandler!.play();
   }
 
   stop() {
     globalIndex = null;
-    _audioHandler.stop();
+    _audioHandler!.stop();
   }
 }
 
@@ -104,12 +104,12 @@ class AudioPlayerHandler extends BaseAudioHandler {
           ProcessingState.buffering: AudioProcessingState.buffering,
           ProcessingState.ready: AudioProcessingState.ready,
           ProcessingState.completed: AudioProcessingState.completed,
-        }[_player.processingState],
+        }[_player.processingState]!,
         repeatMode: const {
           LoopMode.off: AudioServiceRepeatMode.none,
           LoopMode.one: AudioServiceRepeatMode.one,
           LoopMode.all: AudioServiceRepeatMode.all,
-        }[_player.loopMode],
+        }[_player.loopMode]!,
         shuffleMode: (_player.shuffleModeEnabled)
             ? AudioServiceShuffleMode.all
             : AudioServiceShuffleMode.none,
@@ -117,7 +117,7 @@ class AudioPlayerHandler extends BaseAudioHandler {
         updatePosition: _player.position,
         bufferedPosition: _player.bufferedPosition,
         speed: _player.speed,
-        queueIndex: event.currentIndex,
+        queueIndex: event.currentIndex!,
       ));
     });
   }
@@ -125,15 +125,16 @@ class AudioPlayerHandler extends BaseAudioHandler {
   void _listenForDurationChanges() {
     _player.durationStream.listen((duration) {
       var index = _player.currentIndex;
-      final newQueue = queue.value;
+      final List<MediaItem?> newQueue = queue.value;
       if (index == null || newQueue.isEmpty) return;
       if (_player.shuffleModeEnabled) {
-        index = _player.shuffleIndices[index];
+        index = _player.shuffleIndices![index];
       }
-      final oldMediaItem = newQueue[index];
-      final newMediaItem = oldMediaItem.copyWith(duration: duration);
+      final oldMediaItem = newQueue[index]!;
+      final MediaItem? newMediaItem =
+          oldMediaItem.copyWith(duration: duration!);
       newQueue[index] = newMediaItem;
-      queue.add(newQueue);
+      queue.add(newQueue as List<MediaItem>);
       mediaItem.add(newMediaItem);
     });
   }
@@ -143,18 +144,18 @@ class AudioPlayerHandler extends BaseAudioHandler {
       final playlist = queue.value;
       if (index == null || playlist.isEmpty) return;
       if (_player.shuffleModeEnabled) {
-        index = _player.shuffleIndices[index];
+        index = _player.shuffleIndices![index];
       }
       mediaItem.add(playlist[index]);
     });
   }
 
   void _listenForSequenceStateChanges() {
-    _player.sequenceStateStream.listen((SequenceState sequenceState) {
+    _player.sequenceStateStream.listen((SequenceState? sequenceState) {
       final sequence = sequenceState?.effectiveSequence;
       if (sequence == null || sequence.isEmpty) return;
-      final items = sequence.map((source) => source.tag as MediaItem);
-      queue.add(items.toList());
+      final items = sequence.map((source) => source.tag as MediaItem?);
+      queue.add(items.toList() as List<MediaItem>);
     });
   }
 
@@ -182,7 +183,7 @@ class AudioPlayerHandler extends BaseAudioHandler {
 
   UriAudioSource _createAudioSource(MediaItem mediaItem) {
     return AudioSource.uri(
-      Uri.parse(mediaItem.extras['url']),
+      Uri.parse(mediaItem.extras!['url']),
       tag: mediaItem,
     );
   }
@@ -210,7 +211,7 @@ class AudioPlayerHandler extends BaseAudioHandler {
   Future<void> skipToQueueItem(int index) async {
     if (index < 0 || index >= queue.value.length) return;
     if (_player.shuffleModeEnabled) {
-      index = _player.shuffleIndices[index];
+      index = _player.shuffleIndices![index];
     }
     _player.seek(Duration.zero, index: index);
   }
@@ -248,7 +249,7 @@ class AudioPlayerHandler extends BaseAudioHandler {
   }
 
   @override
-  customAction(String name, [Map<String, dynamic> extras]) async {
+  customAction(String name, [Map<String, dynamic>? extras]) async {
     switch (name) {
       case 'dispose':
         await _player.dispose();
@@ -256,7 +257,6 @@ class AudioPlayerHandler extends BaseAudioHandler {
         break;
       case 'positionStream':
         return _player.positionStream;
-        break;
       default:
     }
   }

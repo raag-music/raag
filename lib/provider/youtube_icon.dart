@@ -13,7 +13,7 @@ class YouTubeIcon {
   YouTubeIcon._();
 
   static const _kFontFam = 'YouTubeIcon';
-  static const String _kFontPkg = null;
+  static const String? _kFontPkg = null;
 
   static const IconData youtube =
       IconData(0xf167, fontFamily: _kFontFam, fontPackage: _kFontPkg);

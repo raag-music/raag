@@ -7,13 +7,13 @@ import 'seekbar.dart';
 
 class CollapsedControls extends StatelessWidget {
   const CollapsedControls({
-    Key key,
-    @required this.provider,
-    @required this.panelController,
+    Key? key,
+    required this.provider,
+    required this.panelController,
   }) : super(key: key);
 
   final PlayerProvider provider;
-  final PanelController panelController;
+  final PanelController? panelController;
 
   @override
   Widget build(BuildContext context) {

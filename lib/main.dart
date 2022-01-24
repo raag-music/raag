@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<DBProvider>(create: (_) => DBProvider()),
       ],
       child: Consumer<SettingsProvider>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: Styles.themeData(settingsProvider.darkTheme, context),

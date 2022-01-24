@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:raag/model/song_model_adapter.dart';
 import 'audio_query.dart';
 
@@ -44,22 +43,22 @@ Future<void> initHive() async {
 }
 
 Future<void> openHiveBox(String boxName, {bool limit = false}) async {
-  final box = await Hive.openBox(boxName).onError((error, stackTrace) async {
-    final Directory dir = await getApplicationDocumentsDirectory();
-    final String dirPath = dir.path;
-    File dbFile = File('$dirPath/$boxName.hive');
-    File lockFile = File('$dirPath/$boxName.lock');
-    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-      dbFile = File('$dirPath/BlackHole/$boxName.hive');
-      lockFile = File('$dirPath/BlackHole/$boxName.lock');
-    }
-    await dbFile.delete();
-    await lockFile.delete();
-    await Hive.openBox(boxName);
-    throw 'Failed to open $boxName Box\nError: $error';
-  });
-  // clear box if it grows large
-  if (limit && box.length > 800) {
-    box.clear();
-  }
+  // final box = await Hive.openBox(boxName).onError((dynamic error, stackTrace) async {
+  //   final Directory dir = await getApplicationDocumentsDirectory();
+  //   final String dirPath = dir.path;
+  //   File dbFile = File('$dirPath/$boxName.hive');
+  //   File lockFile = File('$dirPath/$boxName.lock');
+  //   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+  //     dbFile = File('$dirPath/BlackHole/$boxName.hive');
+  //     lockFile = File('$dirPath/BlackHole/$boxName.lock');
+  //   }
+  //   await dbFile.delete();
+  //   await lockFile.delete();
+  //   await Hive.openBox(boxName);
+  //   throw 'Failed to open $boxName Box\nError: $error';
+  // } as FutureOr<Box<dynamic>> Function(_, StackTrace));
+  // // clear box if it grows large
+  // if (limit && box.length > 800) {
+  //   box.clear();
+  // }
 }

@@ -13,19 +13,19 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 class PlayBackControls extends StatefulWidget {
   final PanelController panelController;
 
-  PlayBackControls({@required this.panelController});
+  PlayBackControls({required this.panelController});
   @override
   _PlayBackControlsState createState() => _PlayBackControlsState();
 }
 
 class _PlayBackControlsState extends State<PlayBackControls>
     with TickerProviderStateMixin {
-  PanelController panelController;
+  PanelController? panelController;
 
   @override
   void initState() {
     super.initState();
-    panelController =  widget.panelController;
+    panelController = widget.panelController;
     playPauseController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
   }
@@ -72,10 +72,10 @@ class _PlayBackControlsState extends State<PlayBackControls>
           ),
           child: BackdropFilter(
               filter: new ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
-              child: StreamBuilder<MediaItem>(
+              child: StreamBuilder<MediaItem?>(
                   stream: playerProvider.audioHandler?.mediaItem,
                   builder: (context, snapshot) {
-                    MediaItem mediaItem = snapshot.data;
+                    MediaItem? mediaItem = snapshot.data;
                     if (mediaItem == null) return const SizedBox();
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -101,7 +101,7 @@ class _PlayBackControlsState extends State<PlayBackControls>
                           child: Container(
                               width: sw * .8,
                               child: AnimatedText(
-                                text: '${mediaItem.title ?? "Unknown"}',
+                                text: '${mediaItem.title}',
                                 pauseAfterRound: const Duration(seconds: 3),
                                 showFadingOnlyWhenScrolling: false,
                                 fadingEdgeEndFraction: 0.1,
@@ -109,7 +109,7 @@ class _PlayBackControlsState extends State<PlayBackControls>
                                 startAfter: const Duration(seconds: 2),
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline1
+                                    .headline1!
                                     .copyWith(fontSize: sh * .036),
                               )
                               // child: Text(
@@ -147,15 +147,15 @@ class _PlayBackControlsState extends State<PlayBackControls>
 
 class PlayBackControlButtons extends StatefulWidget {
   const PlayBackControlButtons({
-    Key key,
-    @required this.provider,
-    @required this.isCollapsed,
-    @required this.panelController,
+    Key? key,
+    required this.provider,
+    required this.isCollapsed,
+    required this.panelController,
   }) : super(key: key);
 
   final PlayerProvider provider;
   final bool isCollapsed;
-  final PanelController panelController;
+  final PanelController? panelController;
 
   @override
   State<PlayBackControlButtons> createState() => _PlayBackControlButtonsState();
@@ -193,7 +193,7 @@ class _PlayBackControlButtonsState extends State<PlayBackControlButtons> {
                           child: RawMaterialButton(
                         shape: CircleBorder(),
                         onPressed: () async =>
-                            await widget.panelController.open(),
+                            await widget.panelController!.open(),
                         child: Center(
                           child: Icon(
                             Icons.keyboard_arrow_up_outlined,
@@ -229,7 +229,7 @@ class _PlayBackControlButtonsState extends State<PlayBackControlButtons> {
                       ),
                       elevation: 0,
                       onPressed: () =>
-                          widget.provider.audioHandler.skipToPrevious()),
+                          widget.provider.audioHandler!.skipToPrevious()),
                 ),
               ),
               SizedBox(
@@ -260,10 +260,10 @@ class _PlayBackControlButtonsState extends State<PlayBackControlButtons> {
                     onPressed: () {
                       if (!playing) {
                         playPauseController.forward();
-                        widget.provider.audioHandler.play();
+                        widget.provider.audioHandler!.play();
                       } else if (playing) {
                         playPauseController.reverse();
-                        widget.provider.audioHandler.pause();
+                        widget.provider.audioHandler!.pause();
                       } else {
                         debugPrint('error');
                       }
@@ -293,7 +293,7 @@ class _PlayBackControlButtonsState extends State<PlayBackControlButtons> {
                       ),
                       elevation: 0,
                       onPressed: () =>
-                          widget.provider.audioHandler.skipToNext()),
+                          widget.provider.audioHandler!.skipToNext()),
                 ),
               ),
               SizedBox(

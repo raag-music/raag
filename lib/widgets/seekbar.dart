@@ -13,7 +13,7 @@ class _SeekBarState extends State<SeekBar> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<PlayerProvider>(context);
-    return StreamBuilder<MediaItem>(
+    return StreamBuilder<MediaItem?>(
         stream: provider.audioHandler?.mediaItem,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -59,7 +59,7 @@ class _SeekBarState extends State<SeekBar> {
                                     (duration?.inMilliseconds ?? 1).toDouble(),
                                 onChangeEnd: (value) {
                                   debugPrint(
-                                      'Duration: ${(Duration(milliseconds: (duration.inMilliseconds * value).round()))} ');
+                                      'Duration: ${(Duration(milliseconds: (duration!.inMilliseconds * value).round()))} ');
                                   provider.audioHandler?.seek(Duration(
                                       milliseconds:
                                           (duration.inMilliseconds * value)

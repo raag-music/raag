@@ -8,11 +8,11 @@ import '../provider/theme.dart';
 
 class SongCard extends StatelessWidget {
   const SongCard(
-      {Key key,
-      @required this.provider,
-      @required this.song,
-      @required this.screenWidth,
-      @required this.songIndex})
+      {Key? key,
+      required this.provider,
+      required this.song,
+      required this.screenWidth,
+      required this.songIndex})
       : super(key: key);
 
   final PlayerProvider provider;
@@ -59,7 +59,7 @@ class SongCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Text(song.title ?? 'Untitled',
+                          Text(song.title,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.headline3),
                           Text(
@@ -74,7 +74,7 @@ class SongCard extends StatelessWidget {
                     Spacer(),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                      child: Text(parseToMinutesSeconds(song.duration),
+                      child: Text(parseToMinutesSeconds(song.duration!),
                           style: durationTheme),
                     ),
                   ],

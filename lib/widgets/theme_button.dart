@@ -12,7 +12,7 @@ class ThemeButton extends StatefulWidget {
 
 class _ThemeButtonState extends State<ThemeButton>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
+  AnimationController? controller;
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _ThemeButtonState extends State<ThemeButton>
 
     changeTheme() {
       provider.changeTheme();
-      provider.darkTheme ? controller.forward() : controller.reverse();
+      provider.darkTheme ? controller!.forward() : controller!.reverse();
     }
 
     return Card(
@@ -58,8 +58,8 @@ class _ThemeButtonState extends State<ThemeButton>
                 animationController: controller,
                 initialIcon: (provider.darkTheme) ? 1 : 0,
                 icons: [
-                  AnimatedIconItem(icon: nightIcon),
-                  AnimatedIconItem(icon: dayIcon),
+                  AnimatedIconItem(icon: nightIcon as Icon),
+                  AnimatedIconItem(icon: dayIcon as Icon),
                 ],
                 onPressed: () => changeTheme(),
               ),

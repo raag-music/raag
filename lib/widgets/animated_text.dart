@@ -21,9 +21,9 @@ import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart' as wrapped;
 
 class AnimatedText extends StatelessWidget {
-  final String text;
-  final TextStyle style;
-  final double textScaleFactor;
+  final String? text;
+  final TextStyle? style;
+  final double? textScaleFactor;
   final TextDirection textDirection;
   final Axis scrollAxis;
   final CrossAxisAlignment crossAxisAlignment;
@@ -32,7 +32,7 @@ class AnimatedText extends StatelessWidget {
   final double velocity;
   final Duration startAfter;
   final Duration pauseAfterRound;
-  final int numberOfRounds;
+  final int? numberOfRounds;
   final bool showFadingOnlyWhenScrolling;
   final double fadingEdgeStartFraction;
   final double fadingEdgeEndFraction;
@@ -41,7 +41,7 @@ class AnimatedText extends StatelessWidget {
   final Curve accelerationCurve;
   final Duration decelerationDuration;
   final Curve decelerationCurve;
-  final VoidCallback onDone;
+  final VoidCallback? onDone;
 
   const AnimatedText({
     this.text,
@@ -116,7 +116,7 @@ class AnimatedText extends StatelessWidget {
           return SizedBox(
             width: constraints.maxWidth,
             child: Text(
-              text,
+              text!,
               style: style,
               textAlign: defaultAlignment,
             ),

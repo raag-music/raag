@@ -21,8 +21,8 @@ class Styles {
     return AlertStyle(
       animationType: AnimationType.grow,
       backgroundColor: Theme.of(context).backgroundColor,
-      titleStyle: Theme.of(context).textTheme.headline3,
-      descStyle: Theme.of(context).textTheme.subtitle1,
+      titleStyle: Theme.of(context).textTheme.headline3!,
+      descStyle: Theme.of(context).textTheme.subtitle1!,
     );
   }
 }

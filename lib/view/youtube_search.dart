@@ -81,8 +81,7 @@ class _YoutubeSearchState extends State<YoutubeSearch> {
 }
 
 class NavigationControls extends StatelessWidget {
-  const NavigationControls(this._webViewControllerFuture)
-      : assert(_webViewControllerFuture != null);
+  const NavigationControls(this._webViewControllerFuture);
 
   final Future<WebViewController> _webViewControllerFuture;
 
@@ -94,17 +93,17 @@ class NavigationControls extends StatelessWidget {
           (BuildContext context, AsyncSnapshot<WebViewController> snapshot) {
         final bool webViewReady =
             snapshot.connectionState == ConnectionState.done;
-        final WebViewController controller = snapshot.data;
+        final WebViewController? controller = snapshot.data;
         return Row(
           children: <Widget>[
             IconButton(
               icon: const Icon(Icons.download_rounded),
               onPressed: () async {
-                String currentURL;
+                String? currentURL;
                 await _webViewControllerFuture.then(
                     (value) async => {currentURL = (await value.currentUrl())});
                 print(currentURL);
-                if (isValidYouTubeURL(currentURL)) {
+                if (isValidYouTubeURL(currentURL!)) {
                   Navigator.pop(context); //To close the search page
                   Navigator.pop(
                       context); //To close the previous instance of Download page
@@ -123,7 +122,7 @@ class NavigationControls extends StatelessWidget {
               onPressed: !webViewReady
                   ? null
                   : () async {
-                      if (await controller.canGoBack()) {
+                      if (await controller!.canGoBack()) {
                         await controller.goBack();
                       } else {
                         Fluttertoast.showToast(msg: noPageHistory);
@@ -135,7 +134,7 @@ class NavigationControls extends StatelessWidget {
               onPressed: !webViewReady
                   ? null
                   : () async {
-                      if (await controller.canGoForward()) {
+                      if (await controller!.canGoForward()) {
                         await controller.goForward();
                       } else {
                         Fluttertoast.showToast(msg: noForward);
@@ -147,7 +146,7 @@ class NavigationControls extends StatelessWidget {
               onPressed: !webViewReady
                   ? null
                   : () {
-                      controller.reload();
+                      controller!.reload();
                     },
             ),
           ],

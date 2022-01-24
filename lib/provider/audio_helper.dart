@@ -11,9 +11,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:raag/provider/audio_query.dart';
 
 //TODO: Change global variables to singletons
-AnimationController playPauseController;
-Directory appDirectory;
-File defaultArt;
+late AnimationController playPauseController;
+late Directory appDirectory;
+File? defaultArt;
 
 String parseToMinutesSeconds(int ms) {
   String data;
@@ -29,7 +29,7 @@ String parseToMinutesSeconds(int ms) {
   return data;
 }
 
-String formatDuration(Duration d) {
+String formatDuration(Duration? d) {
   if (d == null) return "--:--";
   int minute = d.inMinutes;
   int second = (d.inSeconds >= 60) ? (d.inSeconds % 60) : d.inSeconds;
@@ -71,9 +71,9 @@ Widget getAlbumArt(SongModel song, Color iconColor) {
   //     image: FileImage(File(song.albumArtwork)),
   //   );
   return FutureBuilder(
-    future: audioQuery.getAlbumArt(id: song?.id),
+    future: audioQuery.getAlbumArt(id: song.id),
     builder: (context, snapshot) {
-      Uint8List _imageBytes = snapshot.data;
+      Uint8List? _imageBytes = snapshot.data as Uint8List?;
       if (_imageBytes == null || _imageBytes.isEmpty)
         return defaultIcon;
       else
@@ -92,10 +92,10 @@ Widget getMediaAlbumArt(MediaItem song, Color iconColor) {
   //     image: FileImage(File(song.albumArtwork)),
   //   );
   return FutureBuilder(
-    future: audioQuery.getAlbumArt(
-        id: int.parse(song?.id), size: 300, quality: 200),
+    future:
+        audioQuery.getAlbumArt(id: int.parse(song.id), size: 300, quality: 200),
     builder: (context, snapshot) {
-      Uint8List _imageBytes = snapshot.data;
+      Uint8List? _imageBytes = snapshot.data as Uint8List?;
       if (_imageBytes == null || _imageBytes.isEmpty)
         return defaultIcon;
       else
