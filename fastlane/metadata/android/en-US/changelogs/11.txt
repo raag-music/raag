@@ -1,0 +1,5 @@
+- Reduce app size by around 50%.
+- Migrated to Flutter's sound null safety.
+- Added new option in settings to set download path.
+- Fixed a minor UI bug.
+- New default media album art.
