@@ -131,8 +131,8 @@ class AudioPlayerHandler extends BaseAudioHandler {
         index = _player.shuffleIndices![index];
       }
       final oldMediaItem = newQueue[index]!;
-      final MediaItem? newMediaItem =
-          oldMediaItem.copyWith(duration: duration!);
+      final MediaItem newMediaItem =
+          oldMediaItem.copyWith(duration: duration ?? Duration(minutes: 1));
       newQueue[index] = newMediaItem;
       queue.add(newQueue as List<MediaItem>);
       mediaItem.add(newMediaItem);
@@ -154,8 +154,8 @@ class AudioPlayerHandler extends BaseAudioHandler {
     _player.sequenceStateStream.listen((SequenceState? sequenceState) {
       final sequence = sequenceState?.effectiveSequence;
       if (sequence == null || sequence.isEmpty) return;
-      final items = sequence.map((source) => source.tag as MediaItem?);
-      queue.add(items.toList() as List<MediaItem>);
+      final items = sequence.map((source) => source.tag as MediaItem);
+      queue.add(items.toList());
     });
   }
 
