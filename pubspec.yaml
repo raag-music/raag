@@ -33,7 +33,7 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   sqflite: ^2.0.0+3
   webview_flutter: ^2.1.1
-  youtube_explode_dart: ^1.10.8
+  youtube_explode_dart: ^1.10.9+1
 
 dev_dependencies:
   flutter_launcher_icons: "^0.9.2"
