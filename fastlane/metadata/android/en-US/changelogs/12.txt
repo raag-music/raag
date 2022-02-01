@@ -1,0 +1,2 @@
+- Minor bug fixes
+- Default to armeabi-v7a build for F-Droid which reduces the file size of the APK (Around 8 MB)
