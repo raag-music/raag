@@ -4,7 +4,7 @@
         android:requestLegacyExternalStorage="true"
         android:label="raag"
         android:usesCleartextTraffic="true"
-        android:icon="@mipmap/launcher_icon"
+        android:icon="@mipmap/ic_launcher"
         android:extractNativeLibs="true"
         >
         <activity

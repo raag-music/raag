@@ -88,7 +88,7 @@ android.applicationVariants.all { variant ->
             output.versionCodeOverride =
                     baseAbiVersionCode * 1000 + variant.versionCode
 
-            if (baseAbiVersionCode == 1) {
+            if (baseAbiVersionCode == 1) { // Matches armeabi-v7a in ext.abiCodes
                 // Sets the default versionCode for armeabi-v7a APKs.
                 output.versionCodeOverride = variant.versionCode
             }
