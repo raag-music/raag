@@ -14,6 +14,7 @@ jobs:
       with:
          channel: 'stable'
     - run: flutter pub get
+    - run: flutter pub upgrade
     - run: flutter test
     - run: flutter build apk --split-per-abi
     - uses: actions/upload-artifact@v1
