@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:raag/provider/download_provider.dart';
 
 import 'model/SharedPreferences.dart';
 import 'model/strings.dart';
@@ -53,6 +54,8 @@ class _MyAppState extends State<MyApp> {
           create: (_) => playerProvider,
         ),
         ChangeNotifierProvider<DBProvider>(create: (_) => DBProvider()),
+        ChangeNotifierProvider<DownloadProvider>(
+            create: (_) => DownloadProvider()),
       ],
       child: Consumer<SettingsProvider>(
         builder: (BuildContext context, value, Widget? child) {

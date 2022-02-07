@@ -11,6 +11,7 @@ import 'package:raag/model/connectivity.dart' as connectivity;
 import 'package:raag/model/strings.dart';
 import 'package:raag/provider/audio_helper.dart';
 import 'package:raag/provider/db_provider.dart';
+import 'package:raag/provider/download_provider.dart';
 import 'package:raag/provider/settings_provider.dart';
 import 'package:raag/provider/theme.dart';
 import 'package:raag/provider/youtube_icon.dart';
@@ -28,22 +29,15 @@ class DownloadMusic extends StatefulWidget {
 }
 
 class _DownloadMusicState extends State<DownloadMusic> {
-  String alertBody = '';
-  String alertTitle = '';
-  double downloadProgress = 0;
-  String downloadedFilePath = '';
-  String downloadedFileTitle = '';
-  var thumbnailURL =
-      "https://user-images.githubusercontent.com/20596763/104451609-cceeff80-55c7-11eb-92f9-828dc8940daf.png";
   final urlFieldController = TextEditingController();
   late YoutubeExplode yt;
-  late IOSink fileSink;
+  IOSink? fileSink;
+  late DownloadProvider downloadsProvider;
 
   void _flushDownloader() {
-    fileSink.flush();
-    fileSink.close();
+    fileSink?.flush();
+    fileSink?.close();
     yt.close();
-    setProgress(0);
     print('Downloader flushed');
   }
 
@@ -53,30 +47,6 @@ class _DownloadMusicState extends State<DownloadMusic> {
     urlFieldController.clear();
     urlFieldController.text = widget.url!;
     if (isValidYouTubeURL(widget.url!)) downloadMusic(widget.url, context);
-  }
-
-  void setTitle(String title) {
-    setState(() {
-      alertTitle = title;
-    });
-  }
-
-  void setBody(String body) {
-    setState(() {
-      alertBody = body;
-    });
-  }
-
-  void setProgress(double value) {
-    setState(() {
-      downloadProgress = value;
-    });
-  }
-
-  void setThumbnail(String url) {
-    setState(() {
-      thumbnailURL = url;
-    });
   }
 
   @override
@@ -105,20 +75,20 @@ class _DownloadMusicState extends State<DownloadMusic> {
     try {
       yt = YoutubeExplode();
 
-      setBody(downloading);
-      setTitle(resolvingURL);
+      downloadsProvider.alertBody = (downloading);
+      downloadsProvider.alertTitle = (resolvingURL);
 
       var video = await yt.videos.get(url);
       var title = video.title;
-      setBody("$downloading $title");
-      setTitle(fetchingStream);
+      downloadsProvider.alertBody = ("$downloading $title");
+      downloadsProvider.alertTitle = (fetchingStream);
 
-      setThumbnail(video.thumbnails.mediumResUrl);
+      downloadsProvider.thumbnailURL = (video.thumbnails.mediumResUrl);
       StreamManifest streamManifest =
           await yt.videos.streamsClient.getManifest(video.id);
       StreamInfo streamInfo = streamManifest.audioOnly.withHighestBitrate();
 
-      setTitle(downloadDir);
+      downloadsProvider.alertTitle = (downloadDir);
       Directory? _raagDownloadsDirectory;
 
       if (Platform.isAndroid) {
@@ -146,25 +116,25 @@ class _DownloadMusicState extends State<DownloadMusic> {
       fileSink = file.openWrite();
       var fileSizeInBytes = streamInfo.size.totalKiloBytes * 1024;
       var received = 0;
-      setTitle('$downloading');
+      downloadsProvider.alertTitle = ('$downloading');
 
       await stream.map((s) {
         received += s.length;
-        setProgress((received / fileSizeInBytes));
-        setTitle(
-            '$downloading ${(downloadProgress * 100).toStringAsFixed(2)} %');
+        downloadsProvider.downloadProgress = ((received / fileSizeInBytes));
+        downloadsProvider.alertTitle =
+            ('$downloading ${(downloadsProvider.downloadProgress * 100).toStringAsFixed(2)} %');
         return s;
-      }).pipe(fileSink);
+      }).pipe(fileSink!);
 
-      setTitle(downloadComplete);
-      setBody(
-          '$fileLocation: $filePath\n$fileSize: ${(streamInfo.size.totalMegaBytes.toString().substring(0, 4))} MB');
+      downloadsProvider.alertTitle = (downloadComplete);
+      downloadsProvider.alertBody =
+          ('$fileLocation: $filePath\n$fileSize: ${(streamInfo.size.totalMegaBytes.toString().substring(0, 4))} MB');
       dbProvider.songsList = DBProvider.getAllSongs();
       OpenFile.open(filePath);
-      downloadedFilePath = 'file://$filePath';
-      downloadedFileTitle = tempTitle;
+      downloadsProvider.downloadedFilePath = 'file://$filePath';
+      downloadsProvider.downloadedFileTitle = tempTitle;
       yt.close();
-      setProgress(0);
+      downloadsProvider.downloadProgress = (0);
     } on FileSystemException {
       Alert(
           context: context,
@@ -180,6 +150,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               onPressed: () {
+                downloadsProvider.downloadProgress = (0);
                 _flushDownloader();
                 Navigator.pop(context);
                 Navigator.push(
@@ -197,9 +168,9 @@ class _DownloadMusicState extends State<DownloadMusic> {
                 ),
                 onPressed: () => Navigator.pop(context))
           ]).show();
-      setTitle('');
-      setBody('');
-      setThumbnail(thumbnailURL);
+      downloadsProvider.alertTitle = ('');
+      downloadsProvider.alertBody = ('');
+      downloadsProvider.thumbnailURL = (downloadsProvider.thumbnailURL);
       return 0;
     } catch (e, s) {
       print("Exception: $e\nStack Trace: $s");
@@ -210,10 +181,12 @@ class _DownloadMusicState extends State<DownloadMusic> {
               type: AlertType.error,
               style: Styles.alertStyle(context))
           .show();
-      setTitle('');
-      setBody('');
-      setThumbnail(thumbnailURL);
+      downloadsProvider.alertTitle = ('');
+      downloadsProvider.alertBody = ('');
+      downloadsProvider.thumbnailURL = (downloadsProvider.thumbnailURL);
     } finally {
+      downloadsProvider.downloadProgress = (0);
+      downloadsProvider.thumbnailURL = '';
       _flushDownloader();
     }
     return 1;
@@ -222,6 +195,7 @@ class _DownloadMusicState extends State<DownloadMusic> {
   @override
   Widget build(BuildContext context) {
     final settingsProvider = Provider.of<SettingsProvider>(context);
+    downloadsProvider = Provider.of<DownloadProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -326,24 +300,27 @@ class _DownloadMusicState extends State<DownloadMusic> {
             child: Column(
               children: [
                 Text(
-                  alertTitle,
+                  downloadsProvider.alertTitle,
                   style: Theme.of(context).textTheme.headline3,
                 ),
                 SizedBox(height: 32),
                 Stack(children: [
-                  alertTitle != ''
+                  downloadsProvider.alertTitle != ''
                       ? LinearProgressIndicator(
-                          value: downloadProgress,
+                          backgroundColor: Theme.of(context).backgroundColor,
+                          value: downloadsProvider.downloadProgress,
                         )
                       : SizedBox(),
                 ]),
                 SizedBox(height: 32),
                 Text(
-                  alertBody,
+                  downloadsProvider.alertBody,
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
                 SizedBox(height: 32),
-                Image.network(thumbnailURL)
+                downloadsProvider.thumbnailURL.isNotEmpty
+                    ? Image.network(downloadsProvider.thumbnailURL)
+                    : Image.asset('assets/images/thumbnail_placeholder.png'),
               ],
             ),
           ),
