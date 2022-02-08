@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -17,20 +19,23 @@ class CollapsedControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.2,
-      child: Padding(
-        padding: const EdgeInsets.all(3.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            SeekBar(),
-            PlayBackControlButtons(
-              provider: provider,
-              isCollapsed: true,
-              panelController: panelController,
-            ),
-          ],
+    return BackdropFilter(
+      filter: new ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.2,
+        child: Padding(
+          padding: const EdgeInsets.all(3.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SeekBar(),
+              PlayBackControlButtons(
+                provider: provider,
+                isCollapsed: true,
+                panelController: panelController,
+              ),
+            ],
+          ),
         ),
       ),
     );

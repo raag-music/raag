@@ -25,7 +25,7 @@ class PlayerProvider extends ChangeNotifier {
         androidNotificationChannelName: appName,
         androidNotificationOngoing: true,
         androidShowNotificationBadge: true,
-        androidNotificationIcon: "mipmap/launcher_icon",
+        androidNotificationIcon: "mipmap/ic_launcher",
       ),
     );
     positionStream = await _audioHandler!.customAction('positionStream');
@@ -50,12 +50,13 @@ class PlayerProvider extends ChangeNotifier {
     if (globalQueue.isNotEmpty) await _audioHandler!.addQueueItems(globalQueue);
   }
 
-  play(int index) async {
+  play(String id) async {
     if (globalQueue.isEmpty) {
       return;
     }
-    globalIndex = index;
-    await _audioHandler!.skipToQueueItem(index);
+    globalIndex =
+        globalQueue.indexWhere((element) => element.id == id);
+    await _audioHandler!.skipToQueueItem(globalIndex!);
     await _audioHandler!.play();
   }
 

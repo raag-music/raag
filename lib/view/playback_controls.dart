@@ -49,12 +49,9 @@ class _PlayBackControlsState extends State<PlayBackControls>
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
-        child: BackdropFilter(
-          filter: new ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
-          child: CollapsedControls(
-            provider: playerProvider,
-            panelController: panelController,
-          ),
+        child: CollapsedControls(
+          provider: playerProvider,
+          panelController: panelController,
         ),
       ),
       renderPanelSheet: false,

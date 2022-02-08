@@ -32,7 +32,7 @@ class SongCard extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(24))),
           child: InkWell(
             onTap: () {
-              provider.play(songIndex);
+              provider.play(song.id.toString());
               playPauseController.forward();
             },
             child: Card(
