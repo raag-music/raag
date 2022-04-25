@@ -129,7 +129,6 @@ class _DownloadMusicState extends State<DownloadMusic> {
       downloadsProvider.alertTitle = (downloadComplete);
       downloadsProvider.alertBody =
           ('$fileLocation: $filePath\n$fileSize: ${(streamInfo.size.totalMegaBytes.toString().substring(0, 4))} MB');
-      dbProvider.songsList = DBProvider.getAllSongs();
       OpenFile.open(filePath);
       downloadsProvider.downloadedFilePath = 'file://$filePath';
       downloadsProvider.downloadedFileTitle = tempTitle;
